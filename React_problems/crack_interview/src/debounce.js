@@ -14,7 +14,7 @@ function DebouncedSearch() {
 
   useEffect(() => {
     if (debouncedQuery) {
-      console.log("🔍 Searching for:", debouncedQuery);
+      console.log("Searching for:", debouncedQuery);
     }
   }, [debouncedQuery]);
 
