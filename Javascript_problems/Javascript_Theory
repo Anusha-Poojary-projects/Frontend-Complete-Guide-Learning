@@ -1,0 +1,1525 @@
+🧱 1. JavaScript Basics
+What is JavaScript? How it works in the browser
+
+Variables (var, let, const)
+
+Data types (string, number, boolean, null, undefined, symbol, bigint)
+
+Type conversion and coercion
+
+Operators (arithmetic, comparison, logical, assignment)
+
+🔁 2. Control Flow & Loops
+if, else if, else
+
+switch statements
+
+Loops: for, while, do...while
+
+Loop control: break, continue
+
+for...in vs for...of
+
+📦 3. Functions
+Function declarations vs expressions
+
+Parameters, arguments
+
+Return values
+
+Arrow functions
+
+Callback functions
+
+First-class & higher-order functions
+
+IIFE (Immediately Invoked Function Expressions)
+
+📚 4. Arrays and Objects
+Arrays: creation, methods (push, pop, map, filter, reduce, etc.)
+
+Objects: literals, accessing/updating properties
+
+Looping through arrays and objects
+
+Destructuring (const {a} = obj, [first, second] = arr)
+
+Spread and rest operators
+
+📦 5. Scope and Closures
+Global, function, block scope
+
+Lexical scope
+
+Closures: concept, real use cases (e.g., private variables)
+
+🧠 6. JavaScript Execution Model
+Call Stack
+
+Execution context (global/function)
+
+Hoisting
+
+this keyword (global vs function vs arrow functions)
+
+Temporal Dead Zone
+
+⏳ 7. Asynchronous JavaScript
+Callbacks
+
+Promises
+
+async / await
+
+Error handling (try...catch)
+
+Microtask Queue vs Call Stack
+
+Event Loop
+
+🌐 8. Browser APIs
+setTimeout, setInterval, clearInterval
+
+DOM Manipulation (querySelector, addEventListener)
+
+Event Delegation
+
+LocalStorage / SessionStorage
+
+Fetch API and XMLHttpRequest
+
+🧩 9. Object-Oriented JavaScript
+Object creation patterns (Object.create, constructor functions)
+
+class and constructor
+
+this, super, new
+
+Inheritance (ES5 and ES6 style)
+
+Prototype and Prototype Chain
+
+💡 10. Functional Programming in JS
+Pure functions
+
+Higher-order functions
+
+Immutability
+
+Function composition
+
+Currying
+
+🛠️ 11. Error Handling & Debugging
+try...catch...finally
+
+throw
+
+console.log, debugger
+
+Browser DevTools
+
+🔐 12. ES6+ Features
+Let, const
+
+Arrow functions
+
+Default parameters
+
+Template literals
+
+Destructuring
+
+Spread/rest
+
+Modules (import/export)
+
+Optional chaining (?.)
+
+Nullish coalescing (??)
+
+🧪 13. Advanced Concepts
+Memoization
+
+Debouncing & Throttling
+
+Event Bubbling vs Capturing
+
+Custom Events
+
+JavaScript Design Patterns (Singleton, Module, Factory, etc.)
+
+JavaScript Memory Management & Garbage Collection
+
+
+******************************************************************************************
+
+
+✅ Part 1: JavaScript Basics – Deep Dive
+🔹 Topic: Variables and Data Types
+
+Q1. What are the differences between var, let, and const?
+🔸 Short Answer:
+Feature	var	let	const
+Scope	Function-scoped	Block-scoped	Block-scoped
+Hoisting	Yes (initialized as undefined)	Yes (TDZ applies)	Yes (TDZ applies)
+Reassignable	Yes	Yes	No
+Redeclarable	Yes	No	No
+
+
+🔸 Deep Explanation:
+var is function scoped, which means it's accessible anywhere inside the function it was declared in, even before the line of declaration (due to hoisting).
+
+
+function test() {
+  console.log(a); // undefined
+  var a = 10;
+}
+test();
+
+let and const are block scoped, meaning they're only accessible within the nearest {} block.
+
+
+{
+  let a = 5;
+  console.log(a); // 5
+}
+
+console.log(a); // ReferenceError
+
+Temporal Dead Zone (TDZ): Variables declared with let and const are hoisted but not initialized. Accessing them before declaration throws a ReferenceError.
+
+const must be initialized during declaration and cannot be reassigned. However, if the value is an object or array, you can still mutate the contents.
+
+
+const arr = [1, 2];
+arr.push(3); // valid
+arr = [4, 5]; // ❌ TypeError
+
+Q2. What are the different data types in JavaScript?
+🔸 Primitive Types:
+String
+
+Number
+
+Boolean
+
+Undefined
+
+Null
+
+BigInt
+
+Symbol
+
+🔸 Non-Primitive (Reference) Types:
+Objects (including Arrays, Functions)
+
+🔸 Example:
+
+let name = "Anusha";           // String
+let age = 25;                  // Number
+let isDeveloper = true;       // Boolean
+let score = undefined;        // Undefined
+let address = null;           // Null
+let id = Symbol("id");        // Symbol
+let bigNumber = 123n;         // BigInt
+
+🔸 typeof Operator Use:
+
+typeof null         // "object" (historical bug in JS)
+typeof undefined    // "undefined"
+typeof 123n         // "bigint"
+
+Q3. What is type coercion in JavaScript?
+🔸 Type coercion:
+
+JavaScript automatically converts types to match the expected types in expressions (implicit conversion).
+
+
+console.log("5" + 1);   // "51" (number → string)
+console.log("5" - 1);   // 4   (string → number)
+console.log(true + 1);  // 2   (true → 1)
+
+🔸 Use === instead of == to avoid unexpected coercion.
+
+console.log(0 == false);  // true
+console.log(0 === false); // false
+
+Q4. What is the difference between == and ===?
+
+🔸 == (loose equality):
+Compares values after type coercion
+
+
+'5' == 5   // true
+0 == false // true
+🔸 === (strict equality):
+Compares both value and type
+
+
+'5' === 5   // false
+0 === false // false
+
+✅ Best Practice: Always use === unless type coercion is intended.
+
+Q5. Explain the concept of hoisting in JavaScript.
+🔸 Definition:
+Hoisting is JavaScript's default behavior of moving declarations to the top of the current scope (before code execution).
+
+
+console.log(x); // undefined
+var x = 5;
+Declarations are hoisted, not initializations.
+
+let and const are hoisted too but are not initialized—this is the Temporal Dead Zone (TDZ).
+
+🔸 Example:
+
+function test() {
+  console.log(a); // undefined (due to hoisting)
+  var a = 10;
+}
+
+function testLet() {
+  console.log(b); // ReferenceError (TDZ)
+  let b = 20;
+}
+
+*************************************************************************
+
+✅ Part 2: Control Flow & Loops – Deep Dive
+
+🔹 Topic: if, else, switch, and Loops
+
+Q1. What is the difference between if-else and switch statements?
+🔸 if-else:
+Used when conditions are based on expressions or ranges.
+
+let age = 20;
+
+if (age < 13) {
+  console.log("Child");
+} else if (age < 18) {
+  console.log("Teen");
+} else {
+  console.log("Adult");
+}
+🔸 switch:
+Better for discrete values (not ranges).
+
+let color = "blue";
+
+switch (color) {
+  case "red":
+    console.log("Red");
+    break;
+  case "blue":
+    console.log("Blue");
+    break;
+  default:
+    console.log("Unknown");
+}
+
+🔍 Use Case Comparison:
+
+Case	Use if-else	Use switch
+
+Ranges/complex logic	✅	❌
+
+Exact matches	✅	✅
+
+Better readability	❌ (with many conditions)	✅
+
+Q2. What is the difference between while, do...while, and for loops?
+
+Loop Type	When Condition Is Checked	Runs Minimum Once?
+for	Before each iteration	No
+while	Before each iteration	No
+do...while	After each iteration	✅ Yes
+
+✅ Examples:
+
+// for
+for (let i = 0; i < 3; i++) {
+  console.log(i); // 0 1 2
+}
+
+// while
+let j = 0;
+while (j < 3) {
+  console.log(j); // 0 1 2
+  j++;
+}
+
+// do...while
+let k = 0;
+do {
+  console.log(k); // 0 1 2
+  k++;
+} while (k < 3);
+
+Q3. What is the difference between for...in and for...of loops?
+🔹 for...in: Iterates over keys (object properties or array indices)
+🔹 for...of: Iterates over values (only iterable objects like arrays, strings)
+
+const arr = ['a', 'b', 'c'];
+
+for (let index in arr) {
+  console.log(index); // "0", "1", "2"
+}
+
+for (let value of arr) {
+  console.log(value); // "a", "b", "c"
+}
+❌ for...of doesn’t work on plain objects:
+
+const obj = { a: 1, b: 2 };
+for (let key of obj) { } // ❌ TypeError: obj is not iterable
+
+Q4. How do break and continue work in loops?
+break: Exits the loop entirely.
+
+continue: Skips to the next iteration.
+
+for (let i = 0; i < 5; i++) {
+  if (i === 2) continue;
+  if (i === 4) break;
+  console.log(i); // 0 1 3
+}
+
+Q5. Real-world Scenario Question:
+“Given a number n, print all even numbers less than n, but skip numbers divisible by 4.”
+
+function printEvens(n) {
+  for (let i = 0; i < n; i++) {
+    if (i % 2 !== 0) continue;
+    if (i % 4 === 0) continue;
+    console.log(i);
+  }
+}
+printEvens(10); // Output: 2, 6, 10
+
+Q6. How do labeled statements work in JavaScript?
+Used with break or continue to break nested loops.
+
+outerLoop: for (let i = 0; i < 3; i++) {
+  for (let j = 0; j < 3; j++) {
+    if (i === j) break outerLoop;
+    console.log(i, j);
+  }
+}
+
+✅ Summary Cheatsheet:
+
+Keyword	Purpose
+
+if	Conditional branching
+
+switch	Multi-way branching based on exact value
+
+for	Definite loop with counter
+
+while	Loop with condition
+
+do...while	Loop at least once
+
+break	Exit loop immediately
+
+continue	Skip current iteration
+
+for...in	Loop through keys of object
+
+for...of	Loop through values of iterable
+
+*********************************************************************
+
+✅ Part 3: Functions in JavaScript – Deep Dive (Interview Ready)
+
+🔹 Q1. What are functions in JavaScript? How do you declare them?
+🔸 Answer:
+A function is a reusable block of code designed to perform a particular task.
+
+🔸 3 Main Ways to Declare:
+
+// 1. Function Declaration
+function greet(name) {
+  return `Hello, ${name}`;
+}
+
+// 2. Function Expression
+const greet2 = function(name) {
+  return `Hello, ${name}`;
+};
+
+// 3. Arrow Function
+const greet3 = (name) => `Hello, ${name}`;
+🧠 Key Points:
+Function declarations are hoisted. You can call them before they are defined.
+
+Function expressions and arrow functions are not hoisted.
+
+Arrow functions do not have their own this, arguments, or prototype.
+
+🔹 Q2. What is the difference between a function declaration and a function expression?
+Feature	Function Declaration	Function Expression
+Hoisted?	✅ Yes	❌ No
+Named?	✅ Must be named	✅ Can be named or anonymous
+Call before define?	✅ Works	❌ Error
+
+🔍 Example:
+
+sayHi(); // ✅ Works
+function sayHi() {
+  console.log("Hi");
+}
+
+sayHello(); // ❌ Error
+const sayHello = function () {
+  console.log("Hello");
+};
+
+🔹 Q3. What are arrow functions and how are they different from regular functions?
+✅ Short Syntax:
+
+const sum = (a, b) => a + b;
+🔍 Key Differences:
+Feature	Regular Function	Arrow Function
+this Binding	Dynamic (depends on caller)	Lexical (inherits from outer scope)
+arguments	Available	❌ Not available
+Constructor	✅ Can use with new	❌ Cannot use with new
+Syntax	Verbose	Concise
+
+🔸 Example:
+
+const obj = {
+  name: "Anusha",
+  regularFunc: function () {
+    console.log(this.name); // "Anusha"
+  },
+  arrowFunc: () => {
+    console.log(this.name); // ❌ undefined (lexical `this`)
+  },
+};
+obj.regularFunc();
+obj.arrowFunc();
+
+🔹 Q4. What are callback functions?
+A callback is a function passed as an argument to another function, usually to be executed later.
+
+✅ Example:
+
+function greetUser(name, callback) {
+  console.log("Hi " + name);
+  callback();
+}
+
+function sayBye() {
+  console.log("Bye!");
+}
+
+greetUser("Anusha", sayBye);
+🔍 Real Use Case: setTimeout, addEventListener, map
+
+setTimeout(() => console.log("Executed after 1 second"), 1000);
+
+🔹 Q5. What is a higher-order function?
+A function that either:
+
+Takes another function as an argument, or
+
+Returns a function
+
+✅ Example:
+
+function multiplier(factor) {
+  return function (num) {
+    return num * factor;
+  };
+}
+
+const double = multiplier(2);
+console.log(double(5)); // 10
+
+🔹 Q6. What is function currying?
+Currying transforms a function with multiple arguments into a sequence of functions.
+
+
+function sum(a) {
+  return function (b) {
+    return function (c) {
+      return a + b + c;
+    };
+  };
+}
+console.log(sum(1)(2)(3)); // 6
+🔍 Use Case:
+Better reusability and function composition
+
+Partial application
+
+🔹 Q7. What is the difference between parameters and arguments?
+Term	Description
+Parameter	Variable in function definition
+Argument	Actual value passed during function call
+
+function greet(name) { // name = parameter
+  console.log("Hi", name);
+}
+greet("Anusha"); // "Anusha" = argument
+
+🔹 Q8. Can functions be assigned to variables and passed as arguments in JavaScript?
+✅ Yes — functions are first-class citizens in JS.
+
+const add = (a, b) => a + b;
+const operate = (fn, x, y) => fn(x, y);
+
+console.log(operate(add, 3, 4)); // 7
+
+🔹 Q9. What are IIFEs (Immediately Invoked Function Expressions)?
+Used to execute a function immediately after its definition.
+
+(function () {
+  console.log("IIFE runs immediately");
+})();
+Useful for:
+
+Avoiding global scope pollution
+
+Creating private variables
+
+🔹 Q10. Can you explain recursion?
+A function that calls itself until a base condition is met.
+
+function factorial(n) {
+  if (n === 0) return 1;
+  return n * factorial(n - 1);
+}
+console.log(factorial(5)); // 120
+
+✅ Summary Cheatsheet
+
+Concept	Example/Use
+
+Function Declaration	function add(a,b) { return a+b }
+
+Arrow Function	(a,b) => a + b
+
+Callback	arr.map(callbackFn)
+
+Higher-Order Func	returns or accepts function
+
+Currying	f(a)(b)(c)
+
+IIFE	(function(){})()
+
+Recursion	function fn() { return fn(); }
+
+
+********************************************************
+
+✅ Part 4: Scope, Closures, and Lexical Environment – Deep Dive
+
+🔹 Q1. What is scope in JavaScript?
+🔸 Definition:
+Scope determines the accessibility (visibility) of variables.
+
+🔸 Types of Scope:
+Global Scope – Accessible anywhere
+
+Function Scope – Accessible inside the function
+
+Block Scope – Accessible inside {} blocks (with let and const)
+
+✅ Example:
+
+let globalVar = "Global";
+
+function testScope() {
+  let funcVar = "Function";
+  if (true) {
+    let blockVar = "Block";
+    console.log(blockVar); // ✅ Accessible here
+  }
+  // console.log(blockVar); // ❌ ReferenceError
+}
+
+🔹 Q2. What is lexical scope?
+🔸 Definition:
+A function can access variables from its parent scope — determined by where it's written in the code.
+
+✅ Example:
+
+function outer() {
+  let name = "Anusha";
+
+  function inner() {
+    console.log(name); // ✅ has access to `name` due to lexical scoping
+  }
+
+  inner();
+}
+outer();
+
+🔹 Q3. What is a closure in JavaScript?
+🔸 Definition:
+A closure is a function that remembers variables from its outer scope even after the outer function has finished executing.
+
+✅ Example:
+
+function outer() {
+  let count = 0;
+
+  return function inner() {
+    count++;
+    console.log("Count:", count);
+  };
+}
+
+const counter = outer();
+counter(); // Count: 1
+counter(); // Count: 2
+🧠 Explanation:
+inner() keeps access to count even after outer() has finished.
+
+count is "closed over" — it stays in memory via closure.
+
+🔹 Q4. Real-world Closure Use Case: Private Counter
+
+function createCounter() {
+  let count = 0;
+
+  return {
+    increment: () => ++count,
+    decrement: () => --count,
+    value: () => count,
+  };
+}
+
+const counter = createCounter();
+console.log(counter.increment()); // 1
+console.log(counter.value());     // 1
+console.log(counter.decrement()); // 0
+
+🔹 Q5. Interview Scenario: Write a closure to remember a user’s name.
+
+function createGreeting(name) {
+  return function () {
+    return `Hello, ${name}!`;
+  };
+}
+
+const greetAnusha = createGreeting("Anusha");
+console.log(greetAnusha()); // "Hello, Anusha!"
+
+🔹 Q6. Common Interview Trick: Closure in a Loop (with var)
+
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+// Output: 3, 3, 3
+Why? Because var is function scoped – by the time the timeout runs, i = 3.
+✅ Correct with let:
+
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+// Output: 0, 1, 2
+✅ Or using a closure:
+
+for (var i = 0; i < 3; i++) {
+  (function (j) {
+    setTimeout(() => console.log(j), 1000);
+  })(i);
+}
+
+🔹 Q7. What is the difference between a closure and scope?
+Feature	Scope	Closure
+What it is	Area where a variable is accessible	Function + its lexical environment
+Created when	Code is parsed	A function returns another function
+Lifespan	Until execution context ends	Lives beyond execution due to references
+
+🔹 Q8. Is memory leaked due to closures?
+Yes, improper closures can cause memory leaks if variables are unintentionally kept in memory (e.g., event handlers not removed).
+
+✅ Summary Cheatsheet:
+
+Concept	Key Idea
+
+Scope	Variable visibility based on location
+
+Lexical Scope	Function’s access to outer scope during def
+
+Closure	Function + preserved outer variables
+
+Uses	Data privacy, factory functions, event handling
+
+🧠 Practice Challenge: Closure Counter Factory
+👉 Write a function createStepCounter(step) that increases by a custom step:
+
+const byTwo = createStepCounter(2);
+console.log(byTwo()); // 2
+console.log(byTwo()); // 4
+🔸 Try writing this before we move to the next topic!
+
+******************************************************************
+
+✅ Part 5: this, call, apply, and bind – Full Deep Dive
+
+🔹 Q1. What is this in JavaScript?
+🔸 Answer:
+this refers to the object that is executing the current function.
+
+✅ this value depends on how a function is called — not where it's written.
+🔸 Examples of this:
+1. In Global Scope (non-strict mode)
+
+console.log(this); // Window (in browser)
+
+2. In a Function (non-strict mode)
+
+function show() {
+  console.log(this); // Window (global object)
+}
+show();
+
+3. In a Method (inside object)
+
+const person = {
+  name: "Anusha",
+  greet() {
+    console.log(this.name); // "Anusha"
+  },
+};
+person.greet();
+
+4. Arrow Function (lexical this)
+
+const person = {
+  name: "Anusha",
+  greet: () => {
+    console.log(this.name); // ❌ undefined (takes from parent/global scope)
+  },
+};
+person.greet();
+
+🔹 Q2. What is the difference between regular function this and arrow function this?
+Feature	Regular Function	Arrow Function
+this binding	Dynamic (depends on caller)	Lexical (from surrounding scope)
+Use in object	Works well	❌ Use carefully, usually not for methods
+
+🔹 Q3. What are call(), apply(), and bind()?
+These are methods to manually set this and invoke or create a function.
+
+✅ call()
+Immediately invokes the function.
+
+Pass arguments one by one.
+
+function sayHi(age) {
+  console.log(this.name + " is " + age + " years old");
+}
+
+const user = { name: "Anusha" };
+
+sayHi.call(user, 25); // Anusha is 25 years old
+✅ apply()
+Same as call() but accepts arguments as an array.
+
+
+sayHi.apply(user, [26]); // Anusha is 26 years old
+✅ bind()
+Returns a new function with this bound.
+
+Doesn’t execute immediately.
+
+const boundFunc = sayHi.bind(user, 27);
+boundFunc(); // Anusha is 27 years old
+
+🔹 Q4. When would you use bind() in real life?
+✅ Event handler inside a class component or object method:
+
+const button = {
+  text: "Click Me",
+  handleClick() {
+    console.log(this.text);
+  },
+};
+
+const boundClick = button.handleClick.bind(button);
+document.getElementById("btn").addEventListener("click", boundClick);
+Without bind, this.text would be undefined.
+
+🔹 Q5. Interview Trick: What will this print?
+
+const user = {
+  name: "Anusha",
+  greet() {
+    return () => {
+      console.log("Hi " + this.name);
+    };
+  },
+};
+
+user.greet()(); // Hi Anusha
+✅ Why?
+Because arrow function inherits this from greet() context, which is user.
+
+🔹 Q6. Real Interview Code Challenge: Fix the bug in the following code
+
+const obj = {
+  count: 10,
+  inc: function () {
+    setTimeout(function () {
+      this.count++;
+      console.log(this.count);
+    }, 1000);
+  },
+};
+
+obj.inc(); // ❌ NaN or unexpected
+✅ Fix using bind():
+
+setTimeout(function () {
+  this.count++;
+  console.log(this.count);
+}.bind(this), 1000);
+✅ Fix using arrow function:
+
+setTimeout(() => {
+  this.count++;
+  console.log(this.count);
+}, 1000);
+🔹 Q7. Can you explain method borrowing with call()?
+
+const person1 = {
+  fullName: function () {
+    return this.first + " " + this.last;
+  },
+};
+
+const person2 = {
+  first: "Anusha",
+  last: "Reddy",
+};
+
+console.log(person1.fullName.call(person2)); // Anusha Reddy
+
+🔹 Q8. Summary: When to Use What?
+Method	What it Does	When to Use
+call	Calls function with custom this	One-time function call
+apply	Same as call, but array args	Same as call with argument arrays
+bind	Returns new function with bound this	For event listeners or callbacks
+
+🧠 Challenge for You:
+✅ Create a greet() function that uses call() to greet different users with a message like:
+
+Hi Anusha, welcome back!
+Hi Praveen, welcome back!
+
+**********************************************************************
+
+✅ Part 6: Execution Context, Hoisting, and JavaScript Engine – Deep Dive
+
+🔹 Q1. What is an Execution Context in JavaScript?
+🔸 Answer:
+An Execution Context is a container where the code is evaluated and executed.
+
+There are 3 types:
+
+Global Execution Context (GEC)
+
+Function Execution Context (FEC)
+
+Eval Execution Context (rarely used)
+
+🔸 Execution Context has 2 Phases:
+🧠 1. Creation Phase:
+Memory is allocated for variables and functions.
+
+Variables declared with var are initialized as undefined.
+
+Functions are fully hoisted (their entire definition).
+
+let and const are hoisted but not initialized (they go into the temporal dead zone).
+
+🧠 2. Execution Phase:
+Code runs top to bottom.
+
+Variables are assigned values.
+
+Function calls are executed.
+
+🔹 Q2. What is Hoisting in JavaScript?
+🔸 Answer:
+Hoisting is JavaScript's default behavior of moving declarations to the top of the scope before code execution.
+
+🔸 Example 1: var Hoisting
+
+console.log(a); // undefined
+var a = 10;
+🔸 Example 2: let/const Hoisting (TDZ)
+
+console.log(b); // ❌ ReferenceError
+let b = 10;
+🔸 Example 3: Function Hoisting
+
+sayHi(); // ✅ "Hi"
+function sayHi() {
+  console.log("Hi");
+}
+
+🔹 Q3. What is the Call Stack in JavaScript?
+The Call Stack is a LIFO (Last In, First Out) structure that keeps track of function calls.
+
+🔍 Example:
+function one() {
+  two();
+}
+function two() {
+  three();
+}
+function three() {
+  console.log("End");
+}
+one();
+🧠 Stack Trace:
+
+Push: one() → two() → three()
+
+Pop: three() → two() → one()
+
+🔹 Q4. What is the JavaScript Engine’s role?
+A JS engine (like V8 in Chrome) performs the following:
+
+Step	What it Does
+Parsing	Converts code to AST (Abstract Syntax Tree)
+Compilation (JIT)	Converts JS to machine code
+Execution	Executes using Call Stack
+
+🔹 Q5. What is the Temporal Dead Zone (TDZ)?
+Variables declared with let and const are hoisted but not initialized.
+
+console.log(a); // ❌ ReferenceError
+let a = 10;
+The time between hoisting and initialization is called the TDZ.
+
+🔹 Q6. Real Interview Trick: Predict the Output
+
+function test() {
+  console.log(a); // ❓
+  var a = 5;
+  console.log(a); // ❓
+}
+test();
+✅ Output:
+
+undefined
+5
+Explanation:
+
+During creation phase: a = undefined
+
+In execution phase: a = 5
+
+🔹 Q7. More Examples to Solidify Concepts
+✅ Example 1: Hoisting Function vs Function Expression
+
+sayHello(); // ✅ Works
+function sayHello() {
+  console.log("Hello");
+}
+
+sayHi(); // ❌ TypeError
+var sayHi = function () {
+  console.log("Hi");
+};
+sayHello is hoisted as a function
+
+sayHi is hoisted as undefined, so calling it is an error
+
+🔹 Q8. Deep Interview Trap – Shadowing and Hoisting
+
+var a = 1;
+function foo() {
+  console.log(a);
+  var a = 2;
+}
+foo(); // ❓
+✅ Output: undefined
+
+Explanation:
+
+Local a is hoisted as undefined
+
+The global a = 1 is shadowed
+
+🔹 Q9. Summary Table
+Concept	Key Points
+Execution Context	Created during function/global execution
+Hoisting	Moves declarations (var/func) to top
+TDZ	let/const uninitialized space
+Call Stack	Tracks function calls (LIFO)
+Engine Phases	Parsing → Compilation → Execution
+
+🧠 Challenge for You
+Can you guess the output?
+
+var a = 1;
+function test() {
+  console.log(a);
+  if (false) {
+    var a = 2;
+  }
+}
+test();
+✅ Try this before moving forward!
+
+*******************************************************************
+
+✅ Part 7: Asynchronous JavaScript – setTimeout, Event Loop, Promises, async/await
+
+🔹 Q1. What is Asynchronous JavaScript?
+JavaScript is single-threaded, but it can perform asynchronous tasks (like fetching data, waiting, etc.) without blocking the main thread. This is possible through:
+
+Event Loop
+
+Callback Queue
+
+Promises
+
+Web APIs (browser)
+
+🔹 Q2. What is setTimeout() and how does it work?
+✅ Example:
+
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout");
+}, 0);
+
+console.log("End");
+🔍 Output:
+sql
+
+Start
+End
+Timeout
+Even with 0 ms, the callback is placed in the Callback Queue and executed after the current stack is empty.
+
+🔹 Q3. What is the Event Loop in JavaScript?
+🔸 Answer:
+The event loop constantly checks the call stack and callback queue. If the call stack is empty, it pushes the first task from the queue into the stack.
+
+✅ Visual:
+
+[Stack Empty] --> Event Loop --> Move callbacks from queue → stack → run
+
+🔹 Q4. What is a Promise in JavaScript?
+A Promise represents a value that may be available now, later, or never.
+
+
+const promise = new Promise((resolve, reject) => {
+  let success = true;
+  if (success) resolve("Done");
+  else reject("Failed");
+});
+
+promise
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+
+🔹 Q5. Promise States
+State	Description
+Pending	Initial state
+Fulfilled	resolve() was called
+Rejected	reject() was called
+
+🔹 Q6. Chaining Promises
+
+doWork()
+  .then((res1) => {
+    return doMore(res1);
+  })
+  .then((res2) => {
+    return finish(res2);
+  })
+  .catch((err) => console.log("Error:", err));
+
+🔹 Q7. What is async/await in JavaScript?
+async and await are syntactic sugar over Promises to write asynchronous code like synchronous code.
+
+✅ Example:
+
+async function fetchData() {
+  try {
+    let res = await fetch("https://api.example.com/data");
+    let data = await res.json();
+    console.log(data);
+  } catch (err) {
+    console.log("Error:", err);
+  }
+}
+fetchData();
+
+🔹 Q8. Interview Trap: What’s the output?
+
+console.log("1");
+
+setTimeout(() => {
+  console.log("2");
+}, 0);
+
+Promise.resolve().then(() => console.log("3"));
+
+console.log("4");
+✅ Output:
+
+1
+4
+3
+2
+🔍 Why?
+setTimeout → goes to Web APIs → Callback Queue
+
+Promise.then → goes to Microtask Queue, runs before timeout
+
+🔹 Q9. Real-world Interview Task: Simulate an API call
+
+function fakeFetch(url) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`Data from ${url}`);
+    }, 1000);
+  });
+}
+
+async function getData() {
+  const data = await fakeFetch("https://api.example.com");
+  console.log(data);
+}
+
+getData(); // After 1s: Data from https://api.example.com
+
+🔹 Q10. Parallel and Sequential Promises
+✅ Run in sequence:
+
+await fetch1();
+await fetch2();
+await fetch3();
+✅ Run in parallel:
+
+await Promise.all([fetch1(), fetch2(), fetch3()]);
+
+
+🔹 Q11. Difference: setTimeout vs Promise vs async/await
+Feature	setTimeout	Promise	async/await
+Delay code	Yes	No	No
+Return type	undefined	Promise	Promise
+Syntax	Callback-style	.then().catch()	try/catch block
+
+🔹 Q12. Real-world async use: Debounced Search
+✅ setTimeout is used to wait before sending API request:
+
+let timer;
+function handleInput(e) {
+  clearTimeout(timer);
+  timer = setTimeout(() => {
+    fetchData(e.target.value);
+  }, 300);
+}
+🧠 Practice Challenge:
+✅ Create an async function that waits 2 seconds using a custom wait(ms) function and then logs “Done Waiting!”
+
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function delayedMessage() {
+  await wait(2000);
+  console.log("Done Waiting!");
+}
+
+**************************************************************
+
+✅ Part 8: Advanced JS Concepts — Event Delegation, Currying, Debouncing, Throttling, Memoization
+
+🔹 Q1. What is Event Delegation?
+Answer:
+Event Delegation leverages event bubbling to handle events at a higher level rather than attaching listeners to every child element.
+
+Why use it?
+Performance: Fewer event listeners
+
+Dynamically added elements still work
+
+Example:
+
+document.getElementById("parent").addEventListener("click", function(event) {
+  if (event.target && event.target.matches("button.className")) {
+    console.log("Button clicked:", event.target.textContent);
+  }
+});
+
+🔹 Q2. What is Currying?
+Currying is a technique of transforming a function with multiple arguments into a sequence of functions each taking a single argument.
+
+Example:
+
+function multiply(a) {
+  return function(b) {
+    return a * b;
+  };
+}
+
+const double = multiply(2);
+console.log(double(5)); // 10
+
+🔹 Q3. What is Debouncing?
+Debouncing limits the rate at which a function executes. The function runs only after a specified delay has passed since the last call.
+
+Use Case:
+Search input to avoid firing API calls on every keystroke.
+
+Example:
+
+function debounce(func, delay) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+const debouncedSearch = debounce(() => console.log("Searching..."), 300);
+
+🔹 Q4. What is Throttling?
+Throttling ensures a function is called at most once every specified interval, regardless of how many times the event is triggered.
+
+Use Case:
+Scroll events, resizing windows
+
+Example:
+
+function throttle(func, limit) {
+  let lastCall = 0;
+  return function(...args) {
+    const now = Date.now();
+    if (now - lastCall >= limit) {
+      lastCall = now;
+      func.apply(this, args);
+    }
+  };
+}
+
+const throttledResize = throttle(() => console.log("Resized!"), 1000);
+
+🔹 Q5. What is Memoization?
+Memoization caches the results of expensive function calls to avoid redundant calculations.
+
+Example:
+
+function memoize(fn) {
+  const cache = {};
+  return function(...args) {
+    const key = JSON.stringify(args);
+    if (cache[key]) return cache[key];
+    const result = fn(...args);
+    cache[key] = result;
+    return result;
+  };
+}
+
+const factorial = memoize(function(n) {
+  if (n === 0) return 1;
+  return n * factorial(n - 1);
+});
+
+console.log(factorial(5)); // 120
+console.log(factorial(5)); // Cached result: 120
+
+🔹 Q6. Interview Scenario: Explain when to use Debounce vs Throttle?
+Debounce: Wait for a pause in events, then execute.
+
+Throttle: Execute at regular intervals during events.
+
+🔹 Q7. Bonus: Explain Function.prototype.apply() and Function.prototype.call() in brief
+.call(thisArg, arg1, arg2, ...) — invoke function immediately with given this and arguments.
+
+.apply(thisArg, [argsArray]) — same as call but arguments passed as an array.
+
+
+**************************************************************************************
+
+
+🧠 15 Interview-Specific JavaScript Topics with Full Answers
+
+1. What is Closure? Explain with Example
+Answer:
+
+A closure is a function that remembers and has access to variables from its outer (enclosing) scope even after the outer function has finished executing.
+
+function outer() {
+  let count = 0;
+  return function inner() {
+    count++;
+    console.log(count);
+  };
+}
+
+const counter = outer();
+counter(); // 1
+counter(); // 2
+Why?
+The inner function retains access to count due to closure, enabling private variables and data encapsulation.
+
+2. Explain Prototype and Prototype Chain
+Answer:
+
+Every JavaScript object has a prototype — an object from which it inherits properties and methods.
+
+The prototype chain is a series of linked prototypes that JavaScript follows to resolve property/method lookups.
+
+function Person(name) {
+  this.name = name;
+}
+Person.prototype.sayHi = function() {
+  console.log(`Hi, I am ${this.name}`);
+};
+
+const p = new Person("Alice");
+p.sayHi(); // Hi, I am Alice
+
+3. What is this keyword? How does it behave in different contexts?
+Answer:
+
+In global context, this refers to the global object (window in browsers).
+
+Inside a function, this depends on how the function is called.
+
+In arrow functions, this is lexically inherited from the enclosing scope.
+
+In event handlers, this refers to the element that received the event.
+
+Example:
+
+const obj = {
+  name: "Bob",
+  greet() {
+    console.log(this.name);
+  },
+};
+
+obj.greet(); // Bob
+
+const greetFn = obj.greet;
+greetFn(); // undefined or global object depending on strict mode
+
+4. Explain Event Loop in JavaScript
+Answer:
+
+The event loop manages asynchronous callbacks by monitoring the call stack and the callback queue. When the stack is empty, it pushes the next callback from the queue to the stack for execution.
+
+5. What are Promises and how do you handle errors in Promises?
+Answer:
+
+Promises represent the eventual result of asynchronous operations.
+
+new Promise((resolve, reject) => {
+  if (true) resolve("Success");
+  else reject("Failure");
+})
+.then(result => console.log(result))
+.catch(error => console.error(error));
+Errors are handled using .catch() or the second parameter of .then().
+
+6. Difference between == and ===
+Answer:
+
+== performs type coercion before comparison.
+
+=== is a strict equality operator that compares both value and type.
+
+Example:
+
+
+0 == "0";  // true
+0 === "0"; // false
+
+7. What is the difference between var, let, and const?
+Answer:
+
+Keyword	Scope	Hoisting	Reassignment	Redeclaration
+var	Function/global	Hoisted and initialized with undefined	Allowed	Allowed
+let	Block	Hoisted but in TDZ	Allowed	Not allowed
+const	Block	Hoisted but in TDZ	Not allowed	Not allowed
+
+8. Explain Hoisting
+Answer:
+
+Hoisting moves variable and function declarations to the top of their scope during the creation phase. For var, variables are initialized as undefined. For let and const, variables are hoisted but uninitialized (Temporal Dead Zone).
+
+9. What is Debouncing and Throttling?
+Answer:
+
+Debouncing delays function execution until after a pause in events.
+
+Throttling ensures a function runs at most once in a given time interval.
+
+10. Explain the concept of ‘strict mode’
+Answer:
+
+"use strict"; enables strict mode, which:
+
+Prevents usage of undeclared variables
+
+Disallows this defaulting to global object
+
+Disallows duplicate property names
+
+Throws errors for unsafe actions
+
+11. What is the difference between call(), apply(), and bind()?
+Answer:
+
+Method	Description
+call	Invokes function immediately with this and arguments listed separately
+apply	Invokes function immediately with this and arguments as an array
+bind	Returns a new function with this bound, doesn’t invoke immediately
+
+12. Explain the concept of ‘callback hell’ and how to avoid it
+Answer:
+
+Callback hell occurs when callbacks are nested deeply, leading to unreadable and hard-to-maintain code.
+
+Avoid by:
+
+Using Promises
+
+Using async/await
+
+Modularizing functions
+
+13. What is the difference between synchronous and asynchronous programming?
+Answer:
+
+Synchronous: code executes line by line, blocking the thread.
+
+Asynchronous: code can be executed in non-blocking fashion, allowing other operations while waiting.
+
+14. What is the difference between undefined and null?
+Answer:
+
+undefined means a variable is declared but not assigned a value.
+
+null is an assignment value meaning “no value”.
+
+15. Explain Event Bubbling and Event Capturing
+Answer:
+
+Event Bubbling: event propagates from the target element up to the DOM root.
+
+Event Capturing: event propagates from the DOM root down to the target element.
+
