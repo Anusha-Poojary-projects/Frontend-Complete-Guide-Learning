@@ -1,154 +1,98 @@
 🧱 1. JavaScript Basics
+
 What is JavaScript? How it works in the browser
-
 Variables (var, let, const)
-
 Data types (string, number, boolean, null, undefined, symbol, bigint)
-
 Type conversion and coercion
-
 Operators (arithmetic, comparison, logical, assignment)
 
 🔁 2. Control Flow & Loops
 if, else if, else
-
 switch statements
-
 Loops: for, while, do...while
-
 Loop control: break, continue
-
 for...in vs for...of
 
 📦 3. Functions
 Function declarations vs expressions
-
 Parameters, arguments
-
 Return values
-
 Arrow functions
-
 Callback functions
-
 First-class & higher-order functions
-
 IIFE (Immediately Invoked Function Expressions)
 
 📚 4. Arrays and Objects
 Arrays: creation, methods (push, pop, map, filter, reduce, etc.)
-
 Objects: literals, accessing/updating properties
-
 Looping through arrays and objects
-
 Destructuring (const {a} = obj, [first, second] = arr)
-
 Spread and rest operators
 
 📦 5. Scope and Closures
 Global, function, block scope
-
 Lexical scope
-
 Closures: concept, real use cases (e.g., private variables)
 
 🧠 6. JavaScript Execution Model
 Call Stack
-
 Execution context (global/function)
-
 Hoisting
-
 this keyword (global vs function vs arrow functions)
-
 Temporal Dead Zone
 
 ⏳ 7. Asynchronous JavaScript
 Callbacks
-
 Promises
-
 async / await
-
 Error handling (try...catch)
-
 Microtask Queue vs Call Stack
-
 Event Loop
 
 🌐 8. Browser APIs
 setTimeout, setInterval, clearInterval
-
 DOM Manipulation (querySelector, addEventListener)
-
 Event Delegation
-
 LocalStorage / SessionStorage
-
 Fetch API and XMLHttpRequest
 
 🧩 9. Object-Oriented JavaScript
 Object creation patterns (Object.create, constructor functions)
-
 class and constructor
-
 this, super, new
-
 Inheritance (ES5 and ES6 style)
-
 Prototype and Prototype Chain
 
 💡 10. Functional Programming in JS
 Pure functions
-
 Higher-order functions
-
 Immutability
-
 Function composition
-
 Currying
 
 🛠️ 11. Error Handling & Debugging
 try...catch...finally
-
 throw
-
 console.log, debugger
-
 Browser DevTools
 
 🔐 12. ES6+ Features
 Let, const
-
 Arrow functions
-
 Default parameters
-
 Template literals
-
 Destructuring
-
 Spread/rest
-
 Modules (import/export)
-
 Optional chaining (?.)
-
 Nullish coalescing (??)
 
 🧪 13. Advanced Concepts
 Memoization
-
 Debouncing & Throttling
-
 Event Bubbling vs Capturing
-
 Custom Events
-
 JavaScript Design Patterns (Singleton, Module, Factory, etc.)
-
 JavaScript Memory Management & Garbage Collection
 
 
@@ -160,11 +104,11 @@ JavaScript Memory Management & Garbage Collection
 
 Q1. What are the differences between var, let, and const?
 🔸 Short Answer:
-Feature	var	let	const
-Scope	Function-scoped	Block-scoped	Block-scoped
-Hoisting	Yes (initialized as undefined)	Yes (TDZ applies)	Yes (TDZ applies)
-Reassignable	Yes	Yes	No
-Redeclarable	Yes	No	No
+Feature	      var	                            let	              const
+Scope       	Function-scoped	                Block-scoped	    Block-scoped
+Hoisting	    Yes (initialized as undefined)	Yes (TDZ applies)	Yes (TDZ applies)
+Reassignable	Yes	                            Yes	              No
+Redeclarable	Yes	                            No	              No
 
 
 🔸 Deep Explanation:
