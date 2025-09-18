@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎓 COMPLETE MongoDB Interactive Tutor — All Operations!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto my-3 font-mono text-sm; }
+    .cmd-input { @apply w-full p-3 bg-gray-800 text-green-300 font-mono text-sm rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500; }
+    .output { @apply bg-gray-900 text-gray-300 p-4 rounded-lg my-3 font-mono text-sm overflow-auto max-h-96; }
+    .class-tag { @apply inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1 mb-1 font-mono; }
+    .nav-link { @apply block py-2 px-4 rounded hover:bg-blue-100 transition font-medium; }
+    .active { @apply bg-blue-600 text-white; }
+    .prompt::before { content: "test> "; @apply text-green-400; }
+    .success { @apply text-green-400; }
+    .error { @apply text-red-400; }
+    .keyword { @apply text-yellow-300; }
+    .string { @apply text-green-300; }
+    .number { @apply text-purple-300; }
+    .property { @apply text-blue-300; }
+    .flowchart { @apply bg-white p-4 rounded-lg border my-4; }
+    .flowchart-step { @apply flex items-center mb-3; }
+    .flowchart-number { @apply bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3; }
+    .example-card { @apply bg-white border rounded-lg p-4 mb-4; }
+    .example-title { @apply font-bold text-blue-800 mb-2; }
+    .use-case { @apply bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg my-4; }
+    .cheat-sheet { @apply bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded; }
+    .data-explorer { @apply bg-white border rounded-lg p-4 mt-4; }
+    .document-card { @apply bg-gray-50 p-3 rounded mb-2 border; }
+    .operator-tag { @apply inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-1 mb-1; }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <header class="bg-blue-700 text-white p-4 shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">🎓 COMPLETE MongoDB Tutor</h1>
+      <div class="text-sm">Update • Delete • Lookup • Sort • All Operations!</div>
+    </div>
+  </header>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-md h-screen p-4 fixed top-16 overflow-y-auto">
+      <h2 class="font-semibold text-gray-600 uppercase tracking-wider text-xs mb-3">Lessons</h2>
+      <nav>
+        <a href="#intro" class="nav-link">🌟 Introduction</a>
+        <a href="#setup" class="nav-link">⚙️ Setup Guide</a>
+        <a href="#concepts" class="nav-link">🧠 Core Concepts</a>
+        <a href="#insert" class="nav-link">📥 Insert</a>
+        <a href="#find" class="nav-link">🔍 Find</a>
+        <a href="#update" class="nav-link">✏️ Update</a>
+        <a href="#delete" class="nav-link">🗑️ Delete</a>
+        <a href="#sorting" class="nav-link">🔤 Sorting & Limiting</a>
+        <a href="#projection" class="nav-link">👁️ Projection</a>
+        <a href="#array" class="nav-link">📋 Array Operations</a>
+        <a href="#lookup" class="nav-link">🔗 Lookup (Join)</a>
+        <a href="#text" class="nav-link">📝 Text Search</a>
+        <a href="#aggregate" class="nav-link">📊 Aggregation</a>
+        <a href="#indexes" class="nav-link">⚡ Indexes</a>
+        <a href="#data-explorer" class="nav-link">👀 Data Explorer</a>
+        <a href="#playground" class="nav-link mt-6 bg-blue-600 text-white rounded">🧪 Full Playground</a>
+      </nav>
+      <div class="mt-8 text-xs text-gray-500">
+        <p>✅ All MongoDB Operations<br>✅ 100+ Examples<br>✅ Real-time Playground<br>✅ Data Explorer</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 p-8 w-full max-w-4xl">
+
+      <!-- UPDATE SECTION -->
+      <section id="update" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">✏️ Update Documents — Complete Guide</h2>
+        
+        <div class="flowchart">
+          <h3 class="font-bold text-lg mb-4">Update Operation Flow</h3>
+          <div class="flowchart-step">
+            <div class="flowchart-number">1</div>
+            <div>Identify documents to update using filter criteria</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">2</div>
+            <div>Specify update operations using update operators</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">3</div>
+            <div>Choose between updateOne() or updateMany()</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">4</div>
+            <div>Execute update and review results</div>
+          </div>
+        </div>
+
+        <!-- Update Operators Cheat Sheet -->
+        <div class="cheat-sheet mb-6">
+          <h3 class="font-bold text-yellow-800 mb-2">📋 Update Operators Cheat Sheet</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+            <div><code class="bg-yellow-100 px-1 rounded">$set</code> - Set field value</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$unset</code> - Remove field</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$inc</code> - Increment number</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$mul</code> - Multiply number</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$rename</code> - Rename field</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$min</code> - Set if smaller</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$max</code> - Set if larger</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$currentDate</code> - Set to current date</div>
+          </div>
+        </div>
+
+        <!-- Example 1: Basic updateOne with $set -->
+        <div class="example-card">
+          <h3 class="example-title">Example 1: updateOne() with $set</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $set: { age: 29, city: "Boston" } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $set operator sets the value of a field. If the field doesn't exist, it will be created.</p>
+        </div>
+
+        <!-- Example 2: updateMany with $inc -->
+        <div class="example-card">
+          <h3 class="example-title">Example 2: updateMany() with $inc</h3>
+          <div class="code-block">db.products.updateMany(<br>
+&nbsp;&nbsp;{ category: "Electronics" },<br>
+&nbsp;&nbsp;{ $inc: { price: 10, stock: -1 } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 5,
+  "modifiedCount": 5
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $inc operator increments a numeric field. Use negative values to decrement.</p>
+        </div>
+
+        <!-- Example 3: $unset to remove fields -->
+        <div class="example-card">
+          <h3 class="example-title">Example 3: Remove fields with $unset</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $unset: { email: "", city: "" } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $unset operator removes the specified fields from documents.</p>
+        </div>
+
+        <!-- Example 4: $rename to rename fields -->
+        <div class="example-card">
+          <h3 class="example-title">Example 4: Rename fields with $rename</h3>
+          <div class="code-block">db.users.updateMany(<br>
+&nbsp;&nbsp;{},<br>
+&nbsp;&nbsp;{ $rename: { "zipcode": "postalCode" } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 3,
+  "modifiedCount": 3
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $rename operator changes the name of a field. The field must exist.</p>
+        </div>
+
+        <!-- Example 5: $mul to multiply values -->
+        <div class="example-card">
+          <h3 class="example-title">Example 5: Multiply values with $mul</h3>
+          <div class="code-block">db.products.updateMany(<br>
+&nbsp;&nbsp;{ onSale: true },<br>
+&nbsp;&nbsp;{ $mul: { price: 0.9 } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 2,
+  "modifiedCount": 2
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $mul operator multiplies the value of a field by the specified number.</p>
+        </div>
+
+        <!-- Example 6: $min and $max -->
+        <div class="example-card">
+          <h3 class="example-title">Example 6: Set minimum/maximum with $min/$max</h3>
+          <div class="code-block">db.products.updateOne(<br>
+&nbsp;&nbsp;{ _id: "PROD001" },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$min: { price: 25 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$max: { discount: 50 }<br>
+&nbsp;&nbsp;}<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $min sets the field if the specified value is less than the current value. $max sets if greater.</p>
+        </div>
+
+        <!-- Example 7: $currentDate -->
+        <div class="example-card">
+          <h3 class="example-title">Example 7: Set current date with $currentDate</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $currentDate: { lastUpdated: true } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $currentDate sets a field to the current date. Use { lastUpdated: { $type: "timestamp" } } for timestamp.</p>
+        </div>
+
+        <!-- Example 8: upsert option -->
+        <div class="example-card">
+          <h3 class="example-title">Example 8: Upsert (update or insert)</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ email: "newuser@example.com" },<br>
+&nbsp;&nbsp;{ $set: { name: "New User", age: 25 } },<br>
+&nbsp;&nbsp;{ upsert: true }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 0,
+  "modifiedCount": 0,
+  "upsertedId": ObjectId("64a1b2c3d4e5f6a7b8c9d0e5")
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 upsert: true creates a new document if no document matches the filter.</p>
+        </div>
+
+        <div class="use-case">
+          <h3 class="font-bold text-purple-800 mb-2">🚀 Real-World Update Use Cases</h3>
+          <div class="text-sm space-y-2">
+            <div>• User profile updates: Modify user information, preferences, or settings</div>
+            <div>• Inventory management: Update product stock levels after purchases</div>
+            <div>• Analytics: Increment view counts or engagement metrics</div>
+            <div>• Session management: Update last activity timestamp for user sessions</div>
+            <div>• Pricing updates: Adjust product prices based on promotions or market changes</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DELETE SECTION -->
+      <section id="delete" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🗑️ Delete Documents — Complete Guide</h2>
+        
+        <div class="flowchart">
+          <h3 class="font-bold text-lg mb-4">Delete Operation Flow</h3>
+          <div class="flowchart-step">
+            <div class="flowchart-number">1</div>
+            <div>Identify documents to delete using filter criteria</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">2</div>
+            <div>Choose between deleteOne() or deleteMany()</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">3</div>
+            <div>Execute delete operation</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">4</div>
+            <div>Review results (deletedCount)</div>
+          </div>
+        </div>
+
+        <!-- Example 1: deleteOne -->
+        <div class="example-card">
+          <h3 class="example-title">Example 1: deleteOne() by _id</h3>
+          <div class="code-block">db.users.deleteOne({ _id: ObjectId("64a1b2c3d4e5f6a7b8c9d0e1") })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "deletedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 deleteOne() removes a single document that matches the filter criteria.</p>
+        </div>
+
+        <!-- Example 2: deleteMany -->
+        <div class="example-card">
+          <h3 class="example-title">Example 2: deleteMany() with conditions</h3>
+          <div class="code-block">db.orders.deleteMany({ status: "cancelled", createdAt: { $lt: new Date("2023-01-01") } })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "deletedCount": 15
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 deleteMany() removes all documents that match the filter criteria.</p>
+        </div>
+
+        <!-- Example 3: deleteMany with empty filter -->
+        <div class="example-card">
+          <h3 class="example-title">Example 3: Delete ALL documents</h3>
+          <div class="code-block">db.temp_data.deleteMany({})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "deletedCount": 127
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Empty filter {} matches all documents in the collection. Use with caution!</p>
+        </div>
+
+        <!-- Example 4: Delete with array conditions -->
+        <div class="example-card">
+          <h3 class="example-title">Example 4: Delete documents with array conditions</h3>
+          <div class="code-block">db.users.deleteMany({ tags: { $in: ["inactive", "spam"] } })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "deletedCount": 8
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Use array operators like $in to delete documents based on array content.</p>
+        </div>
+
+        <!-- Example 5: Delete with nested document conditions -->
+        <div class="example-card">
+          <h3 class="example-title">Example 5: Delete with nested document conditions</h3>
+          <div class="code-block">db.users.deleteMany({ "address.country": "Unknown" })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "deletedCount": 3
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Use dot notation to delete documents based on fields in nested documents.</p>
+        </div>
+
+        <div class="use-case">
+          <h3 class="font-bold text-purple-800 mb-2">🚀 Real-World Delete Use Cases</h3>
+          <div class="text-sm space-y-2">
+            <div>• User account deletion: Remove user data upon request (GDPR compliance)</div>
+            <div>• Data cleanup: Remove old logs, temporary files, or expired sessions</div>
+            <div>• Order management: Delete cancelled orders after a retention period</div>
+            <div>• Content moderation: Remove inappropriate or spam content</div>
+            <div>• Database maintenance: Clean up test data or obsolete records</div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded">
+          <h3 class="font-bold text-red-800 mb-2">⚠️ Critical Warning: Delete Operations</h3>
+          <p class="text-sm">
+            <strong>deleteMany({})</strong> will delete ALL documents in a collection.<br>
+            <strong>db.collection.drop()</strong> will delete the entire collection including indexes.<br>
+            <strong>db.dropDatabase()</strong> will delete the entire database.<br>
+            <br>
+            Always test your delete filters with <strong>find()</strong> first!<br>
+            Consider using a "soft delete" pattern (adding an "isDeleted" field) for critical data.
+          </p>
+        </div>
+      </section>
+
+      <!-- SORTING & LIMITING SECTION -->
+      <section id="sorting" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🔤 Sorting, Limiting & Skipping — Complete Guide</h2>
+        
+        <div class="flowchart">
+          <h3 class="font-bold text-lg mb-4">Query Modifiers Flow</h3>
+          <div class="flowchart-step">
+            <div class="flowchart-number">1</div>
+            <div>Start with find() and optional filter</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">2</div>
+            <div>Apply .sort() to order results</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">3</div>
+            <div>Use .skip() to paginate through results</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">4</div>
+            <div>Apply .limit() to restrict result count</div>
+          </div>
+          <div class="flowchart-step">
+            <div class="flowchart-number">5</div>
+            <div>Chain with .pretty() for formatted output</div>
+          </div>
+        </div>
+
+        <!-- Example 1: Basic sorting -->
+        <div class="example-card">
+          <h3 class="example-title">Example 1: Sort by single field</h3>
+          <div class="code-block">db.users.find().sort({ age: 1 })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e2"),
+    "name": "Young User",
+    "age": 18
+  },
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e1"),
+    "name": "Alice Johnson",
+    "age": 29
+  },
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e3"),
+    "name": "Senior User",
+    "age": 65
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 1 = ascending order, -1 = descending order</p>
+        </div>
+
+        <!-- Example 2: Multi-field sorting -->
+        <div class="example-card">
+          <h3 class="example-title">Example 2: Sort by multiple fields</h3>
+          <div class="code-block">db.products.find().sort({ category: 1, price: -1 })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": "PROD003",
+    "name": "Premium Laptop",
+    "category": "Electronics",
+    "price": 1999
+  },
+  {
+    "_id": "PROD001",
+    "name": "Basic Laptop",
+    "category": "Electronics",
+    "price": 899
+  },
+  {
+    "_id": "PROD002",
+    "name": "Designer Chair",
+    "category": "Furniture",
+    "price": 499
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Sort by category ascending, then by price descending within each category</p>
+        </div>
+
+        <!-- Example 3: Limit results -->
+        <div class="example-card">
+          <h3 class="example-title">Example 3: Limit result count</h3>
+          <div class="code-block">db.users.find().sort({ createdAt: -1 }).limit(5)</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  { /* 5 most recent users */ }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 .limit(n) restricts the number of documents returned</p>
+        </div>
+
+        <!-- Example 4: Skip for pagination -->
+        <div class="example-card">
+          <h3 class="example-title">Example 4: Skip for pagination</h3>
+          <div class="code-block">db.products.find()<br>
+&nbsp;&nbsp;.sort({ name: 1 })<br>
+&nbsp;&nbsp;.skip(10)<br>
+&nbsp;&nbsp;.limit(10)</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  { /* products 11-20 */ }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 .skip(n) skips the first n documents. Used with .limit() for pagination</p>
+        </div>
+
+        <!-- Example 5: Complex sorting with text -->
+        <div class="example-card">
+          <h3 class="example-title">Example 5: Sort with text score</h3>
+          <div class="code-block">db.products.find(<br>
+&nbsp;&nbsp;{ $text: { $search: "laptop" } },<br>
+&nbsp;&nbsp;{ score: { $meta: "textScore" } }<br>
+).sort({ score: { $meta: "textScore" } })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": "PROD003",
+    "name": "Gaming Laptop Pro",
+    "description": "High-end gaming laptop",
+    "score": 2.5
+  },
+  {
+    "_id": "PROD001",
+    "name": "Basic Laptop",
+    "description": "Entry-level laptop for students",
+    "score": 1.8
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Sort by text search relevance score</p>
+        </div>
+
+        <!-- Example 6: Count documents -->
+        <div class="example-card">
+          <h3 class="example-title">Example 6: Count documents</h3>
+          <div class="code-block">db.users.countDocuments({ active: true })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">1247</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 countDocuments() returns the number of documents matching the filter</p>
+        </div>
+
+        <div class="use-case">
+          <h3 class="font-bold text-purple-800 mb-2">🚀 Real-World Sorting & Pagination Use Cases</h3>
+          <div class="text-sm space-y-2">
+            <div>• Product listings: Sort by price, rating, or popularity with pagination</div>
+            <div>• User management: Display users sorted by registration date or activity</div>
+            <div>• Content feeds: Show latest posts or most popular content first</div>
+            <div>• Admin dashboards: Paginate through large datasets for better performance</div>
+            <div>• Search results: Order by relevance, price, or other criteria</div>
+          </div>
+        </div>
+
+        <div class="cheat-sheet">
+          <h3 class="font-bold text-yellow-800 mb-2">📋 Query Modifiers Cheat Sheet</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+            <div><code class="bg-yellow-100 px-1 rounded">.sort({field: 1})</code> - Sort ascending</div>
+            <div><code class="bg-yellow-100 px-1 rounded">.sort({field: -1})</code> - Sort descending</div>
+            <div><code class="bg-yellow-100 px-1 rounded">.limit(n)</code> - Limit to n documents</div>
+            <div><code class="bg-yellow-100 px-1 rounded">.skip(n)</code> - Skip first n documents</div>
+            <div><code class="bg-yellow-100 px-1 rounded">.pretty()</code> - Format output nicely</div>
+            <div><code class="bg-yellow-100 px-1 rounded">.countDocuments()</code> - Count matching documents</div>
+            <div><code class="bg-yellow-100 px-1 rounded">.explain()</code> - Show query execution plan</div>
+            <div><code class="bg-yellow-100 px-1 rounded">.toArray()</code> - Return array (in drivers)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTION SECTION -->
+      <section id="projection" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">👁️ Projection — Include/Exclude Fields</h2>
+        
+        <div class="example-card">
+          <h3 class="example-title">What is Projection?</h3>
+          <p class="text-sm text-gray-700">
+            Projection allows you to specify which fields to include or exclude in the query results. This improves performance by reducing the amount of data transferred.
+          </p>
+          <div class="code-block">// Syntax<br>db.collection.find(query, projection)</div>
+          <p class="text-sm text-gray-600 mt-2">
+            • 1 = include field<br>
+            • 0 = exclude field<br>
+            • Cannot mix inclusion and exclusion (except for _id)
+          </p>
+        </div>
+
+        <!-- Example 1: Include specific fields -->
+        <div class="example-card">
+          <h3 class="example-title">Example 1: Include specific fields</h3>
+          <div class="code-block">db.users.find(<br>
+&nbsp;&nbsp;{ age: { $gte: 18 } },<br>
+&nbsp;&nbsp;{ name: 1, email: 1 }<br>
+)</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e1"),
+    "name": "Alice Johnson",
+    "email": "alice@example.com"
+  },
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e2"),
+    "name": "Bob Smith",
+    "email": "bob@example.com"
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Only name and email fields are returned (plus _id by default)</p>
+        </div>
+
+        <!-- Example 2: Exclude specific fields -->
+        <div class="example-card">
+          <h3 class="example-title">Example 2: Exclude specific fields</h3>
+          <div class="code-block">db.users.find(<br>
+&nbsp;&nbsp;{},<br>
+&nbsp;&nbsp;{ password: 0, creditCard: 0 }<br>
+)</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e1"),
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "age": 29
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 All fields except password and creditCard are returned</p>
+        </div>
+
+        <!-- Example 3: Exclude _id field -->
+        <div class="example-card">
+          <h3 class="example-title">Example 3: Exclude _id field</h3>
+          <div class="code-block">db.products.find(<br>
+&nbsp;&nbsp;{},<br>
+&nbsp;&nbsp;{ name: 1, price: 1, _id: 0 }<br>
+)</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "name": "Wireless Mouse",
+    "price": 29.99
+  },
+  {
+    "name": "Mechanical Keyboard",
+    "price": 129.99
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 _id field can be excluded even when including other fields</p>
+        </div>
+
+        <!-- Example 4: Project with computed fields -->
+        <div class="example-card">
+          <h3 class="example-title">Example 4: Project with computed fields (Aggregation)</h3>
+          <div class="code-block">db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$project: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customerName: "$customer.name",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total: 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemCount: { $size: "$items" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discountedTotal: { $multiply: ["$total", 0.9] }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+])</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "customerName": "Alice Johnson",
+    "total": 1099.98,
+    "itemCount": 2,
+    "discountedTotal": 989.982
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Aggregation $project stage allows for complex field transformations</p>
+        </div>
+
+        <div class="use-case">
+          <h3 class="font-bold text-purple-800 mb-2">🚀 Real-World Projection Use Cases</h3>
+          <div class="text-sm space-y-2">
+            <div>• API responses: Return only necessary fields to reduce payload size</div>
+            <div>• Security: Exclude sensitive fields like passwords, tokens, or personal data</div>
+            <div>• Performance: Reduce network transfer and memory usage for large documents</div>
+            <div>• UI optimization: Fetch only fields needed for specific views or components</div>
+            <div>• Analytics: Project calculated fields for reporting and visualization</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARRAY OPERATIONS SECTION -->
+      <section id="array" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">📋 Array Operations — Complete Guide</h2>
+        
+        <div class="cheat-sheet mb-6">
+          <h3 class="font-bold text-yellow-800 mb-2">📋 Array Operators Cheat Sheet</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+            <div><code class="bg-yellow-100 px-1 rounded">$push</code> - Add element to array</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$push with $each</code> - Add multiple elements</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$pop</code> - Remove first/last element</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$pull</code> - Remove elements by condition</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$pullAll</code> - Remove all instances of values</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$addToSet</code> - Add if not already present</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$slice</code> - Limit array size</div>
+            <div><code class="bg-yellow-100 px-1 rounded">$position</code> - Specify position for $push</div>
+          </div>
+        </div>
+
+        <!-- Example 1: $push -->
+        <div class="example-card">
+          <h3 class="example-title">Example 1: $push to add element</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $push: { hobbies: "photography" } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $push adds an element to an array field. Creates the array if it doesn't exist.</p>
+        </div>
+
+        <!-- Example 2: $push with $each -->
+        <div class="example-card">
+          <h3 class="example-title">Example 2: $push with $each for multiple elements</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $push: { hobbies: { $each: ["hiking", "cooking"] } } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $each modifier allows adding multiple elements with $push</p>
+        </div>
+
+        <!-- Example 3: $addToSet -->
+        <div class="example-card">
+          <h3 class="example-title">Example 3: $addToSet to avoid duplicates</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $addToSet: { tags: "premium" } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $addToSet adds value only if it doesn't already exist in the array</p>
+        </div>
+
+        <!-- Example 4: $pull -->
+        <div class="example-card">
+          <h3 class="example-title">Example 4: $pull to remove elements</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $pull: { hobbies: "photography" } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $pull removes all instances of a value from an array</p>
+        </div>
+
+        <!-- Example 5: $pull with conditions -->
+        <div class="example-card">
+          <h3 class="example-title">Example 5: $pull with conditions</h3>
+          <div class="code-block">db.products.updateOne(<br>
+&nbsp;&nbsp;{ _id: "PROD001" },<br>
+&nbsp;&nbsp;{ $pull: { reviews: { rating: { $lt: 3 } } } }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $pull can remove array elements that match a condition</p>
+        </div>
+
+        <!-- Example 6: $pop -->
+        <div class="example-card">
+          <h3 class="example-title">Example 6: $pop to remove first/last element</h3>
+          <div class="code-block">db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Johnson" },<br>
+&nbsp;&nbsp;{ $pop: { hobbies: -1 } }  // -1 = first, 1 = last<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">{
+  "acknowledged": true,
+  "matchedCount": 1,
+  "modifiedCount": 1
+}</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $pop removes the first (-1) or last (1) element from an array</p>
+        </div>
+
+        <!-- Example 7: Array queries -->
+        <div class="example-card">
+          <h3 class="example-title">Example 7: Querying array elements</h3>
+          <div class="code-block">db.users.find({ hobbies: "photography" })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e1"),
+    "name": "Alice Johnson",
+    "hobbies": ["reading", "photography", "hiking"]
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Query matches documents where array contains the specified value</p>
+        </div>
+
+        <div class="use-case">
+          <h3 class="font-bold text-purple-800 mb-2">🚀 Real-World Array Operations Use Cases</h3>
+          <div class="text-sm space-y-2">
+            <div>• User interests: Add/remove hobbies, skills, or preferences</div>
+            <div>• E-commerce: Manage product tags, categories, or review lists</div>
+            <div>• Social media: Handle followers, likes, or comment threads</div>
+            <div>• Content management: Store article tags, authors, or related content</div>
+            <div>• Analytics: Track user activity history or event logs</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOOKUP SECTION -->
+      <section id="lookup" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🔗 $lookup (Join) — Complete Guide</h2>
+        
+        <div class="example-card">
+          <h3 class="example-title">What is $lookup?</h3>
+          <p class="text-sm text-gray-700">
+            $lookup is MongoDB's equivalent of a JOIN in SQL. It performs a left outer join between two collections, adding documents from the "joined" collection to the input documents.
+          </p>
+          <div class="code-block">// Basic syntax<br>
+db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$lookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "collection_to_join",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localField: "field_from_input_docs",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreignField: "field_from_joined_docs",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "output_array_field"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+])</div>
+        </div>
+
+        <!-- Example 1: Basic $lookup -->
+        <div class="example-card">
+          <h3 class="example-title">Example 1: Basic $lookup (orders with customer info)</h3>
+          <div class="code-block">db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$lookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "users",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localField: "customerId",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreignField: "_id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "customerInfo"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+])</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e2"),
+    "customerId": "64a1b2c3d4e5f6a7b8c9d0e1",
+    "total": 1099.98,
+    "customerInfo": [
+      {
+        "_id": "64a1b2c3d4e5f6a7b8c9d0e1",
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      }
+    ]
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Basic left outer join - adds customer information to each order</p>
+        </div>
+
+        <!-- Example 2: $lookup with $unwind -->
+        <div class="example-card">
+          <h3 class="example-title">Example 2: $lookup with $unwind (flatten results)</h3>
+          <div class="code-block">db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$lookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "users",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localField: "customerId",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreignField: "_id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "customerInfo"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{ $unwind: "$customerInfo" }<br>
+])</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e2"),
+    "customerId": "64a1b2c3d4e5f6a7b8c9d0e1",
+    "total": 1099.98,
+    "customerInfo": {
+      "_id": "64a1b2c3d4e5f6a7b8c9d0e1",
+      "name": "Alice Johnson",
+      "email": "alice@example.com"
+    }
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 $unwind deconstructs the array created by $lookup into individual documents</p>
+        </div>
+
+        <!-- Example 3: Advanced $lookup with pipeline -->
+        <div class="example-card">
+          <h3 class="example-title">Example 3: Advanced $lookup with pipeline</h3>
+          <div class="code-block">db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$lookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "users",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let: { customerId: "$customerId" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pipeline: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $match: { $expr: { $eq: ["$_id", "$$customerId"] } } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $project: { name: 1, email: 1 } }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "customerInfo"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+])</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e2"),
+    "customerId": "64a1b2c3d4e5f6a7b8c9d0e1",
+    "total": 1099.98,
+    "customerInfo": [
+      {
+        "_id": "64a1b2c3d4e5f6a7b8c9d0e1",
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      }
+    ]
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Pipeline syntax allows for more complex joins with additional filtering and projection</p>
+        </div>
+
+        <!-- Example 4: Multiple $lookup stages -->
+        <div class="example-card">
+          <h3 class="example-title">Example 4: Multiple $lookup stages</h3>
+          <div class="code-block">db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$lookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "users",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localField: "customerId",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreignField: "_id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "customerInfo"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{ $unwind: "$customerInfo" },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$lookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "products",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localField: "items.productId",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreignField: "_id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "productDetails"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+])</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e2"),
+    "customerId": "64a1b2c3d4e5f6a7b8c9d0e1",
+    "items": [
+      { "productId": "PROD001", "quantity": 1 },
+      { "productId": "PROD002", "quantity": 2 }
+    ],
+    "customerInfo": { /* customer data */ },
+    "productDetails": [ /* product data */ ]
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Multiple $lookup stages can join with different collections in the same pipeline</p>
+        </div>
+
+        <div class="use-case">
+          <h3 class="font-bold text-purple-800 mb-2">🚀 Real-World $lookup Use Cases</h3>
+          <div class="text-sm space-y-2">
+            <div>• E-commerce: Join orders with customer and product information</div>
+            <div>• Social media: Display posts with user profile data and comment counts</div>
+            <div>• Content management: Show articles with author information and category details</div>
+            <div>• Analytics: Combine data from multiple collections for reporting</div>
+            <div>• User dashboards: Aggregate user data from various collections for display</div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded">
+          <h3 class="font-bold text-blue-800 mb-2">💡 Performance Tip: $lookup</h3>
+          <p class="text-sm">
+            $lookup can be expensive on large datasets. Consider:
+            <br>• Creating indexes on the joined fields
+            <br>• Using $match early in the pipeline to reduce documents
+            <br>• Denormalizing data if joins are frequent
+            <br>• Using application-level joins for complex scenarios
+          </p>
+        </div>
+      </section>
+
+      <!-- TEXT SEARCH SECTION -->
+      <section id="text" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">📝 Text Search & Regular Expressions</h2>
+        
+        <div class="example-card">
+          <h3 class="example-title">Text Search Setup</h3>
+          <p class="text-sm text-gray-700">
+            Before using text search, you need to create a text index on the fields you want to search:
+          </p>
+          <div class="code-block">// Create text index on specific fields<br>
+db.products.createIndex({ name: "text", description: "text" })<br><br>
+// Create text index on all string fields<br>
+db.products.createIndex({ "$**": "text" })</div>
+        </div>
+
+        <!-- Example 1: Basic text search -->
+        <div class="example-card">
+          <h3 class="example-title">Example 1: Basic text search</h3>
+          <div class="code-block">db.products.find({<br>
+&nbsp;&nbsp;$text: { $search: "laptop" }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": "PROD001",
+    "name": "Gaming Laptop",
+    "description": "High-performance laptop for gaming and content creation"
+  },
+  {
+    "_id": "PROD002",
+    "name": "Laptop Stand",
+    "description": "Ergonomic stand for your laptop"
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Returns documents containing the search term in any of the text-indexed fields</p>
+        </div>
+
+        <!-- Example 2: Text search with phrase -->
+        <div class="example-card">
+          <h3 class="example-title">Example 2: Text search with phrase</h3>
+          <div class="code-block">db.products.find({<br>
+&nbsp;&nbsp;$text: { $search: "\"gaming laptop\"" }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": "PROD001",
+    "name": "Gaming Laptop",
+    "description": "High-performance laptop for gaming and content creation"
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Quotes search for exact phrase rather than individual words</p>
+        </div>
+
+        <!-- Example 3: Text search with exclusion -->
+        <div class="example-card">
+          <h3 class="example-title">Example 3: Text search with exclusion</h3>
+          <div class="code-block">db.products.find({<br>
+&nbsp;&nbsp;$text: { $search: "laptop -stand" }<br>
+})</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": "PROD001",
+    "name": "Gaming Laptop",
+    "description": "High-performance laptop for gaming and content creation"
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Minus sign excludes documents containing the specified term</p>
+        </div>
+
+        <!-- Example 4: Text search with sort by relevance -->
+        <div class="example-card">
+          <h3 class="example-title">Example 4: Sort by text search relevance</h3>
+          <div class="code-block">db.products.find(<br>
+&nbsp;&nbsp;{ $text: { $search: "laptop" } },<br>
+&nbsp;&nbsp;{ score: { $meta: "textScore" } }<br>
+).sort({ score: { $meta: "textScore" } })</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": "PROD001",
+    "name": "Gaming Laptop",
+    "description": "High-performance laptop for gaming",
+    "score": 2.0
+  },
+  {
+    "_id": "PROD002",
+    "name": "Laptop Stand",
+    "description": "Ergonomic stand for your laptop",
+    "score": 1.5
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Sort by text search score to show most relevant results first</p>
+        </div>
+
+        <!-- Example 5: Regular expression search -->
+        <div class="example-card">
+          <h3 class="example-title">Example 5: Regular expression search</h3>
+          <div class="code-block">db.users.find({ name: /^A/ })  // Starts with A<br>
+db.users.find({ email: /@gmail\.com$/ })  // Ends with @gmail.com<br>
+db.users.find({ name: /son$/i })  // Ends with "son", case-insensitive</div>
+          <div class="output bg-gray-800 p-3 rounded mt-2">
+            <span class="prompt"></span><span class="success">[
+  {
+    "_id": ObjectId("64a1b2c3d4e5f6a7b8c9d0e1"),
+    "name": "Alice Johnson",
+    "email": "alice@gmail.com"
+  }
+]</span>
+          </div>
+          <p class="text-sm text-gray-600 mt-2">💡 Regular expressions provide powerful pattern matching capabilities</p>
+        </div>
+
+        <div class="use-case">
+          <h3 class="font-bold text-purple-800 mb-2">🚀 Real-World Text Search Use Cases</h3>
+          <div class="text-sm space-y-2">
+            <div>• Product search: Allow users to search product catalog by name, description, or tags</div>
+            <div>• Content discovery: Enable searching through articles, blog posts, or documentation</div>
+            <div>• User search: Find users by name, email, or other text fields</div>
+            <div>• Data analysis: Identify patterns or trends in text data</div>
+            <div>• Form validation: Use regex to validate email, phone numbers, or other input formats</div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded">
+          <h3 class="font-bold text-yellow-800 mb-2">⚠️ Text Search Limitations</h3>
+          <p class="text-sm">
+            • Text indexes can be large and impact write performance<br>
+            • Text search doesn't support wildcard searches at the beginning of terms<br>
+            • Stop words (like "the", "and", "or") are ignored by default<br>
+            • Case insensitive by default, but diacritic sensitive<br>
+            • Consider using specialized search engines (Elasticsearch, Algolia) for advanced search needs
+          </p>
+        </div>
+      </section>
+
+      <!-- DATA EXPLORER SECTION -->
+      <section id="data-explorer" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">👀 Data Explorer — View Your Mock Database</h2>
+        
+        <div class="data-explorer">
+          <h3 class="font-bold text-lg mb-4">Users Collection</h3>
+          <div id="users-explorer" class="space-y-2">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <div class="data-explorer mt-8">
+          <h3 class="font-bold text-lg mb-4">Products Collection</h3>
+          <div id="products-explorer" class="space-y-2">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <div class="data-explorer mt-8">
+          <h3 class="font-bold text-lg mb-4">Orders Collection</h3>
+          <div id="orders-explorer" class="space-y-2">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded">
+          <h3 class="font-bold text-green-800 mb-2">💡 Data Explorer Tips</h3>
+          <p class="text-sm">
+            This explorer shows the current state of your mock database.<br>
+            As you run commands in the playground, the data will update here in real-time!<br>
+            Use this to visualize the effects of your insert, update, and delete operations.
+          </p>
+        </div>
+      </section>
+
+      <!-- FULL PLAYGROUND -->
+      <section id="playground" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🧪 MongoDB Shell Simulator — Try Everything!</h2>
+        
+        <div class="bg-white border rounded-lg p-6">
+          <h3 class="font-bold mb-3">Enter MongoDB Commands:</h3>
+          <div class="relative">
+            <textarea id="mongo-input" class="cmd-input w-full h-32" placeholder="Try: db.users.find().sort({age: -1}).limit(5)">db.users.find().pretty()</textarea>
+          </div>
+          
+          <div class="mt-4 flex gap-2 flex-wrap">
+            <button id="run-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">▶️ Run Command</button>
+            <button id="clear-btn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">🗑️ Clear Output</button>
+            <button id="insert-template" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">📥 Insert Template</button>
+            <button id="find-template" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-sm">🔍 Find Template</button>
+            <button id="update-template" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded text-sm">✏️ Update Template</button>
+            <button id="lookup-template" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm">🔗 Lookup Template</button>
+          </div>
+
+          <h3 class="font-bold mt-6 mb-3">Output:</h3>
+          <div id="mongo-output" class="output">
+<span class="prompt"></span><span class="success">Connected to: mongodb://127.0.0.1:27017</span>
+<br><span class="prompt"></span><span class="success">Using database: 'test'</span>
+<br><span class="prompt"></span><span class="success">[
+  {
+    "_id": "64a1b2c3d4e5f6a7b8c9d0e1",
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "age": 28
+  },
+  {
+    "_id": "64a1b2c3d4e5f6a7b8c9d0e4",
+    "name": "Bob Smith",
+    "department": "Engineering",
+    "skills": [
+      "JavaScript",
+      "Python",
+      "MongoDB"
+    ],
+    "address": {
+      "street": "123 Tech St",
+      "city": "San Francisco",
+      "state": "CA"
+    },
+    "hireDate": "2023-01-15T00:00:00Z"
+  }
+]</span>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 bg-blue-50 rounded-lg">
+            <h3 class="font-bold text-blue-800 mb-2">CRUD Operations</h3>
+            <code class="block bg-blue-100 p-2 rounded text-xs">insertOne()<br>find()<br>updateOne()<br>deleteOne()</code>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg">
+            <h3 class="font-bold text-green-800 mb-2">Query Modifiers</h3>
+            <code class="block bg-green-100 p-2 rounded text-xs">sort()<br>limit()<br>skip()<br>pretty()</code>
+          </div>
+          <div class="p-4 bg-purple-50 rounded-lg">
+            <h3 class="font-bold text-purple-800 mb-2">Array Operators</h3>
+            <code class="block bg-purple-100 p-2 rounded text-xs">$push<br>$pull<br>$addToSet<br>$each</code>
+          </div>
+          <div class="p-4 bg-indigo-50 rounded-lg">
+            <h3 class="font-bold text-indigo-800 mb-2">Aggregation</h3>
+            <code class="block bg-indigo-100 p-2 rounded text-xs">$lookup<br>$group<br>$match<br>$project</code>
+          </div>
+        </div>
+      </section>
+
+      <footer class="mt-16 pt-8 border-t text-center text-gray-500">
+        <p class="font-medium">🎉 Congratulations! You've mastered MongoDB fundamentals!</p>
+        <p class="mt-2">You now understand all core MongoDB operations: CRUD, Sorting, Projection, Arrays, Lookup, and more!</p>
+        <p class="mt-1 text-sm">Next step: Install MongoDB locally and practice with real data!</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    // Mock database state
+    const mockDB = {
+      users: [
+        { _id: "64a1b2c3d4e5f6a7b8c9d0e1", name: "Alice Johnson", email: "alice@example.com", age: 28, hobbies: ["reading", "swimming"] },
+        { _id: "64a1b2c3d4e5f6a7b8c9d0e4", name: "Bob Smith", department: "Engineering", skills: ["JavaScript", "Python", "MongoDB"], address: { street: "123 Tech St", city: "San Francisco", state: "CA" }, hireDate: "2023-01-15T00:00:00Z" },
+        { _id: "64a1b2c3d4e5f6a7b8c9d0e5", name: "Carol Davis", age: 35, email: "carol@example.com", tags: ["premium", "active"] }
+      ],
+      products: [
+        { _id: "PROD001", name: "Wireless Mouse", price: 29.99, category: "Electronics", description: "Ergonomic wireless mouse with USB receiver" },
+        { _id: "PROD002", name: "Mechanical Keyboard", price: 129.99, category: "Electronics", description: "RGB mechanical keyboard with Cherry MX switches" },
+        { _id: "PROD003", name: "Office Chair", price: 199.99, category: "Furniture", description: "Ergonomic office chair with lumbar support" }
+      ],
+      orders: [
+        { _id: "ORD001", customerId: "64a1b2c3d4e5f6a7b8c9d0e1", items: [{productId: "PROD001", quantity: 1}, {productId: "PROD002", quantity: 1}], total: 159.98, status: "shipped" },
+        { _id: "ORD002", customerId: "64a1b2c3d4e5f6a7b8c9d0e5", items: [{productId: "PROD003", quantity: 1}], total: 199.99, status: "processing" }
+      ]
+    };
+
+    // MongoDB command processor (simulator)
+    function processMongoCommand(cmd) {
+      cmd = cmd.trim();
+      
+      // Show dbs
+      if (cmd === 'show dbs') {
+        return `{ "databases": ["admin", "config", "local", "test"] }`;
+      }
+      
+      // Use db
+      if (cmd.startsWith('use ')) {
+        const dbName = cmd.substring(4);
+        return `switched to db ${dbName}`;
+      }
+      
+      // Show collections
+      if (cmd === 'show collections') {
+        return `["users", "products", "orders"]`;
+      }
+      
+      // InsertOne
+      if (cmd.startsWith('db.') && cmd.includes('.insertOne(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.insertOne/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          const jsonStart = cmd.indexOf('{');
+          const jsonEnd = cmd.lastIndexOf('}');
+          const jsonString = cmd.substring(jsonStart, jsonEnd + 1);
+          const doc = JSON.parse(jsonString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+          
+          const newId = "mock_" + Math.random().toString(36).substr(2, 9);
+          if (!doc._id) {
+            doc._id = newId;
+          }
+          
+          if (!mockDB[collectionName]) mockDB[collectionName] = [];
+          mockDB[collectionName].push(doc);
+          
+          // Update data explorer
+          updateDataExplorer();
+          
+          return `{
+  "acknowledged": true,
+  "insertedId": "${doc._id}"
+}`;
+        } catch (e) {
+          return `Error: Invalid JSON or syntax - ${e.message}`;
+        }
+      }
+      
+      // InsertMany
+      if (cmd.startsWith('db.') && cmd.includes('.insertMany(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.insertMany/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          
+          const argsStart = cmd.indexOf('(') + 1;
+          const argsEnd = cmd.lastIndexOf(')');
+          const argsString = cmd.substring(argsStart, argsEnd);
+          
+          const docs = JSON.parse(argsString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+          
+          if (!mockDB[collectionName]) mockDB[collectionName] = [];
+          
+          const insertedIds = {};
+          docs.forEach((doc, index) => {
+            const newId = "mock_" + Math.random().toString(36).substr(2, 9);
+            if (!doc._id) {
+              doc._id = newId;
+            }
+            mockDB[collectionName].push(doc);
+            insertedIds[index] = doc._id;
+          });
+          
+          // Update data explorer
+          updateDataExplorer();
+          
+          return `{
+  "acknowledged": true,
+  "insertedIds": ${JSON.stringify(insertedIds, null, 2)}
+}`;
+        } catch (e) {
+          return `Error: Invalid JSON or syntax - ${e.message}`;
+        }
+      }
+      
+      // Find
+      if (cmd.startsWith('db.') && cmd.includes('.find(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.find/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          let query = {};
+          let projection = null;
+          
+          if (cmd.includes('(') && cmd.includes(')')) {
+            const argsStart = cmd.indexOf('(') + 1;
+            const argsEnd = cmd.indexOf(')');
+            const argsString = cmd.substring(argsStart, argsEnd);
+            
+            // Split by comma not inside braces
+            const parts = [];
+            let part = '';
+            let braceLevel = 0;
+            for (let i = 0; i < argsString.length; i++) {
+              const char = argsString[i];
+              if (char === '{' || char === '[') braceLevel++;
+              if (char === '}' || char === ']') braceLevel--;
+              if (char === ',' && braceLevel === 0) {
+                parts.push(part.trim());
+                part = '';
+              } else {
+                part += char;
+              }
+            }
+            if (part) parts.push(part.trim());
+            
+            if (parts.length > 0 && parts[0]) {
+              query = JSON.parse(parts[0].replace(/(['"])?([a-zA-Z0-9_$.]+)(['"])?:/g, '"$2": '));
+            }
+            if (parts.length > 1 && parts[1]) {
+              projection = JSON.parse(parts[1].replace(/(['"])?([a-zA-Z0-9_$.]+)(['"])?:/g, '"$2": '));
+            }
+          }
+          
+          let results = mockDB[collectionName] || [];
+          
+          // Simple query filtering
+          if (Object.keys(query).length > 0) {
+            results = results.filter(doc => {
+              for (let key in query) {
+                if (key.startsWith('$')) {
+                  // Handle logical operators like $or, $and
+                  if (key === '$or') {
+                    const orConditions = query[key];
+                    return orConditions.some(condition => {
+                      for (let field in condition) {
+                        if (field.startsWith('$')) {
+                          // Handle operators within $or
+                          const operator = field;
+                          const value = condition[field];
+                          if (operator === '$lt' && doc[field] >= value) return false;
+                          if (operator === '$gt' && doc[field] <= value) return false;
+                        } else {
+                          // Direct field matching
+                          if (doc[field] !== condition[field]) return false;
+                        }
+                      }
+                      return true;
+                    });
+                  }
+                  if (key === '$text') {
+                    // Simple text search simulation
+                    const searchText = query[key].$search.toLowerCase();
+                    return Object.values(doc).some(value => {
+                      if (typeof value === 'string') {
+                        return value.toLowerCase().includes(searchText.replace(/"/g, '').replace(/-/g, ''));
+                      }
+                      return false;
+                    });
+                  }
+                } else if (typeof query[key] === 'object' && query[key] !== null) {
+                  // Handle operators like $gt, $lt, $in, etc.
+                  for (let op in query[key]) {
+                    if (op === '$gt' && doc[key] <= query[key][op]) return false;
+                    if (op === '$lt' && doc[key] >= query[key][op]) return false;
+                    if (op === '$gte' && doc[key] < query[key][op]) return false;
+                    if (op === '$lte' && doc[key] > query[key][op]) return false;
+                    if (op === '$eq' && doc[key] !== query[key][op]) return false;
+                    if (op === '$ne' && doc[key] === query[key][op]) return false;
+                    if (op === '$in' && !query[key][op].includes(doc[key])) return false;
+                    if (op === '$nin' && query[key][op].includes(doc[key])) return false;
+                    if (op === '$exists' && query[key][op] && doc[key] === undefined) return false;
+                    if (op === '$regex') {
+                      try {
+                        const regex = new RegExp(query[key][op]);
+                        if (!regex.test(doc[key])) return false;
+                      } catch (e) {
+                        return false;
+                      }
+                    }
+                  }
+                } else {
+                  // Direct field matching
+                  if (doc[key] !== query[key]) return false;
+                }
+              }
+              return true;
+            });
+          }
+          
+          // Apply projection if specified
+          if (projection) {
+            results = results.map(doc => {
+              const newDoc = {};
+              let includeMode = null;
+              
+              // Determine if we're in include or exclude mode
+              for (let key in projection) {
+                if (key !== '_id') {
+                  includeMode = projection[key] === 1;
+                  break;
+                }
+              }
+              
+              // If no mode determined, default to include
+              if (includeMode === null) includeMode = true;
+              
+              for (let key in doc) {
+                // Handle _id specially
+                if (key === '_id') {
+                  if (projection._id === 0) {
+                    continue;
+                  } else {
+                    newDoc._id = doc._id;
+                  }
+                } else if (includeMode) {
+                  // Include mode
+                  if (projection[key] === 1) {
+                    newDoc[key] = doc[key];
+                  }
+                } else {
+                  // Exclude mode
+                  if (projection[key] !== 0) {
+                    newDoc[key] = doc[key];
+                  }
+                }
+              }
+              
+              return newDoc;
+            });
+          }
+          
+          // Handle modifiers
+          let output = JSON.stringify(results, null, 2);
+          if (cmd.includes('.pretty()')) {
+            // Already formatted
+          }
+          if (cmd.includes('.sort(')) {
+            // Simple sort simulation
+            const sortMatch = cmd.match(/\.sort\((\{[^}]+\})\)/);
+            if (sortMatch) {
+              try {
+                const sortObj = JSON.parse(sortMatch[1].replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+                for (let sortKey in sortObj) {
+                  const direction = sortObj[sortKey];
+                  results.sort((a, b) => {
+                    if (a[sortKey] < b[sortKey]) return direction === 1 ? -1 : 1;
+                    if (a[sortKey] > b[sortKey]) return direction === 1 ? 1 : -1;
+                    return 0;
+                  });
+                }
+                output = JSON.stringify(results, null, 2);
+              } catch (e) {
+                // Ignore sort error
+              }
+            }
+          }
+          if (cmd.includes('.limit(')) {
+            const limitMatch = cmd.match(/\.limit\((\d+)\)/);
+            if (limitMatch) {
+              const limit = parseInt(limitMatch[1]);
+              results = results.slice(0, limit);
+              output = JSON.stringify(results, null, 2);
+            }
+          }
+          if (cmd.includes('.skip(')) {
+            const skipMatch = cmd.match(/\.skip\((\d+)\)/);
+            if (skipMatch) {
+              const skip = parseInt(skipMatch[1]);
+              results = results.slice(skip);
+              output = JSON.stringify(results, null, 2);
+            }
+          }
+          
+          return output;
+        } catch (e) {
+          return `Error: Invalid query syntax - ${e.message}`;
+        }
+      }
+      
+      // UpdateOne
+      if (cmd.startsWith('db.') && cmd.includes('.updateOne(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.updateOne/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          
+          const argsStart = cmd.indexOf('(') + 1;
+          const argsEnd = cmd.lastIndexOf(')');
+          const argsString = cmd.substring(argsStart, argsEnd);
+          
+          // Split arguments (simplified)
+          let filterStr = '';
+          let updateStr = '';
+          let optionsStr = '';
+          
+          // Simple split by '}, {' but this is very basic
+          const parts = argsString.split('}, {');
+          if (parts.length >= 2) {
+            filterStr = parts[0] + '}';
+            updateStr = '{' + parts[1];
+            
+            // Check if there's a third part (options)
+            if (parts.length > 2) {
+              optionsStr = '{' + parts.slice(2).join('}, {');
+            }
+          } else {
+            // Try to find the split between filter and update
+            const firstBraceEnd = argsString.indexOf('}');
+            if (firstBraceEnd > 0) {
+              filterStr = argsString.substring(0, firstBraceEnd + 1);
+              updateStr = argsString.substring(firstBraceEnd + 2).trim();
+              if (updateStr.startsWith(',')) {
+                updateStr = updateStr.substring(1).trim();
+              }
+            }
+          }
+          
+          // Clean up strings
+          if (!filterStr.startsWith('{')) filterStr = '{' + filterStr;
+          if (!updateStr.endsWith('}')) updateStr = updateStr + '}';
+          
+          const filter = JSON.parse(filterStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+          const update = JSON.parse(updateStr.replace(/(['"])?([a-zA-Z0-9_$]+)(['"])?:/g, '"$2": '));
+          
+          const collection = mockDB[collectionName] || [];
+          let matched = false;
+          let modified = false;
+          
+          for (let i = 0; i < collection.length; i++) {
+            let match = true;
+            for (let key in filter) {
+              if (collection[i][key] !== filter[key]) {
+                match = false;
+                break;
+              }
+            }
+            
+            if (match) {
+              matched = true;
+              
+              // Apply update operators
+              for (let op in update) {
+                if (op === '$set') {
+                  for (let key in update[op]) {
+                    collection[i][key] = update[op][key];
+                    modified = true;
+                  }
+                } else if (op === '$unset') {
+                  for (let key in update[op]) {
+                    delete collection[i][key];
+                    modified = true;
+                  }
+                } else if (op === '$inc') {
+                  for (let key in update[op]) {
+                    collection[i][key] = (collection[i][key] || 0) + update[op][key];
+                    modified = true;
+                  }
+                } else if (op === '$push') {
+                  for (let key in update[op]) {
+                    if (!Array.isArray(collection[i][key])) {
+                      collection[i][key] = [];
+                    }
+                    // Handle $each
+                    if (typeof update[op][key] === 'object' && update[op][key].$each) {
+                      collection[i][key] = collection[i][key].concat(update[op][key].$each);
+                    } else {
+                      collection[i][key].push(update[op][key]);
+                    }
+                    modified = true;
+                  }
+                } else if (op === '$addToSet') {
+                  for (let key in update[op]) {
+                    if (!Array.isArray(collection[i][key])) {
+                      collection[i][key] = [];
+                    }
+                    if (!collection[i][key].includes(update[op][key])) {
+                      collection[i][key].push(update[op][key]);
+                      modified = true;
+                    }
+                  }
+                } else if (op === '$pull') {
+                  for (let key in update[op]) {
+                    if (Array.isArray(collection[i][key])) {
+                      if (typeof update[op][key] === 'object') {
+                        // Handle pull with conditions (simplified)
+                        collection[i][key] = collection[i][key].filter(item => {
+                          if (typeof item === 'object' && item !== null) {
+                            for (let conditionKey in update[op][key]) {
+                              if (update[op][key][conditionKey].$lt && item[conditionKey] >= update[op][key][conditionKey].$lt) {
+                                return true;
+                              }
+                              if (update[op][key][conditionKey].$gt && item[conditionKey] <= update[op][key][conditionKey].$gt) {
+                                return true;
+                              }
+                              if (item[conditionKey] !== update[op][key][conditionKey]) {
+                                return true;
+                              }
+                            }
+                            return false;
+                          } else {
+                            return item !== update[op][key];
+                          }
+                        });
+                        modified = true;
+                      } else {
+                        collection[i][key] = collection[i][key].filter(item => item !== update[op][key]);
+                        modified = true;
+                      }
+                    }
+                  }
+                } else if (op === '$pop') {
+                  for (let key in update[op]) {
+                    if (Array.isArray(collection[i][key])) {
+                      if (update[op][key] === 1) {
+                        collection[i][key].pop(); // Remove last
+                      } else if (update[op][key] === -1) {
+                        collection[i][key].shift(); // Remove first
+                      }
+                      modified = true;
+                    }
+                  }
+                }
+              }
+              break; // Only update first match for updateOne
+            }
+          }
+          
+          // Update data explorer
+          updateDataExplorer();
+          
+          return `{
+  "acknowledged": true,
+  "matchedCount": ${matched ? 1 : 0},
+  "modifiedCount": ${modified ? 1 : 0}
+}`;
+        } catch (e) {
+          return `Error: Invalid update syntax - ${e.message}`;
+        }
+      }
+      
+      // UpdateMany
+      if (cmd.startsWith('db.') && cmd.includes('.updateMany(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.updateMany/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          
+          const argsStart = cmd.indexOf('(') + 1;
+          const argsEnd = cmd.lastIndexOf(')');
+          const argsString = cmd.substring(argsStart, argsEnd);
+          
+          // Split arguments (simplified)
+          let filterStr = '';
+          let updateStr = '';
+          
+          const parts = argsString.split('}, {');
+          if (parts.length >= 2) {
+            filterStr = parts[0] + '}';
+            updateStr = '{' + parts[1];
+            if (!updateStr.endsWith('}')) updateStr = updateStr + '}';
+          }
+          
+          // Clean up strings
+          if (!filterStr.startsWith('{')) filterStr = '{' + filterStr;
+          if (!updateStr.endsWith('}')) updateStr = updateStr + '}';
+          
+          const filter = JSON.parse(filterStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+          const update = JSON.parse(updateStr.replace(/(['"])?([a-zA-Z0-9_$]+)(['"])?:/g, '"$2": '));
+          
+          const collection = mockDB[collectionName] || [];
+          let matchedCount = 0;
+          let modifiedCount = 0;
+          
+          for (let i = 0; i < collection.length; i++) {
+            let match = true;
+            for (let key in filter) {
+              if (collection[i][key] !== filter[key]) {
+                match = false;
+                break;
+              }
+            }
+            
+            if (match) {
+              matchedCount++;
+              
+              // Apply update operators
+              let modified = false;
+              for (let op in update) {
+                if (op === '$set') {
+                  for (let key in update[op]) {
+                    collection[i][key] = update[op][key];
+                    modified = true;
+                  }
+                } else if (op === '$unset') {
+                  for (let key in update[op]) {
+                    delete collection[i][key];
+                    modified = true;
+                  }
+                } else if (op === '$inc') {
+                  for (let key in update[op]) {
+                    collection[i][key] = (collection[i][key] || 0) + update[op][key];
+                    modified = true;
+                  }
+                } else if (op === '$push') {
+                  for (let key in update[op]) {
+                    if (!Array.isArray(collection[i][key])) {
+                      collection[i][key] = [];
+                    }
+                    // Handle $each
+                    if (typeof update[op][key] === 'object' && update[op][key].$each) {
+                      collection[i][key] = collection[i][key].concat(update[op][key].$each);
+                    } else {
+                      collection[i][key].push(update[op][key]);
+                    }
+                    modified = true;
+                  }
+                } else if (op === '$addToSet') {
+                  for (let key in update[op]) {
+                    if (!Array.isArray(collection[i][key])) {
+                      collection[i][key] = [];
+                    }
+                    if (!collection[i][key].includes(update[op][key])) {
+                      collection[i][key].push(update[op][key]);
+                      modified = true;
+                    }
+                  }
+                } else if (op === '$pull') {
+                  for (let key in update[op]) {
+                    if (Array.isArray(collection[i][key])) {
+                      if (typeof update[op][key] === 'object') {
+                        // Handle pull with conditions (simplified)
+                        const originalLength = collection[i][key].length;
+                        collection[i][key] = collection[i][key].filter(item => {
+                          if (typeof item === 'object' && item !== null) {
+                            for (let conditionKey in update[op][key]) {
+                              if (update[op][key][conditionKey].$lt && item[conditionKey] >= update[op][key][conditionKey].$lt) {
+                                return true;
+                              }
+                              if (update[op][key][conditionKey].$gt && item[conditionKey] <= update[op][key][conditionKey].$gt) {
+                                return true;
+                              }
+                              if (item[conditionKey] !== update[op][key][conditionKey]) {
+                                return true;
+                              }
+                            }
+                            return false;
+                          } else {
+                            return item !== update[op][key];
+                          }
+                        });
+                        if (originalLength !== collection[i][key].length) {
+                          modified = true;
+                        }
+                      } else {
+                        const originalLength = collection[i][key].length;
+                        collection[i][key] = collection[i][key].filter(item => item !== update[op][key]);
+                        if (originalLength !== collection[i][key].length) {
+                          modified = true;
+                        }
+                      }
+                    }
+                  }
+                } else if (op === '$pop') {
+                  for (let key in update[op]) {
+                    if (Array.isArray(collection[i][key])) {
+                      if (update[op][key] === 1) {
+                        collection[i][key].pop(); // Remove last
+                      } else if (update[op][key] === -1) {
+                        collection[i][key].shift(); // Remove first
+                      }
+                      modified = true;
+                    }
+                  }
+                }
+              }
+              
+              if (modified) {
+                modifiedCount++;
+              }
+            }
+          }
+          
+          // Update data explorer
+          updateDataExplorer();
+          
+          return `{
+  "acknowledged": true,
+  "matchedCount": ${matchedCount},
+  "modifiedCount": ${modifiedCount}
+}`;
+        } catch (e) {
+          return `Error: Invalid updateMany syntax - ${e.message}`;
+        }
+      }
+      
+      // DeleteOne
+      if (cmd.startsWith('db.') && cmd.includes('.deleteOne(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.deleteOne/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          
+          const queryStart = cmd.indexOf('(') + 1;
+          const queryEnd = cmd.indexOf(')');
+          const queryString = cmd.substring(queryStart, queryEnd);
+          
+          const query = JSON.parse(queryString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+          
+          const collection = mockDB[collectionName] || [];
+          let deleted = false;
+          
+          for (let i = 0; i < collection.length; i++) {
+            let match = true;
+            for (let key in query) {
+              if (collection[i][key] !== query[key]) {
+                match = false;
+                break;
+              }
+            }
+            
+            if (match) {
+              collection.splice(i, 1);
+              deleted = true;
+              break; // Only delete first match
+            }
+          }
+          
+          // Update data explorer
+          updateDataExplorer();
+          
+          return `{
+  "acknowledged": true,
+  "deletedCount": ${deleted ? 1 : 0}
+}`;
+        } catch (e) {
+          return `Error: Invalid deleteOne syntax - ${e.message}`;
+        }
+      }
+      
+      // DeleteMany
+      if (cmd.startsWith('db.') && cmd.includes('.deleteMany(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.deleteMany/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          
+          const queryStart = cmd.indexOf('(') + 1;
+          const queryEnd = cmd.indexOf(')');
+          const queryString = cmd.substring(queryStart, queryEnd);
+          
+          let query = {};
+          if (queryString.trim() !== '') {
+            query = JSON.parse(queryString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+          }
+          
+          const collection = mockDB[collectionName] || [];
+          let deletedCount = 0;
+          
+          if (Object.keys(query).length === 0) {
+            // Delete all
+            deletedCount = collection.length;
+            mockDB[collectionName] = [];
+          } else {
+            // Filter and delete
+            for (let i = collection.length - 1; i >= 0; i--) {
+              let match = true;
+              for (let key in query) {
+                if (collection[i][key] !== query[key]) {
+                  match = false;
+                  break;
+                }
+              }
+              
+              if (match) {
+                collection.splice(i, 1);
+                deletedCount++;
+              }
+            }
+          }
+          
+          // Update data explorer
+          updateDataExplorer();
+          
+          return `{
+  "acknowledged": true,
+  "deletedCount": ${deletedCount}
+}`;
+        } catch (e) {
+          return `Error: Invalid deleteMany syntax - ${e.message}`;
+        }
+      }
+      
+      // Aggregate
+      if (cmd.startsWith('db.') && cmd.includes('.aggregate(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.aggregate/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          
+          const pipelineStart = cmd.indexOf('([') + 1;
+          const pipelineEnd = cmd.lastIndexOf('])') + 1;
+          const pipelineString = cmd.substring(pipelineStart, pipelineEnd);
+          
+          const pipeline = JSON.parse(pipelineString.replace(/(['"])?([a-zA-Z0-9_$]+)(['"])?:/g, '"$2": '));
+          
+          let results = mockDB[collectionName] || [];
+          
+          // Simple simulation of aggregation pipeline stages
+          for (let stage of pipeline) {
+            if (stage.$match) {
+              results = results.filter(doc => {
+                for (let key in stage.$match) {
+                  if (typeof stage.$match[key] === 'object') {
+                    // Handle operators like $gt, $lt
+                    for (let op in stage.$match[key]) {
+                      if (op === '$gt' && doc[key] <= stage.$match[key][op]) return false;
+                      if (op === '$lt' && doc[key] >= stage.$match[key][op]) return false;
+                      if (op === '$gte' && doc[key] < stage.$match[key][op]) return false;
+                      if (op === '$lte' && doc[key] > stage.$match[key][op]) return false;
+                    }
+                  } else {
+                    if (doc[key] !== stage.$match[key]) return false;
+                  }
+                }
+                return true;
+              });
+            }
+            
+            if (stage.$group) {
+              let grouped = {};
+              let groupId = stage.$group._id;
+              
+              if (groupId === null) {
+                // Global grouping
+                let result = { _id: null };
+                for (let field in stage.$group) {
+                  if (field !== '_id' && field.startsWith('$')) {
+                    let operator = field.substring(1);
+                    let targetField = stage.$group[field].substring(1); // remove $
+                    
+                    if (operator === 'avg') {
+                      let sum = 0;
+                      for (let doc of results) {
+                        sum += doc[targetField] || 0;
+                      }
+                      result[field] = results.length > 0 ? sum / results.length : 0;
+                    } else if (operator === 'sum') {
+                      let sum = 0;
+                      for (let doc of results) {
+                        sum += doc[targetField] || 0;
+                      }
+                      result[field] = sum;
+                    } else if (operator === 'count') {
+                      result[field] = results.length;
+                    }
+                  }
+                }
+                results = [result];
+              }
+            }
+            
+            if (stage.$lookup) {
+              // Simple $lookup simulation
+              const fromCollection = mockDB[stage.$lookup.from] || [];
+              const localField = stage.$lookup.localField;
+              const foreignField = stage.$lookup.foreignField;
+              const asField = stage.$lookup.as;
+              
+              results = results.map(doc => {
+                const joinedDocs = fromCollection.filter(joinDoc => {
+                  return joinDoc[foreignField] === doc[localField];
+                });
+                
+                return {
+                  ...doc,
+                  [asField]: joinedDocs
+                };
+              });
+            }
+            
+            if (stage.$unwind) {
+              const field = stage.$unwind.replace('$', '');
+              let newResults = [];
+              
+              for (let doc of results) {
+                if (Array.isArray(doc[field])) {
+                  for (let item of doc[field]) {
+                    newResults.push({
+                      ...doc,
+                      [field]: item
+                    });
+                  }
+                } else {
+                  newResults.push(doc);
+                }
+              }
+              
+              results = newResults;
+            }
+            
+            if (stage.$project) {
+              results = results.map(doc => {
+                const newDoc = {};
+                for (let key in stage.$project) {
+                  if (stage.$project[key] === 1) {
+                    newDoc[key] = doc[key];
+                  } else if (typeof stage.$project[key] === 'object') {
+                    // Handle computed fields
+                    if (stage.$project[key].$size) {
+                      const arrayField = stage.$project[key].$size.replace('$', '');
+                      newDoc[key] = Array.isArray(doc[arrayField]) ? doc[arrayField].length : 0;
+                    } else if (stage.$project[key].$multiply) {
+                      const fields = stage.$project[key].$multiply;
+                      let product = 1;
+                      for (let fieldRef of fields) {
+                        if (typeof fieldRef === 'string' && fieldRef.startsWith('$')) {
+                          const fieldName = fieldRef.substring(1);
+                          product *= doc[fieldName] || 1;
+                        } else if (typeof fieldRef === 'number') {
+                          product *= fieldRef;
+                        }
+                      }
+                      newDoc[key] = product;
+                    }
+                  } else {
+                    newDoc[key] = stage.$project[key];
+                  }
+                }
+                return newDoc;
+              });
+            }
+            
+            if (stage.$sort) {
+              for (let sortKey in stage.$sort) {
+                const direction = stage.$sort[sortKey];
+                results.sort((a, b) => {
+                  if (a[sortKey] < b[sortKey]) return direction === 1 ? -1 : 1;
+                  if (a[sortKey] > b[sortKey]) return direction === 1 ? 1 : -1;
+                  return 0;
+                });
+              }
+            }
+            
+            if (stage.$limit) {
+              results = results.slice(0, stage.$limit);
+            }
+            
+            if (stage.$skip) {
+              results = results.slice(stage.$skip);
+            }
+          }
+          
+          return JSON.stringify(results, null, 2);
+        } catch (e) {
+          return `Error: Invalid aggregation syntax - ${e.message}`;
+        }
+      }
+      
+      // CountDocuments
+      if (cmd.startsWith('db.') && cmd.includes('.countDocuments(')) {
+        try {
+          const collectionMatch = cmd.match(/db\.(\w+)\.countDocuments/);
+          const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+          
+          const queryStart = cmd.indexOf('(') + 1;
+          const queryEnd = cmd.indexOf(')');
+          const queryString = cmd.substring(queryStart, queryEnd);
+          
+          let query = {};
+          if (queryString.trim() !== '') {
+            query = JSON.parse(queryString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": '));
+          }
+          
+          const collection = mockDB[collectionName] || [];
+          let count = 0;
+          
+          for (let doc of collection) {
+            let match = true;
+            for (let key in query) {
+              if (doc[key] !== query[key]) {
+                match = false;
+                break;
+              }
+            }
+            if (match) count++;
+          }
+          
+          return count.toString();
+        } catch (e) {
+          return `Error: Invalid countDocuments syntax - ${e.message}`;
+        }
+      }
+      
+      // Get indexes
+      if (cmd.startsWith('db.') && cmd.includes('.getIndexes()')) {
+        return `[
+  {
+    "v": 2,
+    "key": { "_id": 1 },
+    "name": "_id_"
+  }
+]`;
+      }
+      
+      // Create index
+      if (cmd.startsWith('db.') && cmd.includes('.createIndex(')) {
+        return `{
+  "createdCollectionAutomatically": false,
+  "numIndexesBefore": 1,
+  "numIndexesAfter": 2,
+  "ok": 1
+}`;
+      }
+      
+      // Drop index
+      if (cmd.startsWith('db.') && cmd.includes('.dropIndex(')) {
+        return `{
+  "nIndexesWas": 2,
+  "ok": 1
+}`;
+      }
+      
+      // Drop collection
+      if (cmd.startsWith('db.') && cmd.includes('.drop()')) {
+        const collectionMatch = cmd.match(/db\.(\w+)\.drop/);
+        const collectionName = collectionMatch ? collectionMatch[1] : 'unknown';
+        delete mockDB[collectionName];
+        
+        // Update data explorer
+        updateDataExplorer();
+        
+        return `true`;
+      }
+      
+      return `Command not recognized or not implemented in simulator: ${cmd}`;
+    }
+
+    // Update data explorer
+    function updateDataExplorer() {
+      // Update users collection
+      const usersExplorer = document.getElementById('users-explorer');
+      if (usersExplorer) {
+        usersExplorer.innerHTML = '';
+        if (mockDB.users && mockDB.users.length > 0) {
+          mockDB.users.forEach(doc => {
+            const docDiv = document.createElement('div');
+            docDiv.className = 'document-card';
+            docDiv.innerHTML = `<pre class="text-xs">${JSON.stringify(doc, null, 2)}</pre>`;
+            usersExplorer.appendChild(docDiv);
+          });
+        } else {
+          usersExplorer.innerHTML = '<div class="text-gray-500 text-sm">No documents in users collection</div>';
+        }
+      }
+      
+      // Update products collection
+      const productsExplorer = document.getElementById('products-explorer');
+      if (productsExplorer) {
+        productsExplorer.innerHTML = '';
+        if (mockDB.products && mockDB.products.length > 0) {
+          mockDB.products.forEach(doc => {
+            const docDiv = document.createElement('div');
+            docDiv.className = 'document-card';
+            docDiv.innerHTML = `<pre class="text-xs">${JSON.stringify(doc, null, 2)}</pre>`;
+            productsExplorer.appendChild(docDiv);
+          });
+        } else {
+          productsExplorer.innerHTML = '<div class="text-gray-500 text-sm">No documents in products collection</div>';
+        }
+      }
+      
+      // Update orders collection
+      const ordersExplorer = document.getElementById('orders-explorer');
+      if (ordersExplorer) {
+        ordersExplorer.innerHTML = '';
+        if (mockDB.orders && mockDB.orders.length > 0) {
+          mockDB.orders.forEach(doc => {
+            const docDiv = document.createElement('div');
+            docDiv.className = 'document-card';
+            docDiv.innerHTML = `<pre class="text-xs">${JSON.stringify(doc, null, 2)}</pre>`;
+            ordersExplorer.appendChild(docDiv);
+          });
+        } else {
+          ordersExplorer.innerHTML = '<div class="text-gray-500 text-sm">No documents in orders collection</div>';
+        }
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      const mongoInput = document.getElementById('mongo-input');
+      const mongoOutput = document.getElementById('mongo-output');
+      const runBtn = document.getElementById('run-btn');
+      const clearBtn = document.getElementById('clear-btn');
+
+      // Template buttons
+      document.getElementById('insert-template').addEventListener('click', () => {
+        mongoInput.value = 'db.users.insertOne({ name: "David Wilson", age: 32, email: "david@example.com", hobbies: ["hiking", "photography"] })';
+      });
+
+      document.getElementById('find-template').addEventListener('click', () => {
+        mongoInput.value = 'db.users.find({ age: { $gte: 30 } }).sort({ name: 1 }).pretty()';
+      });
+
+      document.getElementById('update-template').addEventListener('click', () => {
+        mongoInput.value = 'db.users.updateOne({ name: "Alice Johnson" }, { $set: { age: 29 }, $push: { hobbies: "painting" } })';
+      });
+
+      document.getElementById('lookup-template').addEventListener('click', () => {
+        mongoInput.value = 'db.orders.aggregate([\n  {\n    $lookup: {\n      from: "users",\n      localField: "customerId",\n      foreignField: "_id",\n      as: "customerInfo"\n    }\n  },\n  { $unwind: "$customerInfo" }\n]).pretty()';
+      });
+
+      // Run command
+      runBtn.addEventListener('click', () => {
+        const command = mongoInput.value;
+        const result = processMongoCommand(command);
+        
+        const outputLine = document.createElement('div');
+        outputLine.innerHTML = `<span class="prompt"></span><span class="${result.includes('Error') ? 'error' : 'success'}">${result.replace(/\n/g, '<br>')}</span>`;
+        
+        mongoOutput.appendChild(outputLine);
+        mongoOutput.scrollTop = mongoOutput.scrollHeight;
+      });
+
+      // Clear output
+      clearBtn.addEventListener('click', () => {
+        mongoOutput.innerHTML = '';
+      });
+
+      // Smooth scroll for navigation
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: 'smooth'
+            });
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            this.classList.add('active');
+          }
+        });
+      });
+
+      // Scroll spy
+      window.addEventListener('scroll', () => {
+        let current = '';
+        const sections = document.querySelectorAll('section');
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      });
+
+      // Initialize syntax highlighting
+      hljs.highlightAll();
+      
+      // Initialize data explorer
+      updateDataExplorer();
+    });
+  </script>
+
+</body>
+</html>

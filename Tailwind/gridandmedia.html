@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎓 Ultimate Tailwind CSS Tutor — Grid, Position, Responsive & More!</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Highlight.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .example-box {
+      @apply p-4 my-4 rounded-lg border bg-white shadow-sm;
+    }
+    .code-block {
+      @apply bg-gray-900 text-green-300 p-4 rounded-lg overflow-x-auto my-3;
+    }
+    .nav-link {
+      @apply block py-2 px-4 rounded hover:bg-indigo-100 transition font-medium;
+    }
+    .active {
+      @apply bg-indigo-600 text-white hover:bg-indigo-700;
+    }
+    .class-tag {
+      @apply inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full mr-1 mb-1 font-mono cursor-help;
+    }
+    .preview-container {
+      @apply mt-4 p-6 min-h-24 rounded-lg border-2 border-dashed transition-all;
+    }
+    .error { @apply border-red-500 bg-red-50; }
+    .success { @apply border-green-300 bg-green-50; }
+    .device-mock {
+      @apply mx-auto border-8 border-gray-300 rounded-lg overflow-hidden shadow-xl;
+    }
+    .device-mock.iphone { width: 375px; height: 667px; }
+    .device-mock.ipad { width: 768px; height: 1024px; }
+    .responsive-toggle button {
+      @apply py-1 px-3 text-sm rounded-md border transition;
+    }
+    .responsive-toggle button.active {
+      @apply bg-indigo-600 text-white border-indigo-600;
+    }
+    .breakpoint-indicator {
+      @apply text-xs font-mono px-2 py-1 rounded-full;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <header class="bg-indigo-700 text-white p-4 shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">🎓 Ultimate Tailwind CSS Tutor</h1>
+      <div class="text-sm">Grid • Position • Responsive • Transforms • All Concepts!</div>
+    </div>
+  </header>
+
+  <div class="flex">
+    <aside class="w-64 bg-white shadow-md h-screen p-4 fixed top-16 overflow-y-auto">
+      <h2 class="font-semibold text-gray-600 uppercase tracking-wider text-xs mb-3">Lessons</h2>
+      <nav>
+        <a href="#intro" class="nav-link">🌟 Intro</a>
+        <a href="#setup" class="nav-link">⚙️ Setup</a>
+        <a href="#text" class="nav-link">🔤 Text</a>
+        <a href="#colors" class="nav-link">🎨 Colors</a>
+        <a href="#spacing" class="nav-link">📏 Spacing</a>
+        <a href="#flexbox" class="nav-link">🧩 Flexbox</a>
+        <a href="#grid" class="nav-link">🔲 Grid</a>
+        <a href="#position" class="nav-link">📌 Position</a>
+        <a href="#responsive" class="nav-link">📱 Media Queries</a>
+        <a href="#transform" class="nav-link">🌀 Transforms</a>
+        <a href="#hover" class="nav-link">🖱️ Hover/Focus</a>
+        <a href="#components" class="nav-link">🧱 Components</a>
+        <a href="#playground" class="nav-link mt-6 bg-indigo-600 text-white rounded">🧪 Full Playground</a>
+      </nav>
+      <div class="mt-8 text-xs text-gray-500">
+        <p>✅ Realtime editing<br>✅ Error detection<br>✅ Mobile preview<br>✅ All core concepts</p>
+      </div>
+    </aside>
+
+    <main class="ml-64 p-8 w-full max-w-4xl">
+
+      <!-- GRID SECTION -->
+      <section id="grid" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-indigo-800 mb-6">🔲 Grid Layout — Complete Guide</h2>
+        
+        <div class="mb-6">
+          <h3 class="font-semibold text-xl mb-3">Core Grid Classes:</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="class-tag" title="Creates a grid container">grid</span>
+            <span class="class-tag" title="2 columns: grid-template-columns: repeat(2, minmax(0, 1fr))">grid-cols-2</span>
+            <span class="class-tag" title="3 columns">grid-cols-3</span>
+            <span class="class-tag" title="4 columns">grid-cols-4</span>
+            <span class="class-tag" title="6 columns">grid-cols-6</span>
+            <span class="class-tag" title="12 columns (Bootstrap style)">grid-cols-12</span>
+            <span class="class-tag" title="Custom: 1fr 2fr 1fr">grid-cols-[1fr,2fr,1fr]</span>
+            <span class="class-tag" title="Gap between items: 0.5rem = 8px">gap-2</span>
+            <span class="class-tag" title="Gap: 1rem = 16px">gap-4</span>
+            <span class="class-tag" title="Gap: 1.5rem = 24px">gap-6</span>
+            <span class="class-tag" title="Row gap only">gap-y-4</span>
+            <span class="class-tag" title="Column gap only">gap-x-4</span>
+            <span class="class-tag" title="Auto size rows to content">auto-rows-auto</span>
+            <span class="class-tag" title="Min row height: 4rem">auto-rows-min</span>
+            <span class="class-tag" title="Fixed row height: 8rem">grid-rows-2</span>
+          </div>
+        </div>
+
+        <div class="example-box">
+          <h3 class="font-bold mb-2">Grid Playground:</h3>
+          <textarea id="grid-playground" class="w-full h-32 p-3 font-mono text-sm border rounded mb-3" placeholder="Try: grid grid-cols-3 gap-4">grid grid-cols-3 gap-4 bg-gray-100 p-4 h-64</textarea>
+          <div id="grid-preview" class="preview-container grid grid-cols-3 gap-4 bg-gray-100 p-4 h-64">
+            <div class="bg-blue-500 text-white p-4 rounded">1</div>
+            <div class="bg-green-500 text-white p-4 rounded">2</div>
+            <div class="bg-red-500 text-white p-4 rounded">3</div>
+            <div class="bg-purple-500 text-white p-4 rounded">4</div>
+            <div class="bg-yellow-500 text-gray-900 p-4 rounded">5</div>
+            <div class="bg-pink-500 text-white p-4 rounded">6</div>
+          </div>
+          <div id="grid-feedback" class="text-xs mt-2 text-gray-600">✅ Grid layout working perfectly!</div>
+        </div>
+
+        <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
+          <h3 class="font-bold text-blue-800">💡 Pro Grid Tips:</h3>
+          <ul class="text-sm list-disc pl-5 mt-2 space-y-1">
+            <li>Use <code class="bg-blue-100 px-1 rounded">md:grid-cols-2 lg:grid-cols-4</code> for responsive grids</li>
+            <li><code class="bg-blue-100 px-1 rounded">col-span-2</code> makes an item span 2 columns</li>
+            <li><code class="bg-blue-100 px-1 rounded">row-span-3</code> for vertical spanning</li>
+            <li>Auto-fit: <code class="bg-blue-100 px-1 rounded">grid-cols-[repeat(auto-fit,minmax(200px,1fr))]</code></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- POSITIONING SECTION -->
+      <section id="position" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-indigo-800 mb-6">📌 Positioning — Absolute, Relative, Fixed</h2>
+        
+        <div class="mb-6">
+          <h3 class="font-semibold text-xl mb-3">Position Classes:</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="class-tag" title="position: static (default)">static</span>
+            <span class="class-tag" title="position: relative">relative</span>
+            <span class="class-tag" title="position: absolute">absolute</span>
+            <span class="class-tag" title="position: fixed">fixed</span>
+            <span class="class-tag" title="position: sticky">sticky</span>
+            <span class="class-tag" title="top: 0">top-0</span>
+            <span class="class-tag" title="right: 0">right-0</span>
+            <span class="class-tag" title="bottom: 0">bottom-0</span>
+            <span class="class-tag" title="left: 0">left-0</span>
+            <span class="class-tag" title="top: 50%">top-1/2</span>
+            <span class="class-tag" title="left: 50%">left-1/2</span>
+            <span class="class-tag" title="transform: -50% -50%">-translate-x-1/2 -translate-y-1/2</span>
+            <span class="class-tag" title="z-index: 10">z-10</span>
+            <span class="class-tag" title="z-index: 50">z-50</span>
+          </div>
+        </div>
+
+        <div class="example-box">
+          <h3 class="font-bold mb-2">Positioning Playground:</h3>
+          <textarea id="position-playground" class="w-full h-32 p-3 font-mono text-sm border rounded mb-3" placeholder="Try: relative bg-gray-200 h-48">relative bg-gray-200 h-48 p-4</textarea>
+          <div id="position-preview" class="preview-container relative bg-gray-200 h-48 p-4">
+            <div class="absolute top-0 right-0 bg-red-500 text-white px-3 py-1 rounded text-sm">TOP RIGHT</div>
+            <div class="absolute bottom-0 left-0 bg-blue-500 text-white px-3 py-1 rounded text-sm">BOTTOM LEFT</div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-3 py-1 rounded text-sm">CENTER</div>
+          </div>
+          <div id="position-feedback" class="text-xs mt-2 text-gray-600">✅ Positioning system active!</div>
+        </div>
+
+        <div class="mt-6 p-4 bg-purple-50 border-l-4 border-purple-500 rounded">
+          <h3 class="font-bold text-purple-800">🧠 Positioning Explained:</h3>
+          <ul class="text-sm list-disc pl-5 mt-2 space-y-1">
+            <li><strong>relative</strong> — creates a positioning context for absolute children</li>
+            <li><strong>absolute</strong> — positions relative to nearest positioned ancestor</li>
+            <li><strong>fixed</strong> — positions relative to viewport (stays on scroll)</li>
+            <li><strong>inset-0</strong> = top-0 right-0 bottom-0 left-0 (fills container)</li>
+            <li>Use <code class="bg-purple-100 px-1 rounded">z-*</code> to control stacking order</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- MEDIA QUERIES / RESPONSIVE SECTION -->
+      <section id="responsive" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-indigo-800 mb-6">📱 Responsive Design — Breakpoints Explained</h2>
+        
+        <div class="mb-6">
+          <h3 class="font-semibold text-xl mb-3">Tailwind Breakpoints:</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border rounded-lg">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="px-4 py-2 text-left">Prefix</th>
+                  <th class="px-4 py-2 text-left">Min Width</th>
+                  <th class="px-4 py-2 text-left">Common Device</th>
+                  <th class="px-4 py-2 text-left">Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t"><td class="px-4 py-2"><span class="breakpoint-indicator bg-gray-200">sm:</span></td><td>640px</td><td>Small tablets</td><td>sm:text-lg</td></tr>
+                <tr class="border-t"><td class="px-4 py-2"><span class="breakpoint-indicator bg-blue-200">md:</span></td><td>768px</td><td>Tablets</td><td>md:flex</td></tr>
+                <tr class="border-t"><td class="px-4 py-2"><span class="breakpoint-indicator bg-green-200">lg:</span></td><td>1024px</td><td>Laptops</td><td>lg:grid-cols-3</td></tr>
+                <tr class="border-t"><td class="px-4 py-2"><span class="breakpoint-indicator bg-yellow-200">xl:</span></td><td>1280px</td><td>Desktops</td><td>xl:text-2xl</td></tr>
+                <tr class="border-t"><td class="px-4 py-2"><span class="breakpoint-indicator bg-red-200">2xl:</span></td><td>1536px</td><td>Large Desktops</td><td>2xl:max-w-7xl</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="example-box">
+          <h3 class="font-bold mb-2">Responsive Playground:</h3>
+          <textarea id="responsive-playground" class="w-full h-32 p-3 font-mono text-sm border rounded mb-3" placeholder="Try: text-xs sm:text-sm md:text-base lg:text-lg">block text-xs sm:text-sm md:text-base lg:text-lg p-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-center rounded-lg</textarea>
+          <div id="responsive-preview" class="preview-container block text-xs sm:text-sm md:text-base lg:text-lg p-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-center rounded-lg">
+            Resize your browser to see text grow!
+          </div>
+          <div id="responsive-feedback" class="text-xs mt-2 text-gray-600">✅ Responsive classes applied!</div>
+        </div>
+
+        <div class="mt-6 p-4 bg-green-50 border-l-4 border-green-500 rounded">
+          <h3 class="font-bold text-green-800">🎯 Responsive Design Strategy:</h3>
+          <ul class="text-sm list-disc pl-5 mt-2 space-y-1">
+            <li>Mobile-first: Start with base classes, then add <code class="bg-green-100 px-1 rounded">md:</code>, <code class="bg-green-100 px-1 rounded">lg:</code> for larger screens</li>
+            <li>Hide/show: <code class="bg-green-100 px-1 rounded">hidden md:block</code> or <code class="bg-green-100 px-1 rounded">block lg:hidden</code></li>
+            <li>Change layout: <code class="bg-green-100 px-1 rounded">flex-col sm:flex-row</code></li>
+            <li>Adjust spacing: <code class="bg-green-100 px-1 rounded">p-2 md:p-4 lg:p-8</code></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- TRANSFORMS SECTION -->
+      <section id="transform" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-indigo-800 mb-6">🌀 Transforms & Animation</h2>
+        
+        <div class="mb-6">
+          <h3 class="font-semibold text-xl mb-3">Transform Classes:</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="class-tag" title="scale: 1.1">scale-110</span>
+            <span class="class-tag" title="scale: 0.9">scale-90</span>
+            <span class="class-tag" title="rotate: 90deg">rotate-90</span>
+            <span class="class-tag" title="rotate: -45deg">-rotate-45</span>
+            <span class="class-tag" title="translate X: 25%">translate-x-1/4</span>
+            <span class="class-tag" title="translate Y: -50%">-translate-y-1/2</span>
+            <span class="class-tag" title="skew X: 12deg">skew-x-12</span>
+            <span class="class-tag" title="transform origin top left">origin-top-left</span>
+          </div>
+          
+          <h3 class="font-semibold text-xl mb-3 mt-6">Animation Classes:</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="class-tag" title="pulse animation">animate-pulse</span>
+            <span class="class-tag" title="bounce animation">animate-bounce</span>
+            <span class="class-tag" title="spin animation">animate-spin</span>
+            <span class="class-tag" title="ping animation">animate-ping</span>
+            <span class="class-tag" title="wiggle (custom)">animate-wiggle</span>
+            <span class="class-tag" title="smooth transition">transition</span>
+            <span class="class-tag" title="fast transition">duration-150</span>
+            <span class="class-tag" title="slow transition">duration-700</span>
+            <span class="class-tag" title="ease in out">ease-in-out</span>
+          </div>
+        </div>
+
+        <div class="example-box">
+          <h3 class="font-bold mb-2">Transforms Playground:</h3>
+          <textarea id="transform-playground" class="w-full h-32 p-3 font-mono text-sm border rounded mb-3" placeholder="Try: hover:rotate-12 hover:scale-110 transition duration-300">bg-indigo-600 text-white p-6 rounded-lg text-center font-bold hover:rotate-12 hover:scale-110 transition duration-300 cursor-pointer</textarea>
+          <div id="transform-preview" class="preview-container bg-indigo-600 text-white p-6 rounded-lg text-center font-bold hover:rotate-12 hover:scale-110 transition duration-300 cursor-pointer">
+            Hover Me to Transform!
+          </div>
+          <div id="transform-feedback" class="text-xs mt-2 text-gray-600">✅ Transforms & transitions ready!</div>
+        </div>
+      </section>
+
+      <!-- FULL PLAYGROUND (Enhanced) -->
+      <section id="playground" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-bold text-indigo-800 mb-6">🧪 Ultimate Tailwind Playground</h2>
+        
+        <div class="responsive-toggle mb-4 flex gap-2">
+          <button data-size="desktop" class="active">Desktop</button>
+          <button data-size="iphone">iPhone</button>
+          <button data-size="ipad">iPad</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-bold mb-2">Edit Classes:</h3>
+            <textarea id="full-playground" class="w-full h-64 p-4 font-mono text-sm border rounded" placeholder="Enter any Tailwind classes...">relative bg-white p-8 rounded-xl shadow-lg text-center text-2xl font-bold text-indigo-700 hover:scale-105 hover:shadow-xl transition-all duration-300 after:content-[''] after:absolute after:inset-0 after:border-2 after:border-dashed after:border-indigo-300 after:rounded-xl after:pointer-events-none</textarea>
+            <div class="mt-3 flex gap-2 flex-wrap">
+              <button id="copy-btn" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded text-sm">📋 Copy Classes</button>
+              <button id="reset-btn" class="bg-red-100 hover:bg-red-200 px-4 py-2 rounded text-sm">↺ Reset</button>
+              <button id="grid-template" class="bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded text-sm">🧱 Grid Template</button>
+              <button id="position-template" class="bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded text-sm">📌 Position Template</button>
+              <button id="responsive-template" class="bg-green-100 hover:bg-green-200 px-4 py-2 rounded text-sm">📱 Responsive Template</button>
+            </div>
+            <div id="full-feedback" class="mt-3 text-sm text-gray-600">✅ Master all Tailwind concepts here!</div>
+          </div>
+          <div>
+            <h3 class="font-bold mb-2">Live Preview:</h3>
+            <div class="flex justify-center">
+              <div id="device-wrapper" class="w-full">
+                <div id="full-preview" class="preview-container relative bg-white p-8 rounded-xl shadow-lg text-center text-2xl font-bold text-indigo-700 hover:scale-105 hover:shadow-xl transition-all duration-300 after:content-[''] after:absolute after:inset-0 after:border-2 after:border-dashed after:border-indigo-300 after:rounded-xl after:pointer-events-none">
+                  Ultimate Preview
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 bg-blue-50 rounded-lg">
+            <h3 class="font-bold text-blue-800 mb-2">Grid Template</h3>
+            <code class="block bg-blue-100 p-2 rounded text-xs">grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4</code>
+          </div>
+          <div class="p-4 bg-purple-50 rounded-lg">
+            <h3 class="font-bold text-purple-800 mb-2">Position Template</h3>
+            <code class="block bg-purple-100 p-2 rounded text-xs">relative h-48 bg-gray-100 ::before:absolute ::before:top-4 ::before:right-4</code>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg">
+            <h3 class="font-bold text-green-800 mb-2">Responsive Template</h3>
+            <code class="block bg-green-100 p-2 rounded text-xs">text-xs sm:text-sm md:text-base lg:text-lg p-2 md:p-4</code>
+          </div>
+        </div>
+      </section>
+
+      <footer class="mt-16 pt-8 border-t text-center text-gray-500">
+        <p class="font-medium">🎉 You now know ALL core Tailwind CSS concepts!</p>
+        <p class="mt-2">Grid • Position • Responsive • Transforms • Flexbox • Colors • Spacing • And more!</p>
+        <p class="mt-1 text-sm">Go build something amazing! Try cloning a Dribbble shot or your favorite website.</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      hljs.highlightAll();
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // Scroll spy
+    window.addEventListener('scroll', () => {
+      let current = '';
+      const sections = document.querySelectorAll('section');
+      const scrollPos = window.scrollY + 100;
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Playground creator
+    function createPlayground(textareaId, previewId, feedbackId) {
+      const textarea = document.getElementById(textareaId);
+      const preview = document.getElementById(previewId);
+      const feedback = document.getElementById(feedbackId);
+
+      textarea.addEventListener('input', () => {
+        const value = textarea.value.trim();
+        
+        if (value.includes('class=')) {
+          feedback.textContent = '❌ Remove "class=" — just paste the classes';
+          feedback.className = 'text-xs mt-2 text-red-600';
+          preview.className = 'preview-container error';
+        } else if (value === '') {
+          feedback.textContent = '📝 Enter Tailwind classes to preview';
+          feedback.className = 'text-xs mt-2 text-gray-600';
+          preview.className = 'preview-container';
+        } else {
+          try {
+            preview.className = value;
+            feedback.textContent = '✅ Awesome! Keep experimenting';
+            feedback.className = 'text-xs mt-2 text-green-600';
+          } catch (e) {
+            feedback.textContent = '❌ Invalid syntax - check your classes';
+            feedback.className = 'text-xs mt-2 text-red-600';
+            preview.className = 'preview-container error';
+          }
+        }
+      });
+    }
+
+    // Initialize all playgrounds
+    createPlayground('text-playground', 'text-preview', 'text-feedback');
+    createPlayground('color-playground', 'color-preview', 'color-feedback');
+    createPlayground('spacing-playground', 'spacing-preview', 'spacing-feedback');
+    createPlayground('flex-playground', 'flex-preview', 'flex-feedback');
+    createPlayground('grid-playground', 'grid-preview', 'grid-feedback');
+    createPlayground('position-playground', 'position-preview', 'position-feedback');
+    createPlayground('responsive-playground', 'responsive-preview', 'responsive-feedback');
+    createPlayground('transform-playground', 'transform-preview', 'transform-feedback');
+
+    // Full playground
+    const fullTextarea = document.getElementById('full-playground');
+    const fullPreview = document.getElementById('full-preview');
+    const fullFeedback = document.getElementById('full-feedback');
+    const copyBtn = document.getElementById('copy-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const deviceWrapper = document.getElementById('device-wrapper');
+    const responsiveButtons = document.querySelectorAll('.responsive-toggle button');
+
+    // Template buttons
+    document.getElementById('grid-template').addEventListener('click', () => {
+      fullTextarea.value = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-50';
+      fullTextarea.dispatchEvent(new Event('input'));
+    });
+
+    document.getElementById('position-template').addEventListener('click', () => {
+      fullTextarea.value = 'relative h-64 bg-gray-100 p-4 ::before:absolute ::before:top-2 ::before:right-2 ::before:bg-red-500 ::before:text-white ::before:px-2 ::before:py-1 ::before:rounded ::before:content-["Badge"]';
+      fullTextarea.dispatchEvent(new Event('input'));
+    });
+
+    document.getElementById('responsive-template').addEventListener('click', () => {
+      fullTextarea.value = 'text-xs sm:text-sm md:text-base lg:text-lg p-2 sm:p-4 md:p-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center';
+      fullTextarea.dispatchEvent(new Event('input'));
+    });
+
+    // Full playground handler (already covered by createPlayground above)
+    fullTextarea.addEventListener('input', () => {
+      const value = fullTextarea.value.trim();
+      if (value.includes('class=')) {
+        fullFeedback.textContent = '❌ Remove "class=" — just paste the classes';
+        fullFeedback.className = 'mt-3 text-sm text-red-600';
+        fullPreview.className = 'preview-container error';
+      } else if (value === '') {
+        fullFeedback.textContent = '📝 Enter Tailwind classes to preview';
+        fullFeedback.className = 'mt-3 text-sm text-gray-600';
+        fullPreview.className = 'preview-container';
+      } else {
+        try {
+          fullPreview.className = value;
+          fullFeedback.textContent = '✅ Perfect! You\'re mastering Tailwind';
+          fullFeedback.className = 'mt-3 text-sm text-green-600';
+        } catch (e) {
+          fullFeedback.textContent = '❌ Syntax error - check your classes';
+          fullFeedback.className = 'mt-3 text-sm text-red-600';
+          fullPreview.className = 'preview-container error';
+        }
+      }
+    });
+
+    // Copy button
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(fullTextarea.value)
+        .then(() => {
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(() => { copyBtn.textContent = '📋 Copy Classes'; }, 2000);
+        })
+        .catch(err => {
+          copyBtn.textContent = '❌ Failed';
+          setTimeout(() => { copyBtn.textContent = '📋 Copy Classes'; }, 2000);
+        });
+    });
+
+    // Reset button
+    resetBtn.addEventListener('click', () => {
+      fullTextarea.value = 'relative bg-white p-8 rounded-xl shadow-lg text-center text-2xl font-bold text-indigo-700 hover:scale-105 hover:shadow-xl transition-all duration-300 after:content-[""] after:absolute after:inset-0 after:border-2 after:border-dashed after:border-indigo-300 after:rounded-xl after:pointer-events-none';
+      fullTextarea.dispatchEvent(new Event('input'));
+    });
+
+    // Responsive preview
+    responsiveButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        responsiveButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        const size = button.getAttribute('data-size');
+        
+        if (size === 'desktop') {
+          deviceWrapper.className = 'w-full';
+          fullPreview.classList.remove('device-mock', 'iphone', 'ipad');
+        } else if (size === 'iphone') {
+          deviceWrapper.className = 'w-full flex justify-center';
+          const classes = fullPreview.className;
+          fullPreview.className = classes + ' device-mock iphone';
+        } else if (size === 'ipad') {
+          deviceWrapper.className = 'w-full flex justify-center';
+          const classes = fullPreview.className;
+          fullPreview.className = classes + ' device-mock ipad';
+        }
+      });
+    });
+
+    // Class tag tooltips (enhanced)
+    document.querySelectorAll('.class-tag').forEach(tag => {
+      const title = tag.getAttribute('title');
+      if (title) {
+        let tooltip = null;
+        
+        tag.addEventListener('mouseenter', () => {
+          tooltip = document.createElement('div');
+          tooltip.textContent = title;
+          tooltip.className = 'fixed bg-gray-900 text-white text-xs px-3 py-2 rounded-md z-50 whitespace-nowrap';
+          document.body.appendChild(tooltip);
+          
+          const rect = tag.getBoundingClientRect();
+          tooltip.style.top = (window.scrollY + rect.top - tooltip.offsetHeight - 5) + 'px';
+          tooltip.style.left = (rect.left + window.scrollX + rect.width/2 - tooltip.offsetWidth/2) + 'px';
+        });
+        
+        tag.addEventListener('mouseleave', () => {
+          if (tooltip) {
+            document.body.removeChild(tooltip);
+            tooltip = null;
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
