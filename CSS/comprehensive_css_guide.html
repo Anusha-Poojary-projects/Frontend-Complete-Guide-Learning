@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive CSS Guide</title>
+    <style>
+        /* General body styling for better readability */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        /* Style for the main container */
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Style for headings */
+        h1, h2, h3 {
+            color: #005a9c; /* A nice blue color for headings */
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 40px 0;
+        }
+
+        /* --- Styles for Side-by-Side Examples --- */
+        .example-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fafafa;
+        }
+
+        .example-output {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .example-code {
+            flex: 1;
+            min-width: 300px;
+            background-color: #e7e7e7;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .example-code pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .example-code code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #333;
+        }
+
+        /* --- SELECTOR EXAMPLES --- */
+
+        /* 1. Element Selector */
+        p {
+            color: #555;
+        }
+
+        /* 2. Class Selector */
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        /* 3. ID Selector */
+        #unique-element {
+            border: 2px solid #d9534f; /* A red border */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* --- COMMON PROPERTIES EXAMPLES --- */
+
+        /* 4. color and background-color */
+        .color-example {
+            color: white;
+            background-color: #5cb85c; /* A green background */
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        /* 5. font properties */
+        .font-example {
+            font-size: 22px;
+            font-family: 'Georgia', serif;
+            font-weight: normal;
+        }
+
+        /* 6. text-align */
+        .text-align-example {
+            text-align: center;
+        }
+
+        /* --- THE BOX MODEL --- */
+
+        /* 7. margin and padding */
+        .box-model-example {
+            background-color: #f0ad4e; /* An orange background */
+            padding: 20px; /* Space inside the box */
+            margin: 30px 0;  /* Space outside the box */
+            border: 5px solid #333;
+            text-align: center;
+            color: white;
+        }
+
+        /* --- SPECIFICITY EXAMPLE --- */
+        p.specificity-example {
+            color: green !important;
+        }
+
+        #very-specific {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>A Beginner's Guide to CSS (with Side-by-Side Examples)</h1>
+
+        <h2>What is CSS?</h2>
+        <p>CSS (Cascading Style Sheets) is the language for styling webpages. It works with HTML to control the visual presentation of your content, including layout, colors, and fonts.</p>
+
+        <hr>
+
+        <h2>CSS Selectors: How to Target Elements</h2>
+        <p>Selectors are patterns used to select the HTML element(s) you want to style.</p>
+
+        <h3>1. Element Selector</h3>
+        <p>Targets all elements of a specific type, like all paragraphs (`<p>`).</p>
+        <div class="example-container">
+            <div class="example-output">
+                <p>This is a standard paragraph, styled by the `p` element selector.</p>
+            </div>
+            <div class="example-code">
+<pre><code>/* This CSS rule targets all 'p' elements */
+p {
+    color: #555;
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>2. Class Selector</h3>
+        <p>Targets all elements with a specific `class` attribute. Starts with a period (`.`).</p>
+        <div class="example-container">
+            <div class="example-output">
+                <p class="highlight">This paragraph has a class of "highlight".</p>
+                <div class="highlight">This div also has the "highlight" class.</div>
+            </div>
+            <div class="example-code">
+<pre><code>&lt;!-- HTML --&gt;
+&lt;p class="highlight"&gt;...&lt;/p&gt;
+&lt;div class="highlight"&gt;...&lt;/div&gt;
+
+&lt;!-- CSS --&gt;
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>3. ID Selector</h3>
+        <p>Targets one unique element with a specific `id` attribute. Starts with a hash (`#`).</p>
+        <div class="example-container">
+            <div class="example-output">
+                <div id="unique-element">This div has a unique ID, so it gets a special border.</div>
+            </div>
+            <div class="example-code">
+<pre><code>&lt;!-- HTML --&gt;
+&lt;div id="unique-element"&gt;...&lt;/div&gt;
+
+&lt;!-- CSS --&gt;
+#unique-element {
+    border: 2px solid #d9534f;
+    padding: 10px;
+}</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Common CSS Properties</h2>
+
+        <h3>4. Color and Background Color</h3>
+        <div class="example-container">
+            <div class="example-output">
+                <div class="color-example">
+                    This div has white text on a green background.
+                </div>
+            </div>
+            <div class="example-code">
+<pre><code>.color-example {
+    color: white;
+    background-color: #5cb85c;
+    padding: 15px;
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>5. Font Properties</h3>
+        <div class="example-container">
+            <div class="example-output">
+                <p class="font-example">This paragraph has a different font, size, and weight.</p>
+            </div>
+            <div class="example-code">
+<pre><code>.font-example {
+    font-size: 22px;
+    font-family: 'Georgia', serif;
+    font-weight: normal;
+}</code></pre>
+            </div>
+        </div>
+
+        <h3>6. Text Alignment</h3>
+        <div class="example-container">
+            <div class="example-output">
+                <div class="text-align-example">
+                    This text is centered.
+                </div>
+            </div>
+            <div class="example-code">
+<pre><code>.text-align-example {
+    text-align: center;
+}</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>The Box Model: Margin, Padding, and Border</h2>
+        <p>Every HTML element is a box. The box model describes the space around and inside an element.</p>
+        <div class="example-container">
+            <div class="example-output">
+                <div class="box-model-example">
+                    This box demonstrates Margin, Border, and Padding.
+                </div>
+            </div>
+            <div class="example-code">
+<pre><code>.box-model-example {
+    margin: 30px 0; /* Space outside */
+    border: 5px solid #333;
+    padding: 20px; /* Space inside */
+    background-color: #f0ad4e;
+}</code></pre>
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+</html>

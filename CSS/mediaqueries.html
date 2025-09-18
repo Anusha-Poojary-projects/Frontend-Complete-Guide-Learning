@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <style>
+        body {
+            background-color: lightblue;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                background-color: lightgreen;
+            }
+        }
+/* 
+        These are widely used as a starting point — you can adjust to your project:
+
+Extra small (phones): ≤ 375px (e.g., 320, 360, 375)
+
+Small (large phones / small phablets): 376px — 480px
+
+Medium (small tablets / large phones): 481px — 767px
+
+Large (tablets / small laptops): 768px — 1023px
+
+Extra large (desktop): 1024px — 1279px
+
+2XL (large desktop / widescreen): 1280px — 1919px
+
+4K / very large: ≥ 1920px
+for all the above screen sizes we can write media queries */
+        @media only screen and (max-width: 375px) {
+            body {
+                background-color: lightcoral;
+            }
+        }
+
+        @media only screen and (min-width: 376px) and (max-width: 480px) {
+            body {
+                background-color: lightseagreen;
+            }
+        }
+
+        @media only screen and (min-width: 481px) and (max-width: 767px) {
+            body {
+                background-color: lightpink;
+            }
+        }
+
+        @media only screen and (min-width: 768px) and (max-width: 1023px) {
+            body {
+                background-color: lightgoldenrodyellow;
+            }
+        }
+
+        @media only screen and (min-width: 1024px) and (max-width: 1279px) {
+            body {
+                background-color: lightgray;
+            }
+        }
+
+        @media only screen and (min-width: 1280px) and (max-width: 1919px) {
+            body {
+                background-color: lightcyan;
+            }
+        }
+
+        @media only screen and (min-width: 1920px) {
+            body {
+                background-color: lightyellow;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Media Queries</h1>
+    <p>Resize the browser window to see the effect.</p>
+</body>
+</html>

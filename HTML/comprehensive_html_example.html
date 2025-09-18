@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A comprehensive example of HTML tags">
+    <meta name="keywords" content="HTML, tags, example">
+    <meta name="author" content="Gemini">
+    <title>Comprehensive HTML Tag Example</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 0;
+        }
+        header, footer {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+        }
+        main {
+            padding: 2rem;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        article {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input, textarea, select {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        legend {
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Page Header</h1>
+        <p>This is the header of the document, often containing a logo, title, and tagline.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#text">Text & Headings</a></li>
+            <li><a href="#media">Media & Links</a></li>
+            <li><a href="#lists">Lists</a></li>
+            <li><a href="#forms">Forms</a></li>
+            <li><a href="#tables">Tables</a></li>
+            <li><a href="#semantic">Semantic Elements</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="text">
+            <article>
+                <h2>Text & Headings</h2>
+                <h1>Heading 1</h1>
+                <h2>Heading 2</h2>
+                <h3>Heading 3</h3>
+                <h4>Heading 4</h4>
+                <h5>Heading 5</h5>
+                <h6>Heading 6</h6>
+                <p>This is a standard paragraph. It can contain <strong>strong (important)</strong> text, <em>emphasized</em> text, <b>bold</b> text, and <i>italic</i> text. Note that `<strong>` and `<em>` are semantically preferred over `<b>` and `<i>`.</p>
+                <p>Here is a blockquote:</p>
+                <blockquote>"The advance of technology is based on making it fit in so that you don't really even notice it, so it's part of everyday life." - Bill Gates</blockquote>
+                <p>This is some <q>inline quote</q>.</p>
+                <p>For displaying code, use the `<code>` tag: `<code>console.log("Hello, World!");</code>`</p>
+                <p>You can use <del>deleted text</del> and <ins>inserted text</ins>.</p>
+                <p>This is <sup>superscript</sup> and this is <sub>subscript</sub>.</p>
+                <hr>
+                <p>The line above is a horizontal rule (`<hr>`), used to represent a thematic break.</p>
+                <p>Use `<br>` for a line break.<br>Like this.</p>
+            </article>
+        </section>
+
+        <section id="media">
+            <article>
+                <h2>Media & Links</h2>
+                <h3>Links</h3>
+                <p><a href="https://www.google.com" target="_blank">This is an external link to Google that opens in a new tab.</a></p>
+                <p><a href="#top">This is an internal link to the top of the page.</a></p>
+                <h3>Images</h3>
+                <img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="Trulli houses in Alberobello, Italy" width="500">
+            </article>
+        </section>
+
+        <section id="lists">
+            <article>
+                <h2>Lists</h2>
+                <h3>Unordered List</h3>
+                <ul>
+                    <li>First item</li>
+                    <li>Second item</li>
+                    <li>Nested list:
+                        <ul>
+                            <li>Sub-item A</li>
+                            <li>Sub-item B</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h3>Ordered List</h3>
+                <ol>
+                    <li>First step</li>
+                    <li>Second step</li>
+                    <li>Third step</li>
+                </ol>
+                <h3>Definition List</h3>
+                <dl>
+                    <dt>HTML</dt>
+                    <dd>HyperText Markup Language - The standard markup language for creating web pages.</dd>
+                    <dt>CSS</dt>
+                    <dd>Cascading Style Sheets - A style sheet language used for describing the presentation of a document written in a markup language.</dd>
+                </dl>
+            </article>
+        </section>
+
+        <section id="forms">
+            <article>
+                <h2>Forms</h2>
+                <form action="#" method="post">
+                    <fieldset>
+                        <legend>User Information</legend>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+
+                        <p>Gender:</p>
+                        <input type="radio" id="male" name="gender" value="male">
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label>
+
+                        <p>Interests:</p>
+                        <input type="checkbox" id="coding" name="interests" value="coding">
+                        <label for="coding">Coding</label>
+                        <input type="checkbox" id="music" name="interests" value="music">
+                        <label for="music">Music</label>
+
+                        <label for="country">Country:</label>
+                        <select id="country" name="country">
+                            <option value="usa">USA</option>
+                            <option value="canada">Canada</option>
+                            <option value="uk">UK</option>
+                        </select>
+
+                        <label for="comments">Comments:</label>
+                        <textarea id="comments" name="comments" rows="4"></textarea>
+
+                        <input type="submit" value="Submit">
+                        <button type="reset">Reset</button>
+                    </fieldset>
+                </form>
+            </article>
+        </section>
+
+        <section id="tables">
+            <article>
+                <h2>Tables</h2>
+                <table>
+                    <caption>Employee Data</caption>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>John Doe</td>
+                            <td>Engineering</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Jane Smith</td>
+                            <td>Marketing</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">End of employee list.</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </article>
+        </section>
+
+        <section id="semantic">
+            <article>
+                <h2>Semantic Elements</h2>
+                <p>HTML5 introduced several semantic elements to define different parts of a web page:</p>
+                <ul>
+                    <li>`<header>`: Represents a container for introductory content.</li>
+                    <li>`<nav>`: Defines a set of navigation links.</li>
+                    <li>`<main>`: Specifies the main content of a document.</li>
+                    <li>`<section>`: Defines a section in a document.</li>
+                    <li>`<article>`: Specifies independent, self-contained content.</li>
+                    <li>`<aside>`: Defines content aside from the content it is placed in (like a sidebar).</li>
+                    <li>`<footer>`: Defines a footer for a document or section.</li>
+                    <li>`<details>` & `<summary>`: Create an interactive widget that the user can open and close.</li>
+                    <li>`<figure>` & `<figcaption>`: Used to group media content with a caption.</li>
+                </ul>
+                <figure>
+                    <img src="https://www.w3schools.com/html/img_london.jpg" alt="London" width="400">
+                    <figcaption>Fig.1 - A view of London.</figcaption>
+                </figure>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Comprehensive HTML Example. All rights reserved.</p>
+        <address>
+            Contact us at <a href="mailto:example@example.com">example@example.com</a>.
+        </address>
+    </footer>
+
+    <script>
+        // JavaScript can be embedded here or linked externally
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('The document is fully loaded and parsed.');
+        });
+    </script>
+
+</body>
+</html>

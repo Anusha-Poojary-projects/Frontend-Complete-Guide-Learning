@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Step-by-Step Learning for Beginners</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .code-editor {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            border: none;
+            resize: none;
+        }
+        
+        .preview-box {
+            border: 2px dashed #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+            min-height: 150px;
+        }
+        
+        .step-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .step-card.active {
+            border-left-color: #3b82f6;
+            background: #f8fafc;
+        }
+        
+        .step-card.completed {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transition: all 0.3s ease;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .highlight-code {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .instruction-box {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            border: 1px solid #10b981;
+            color: #065f46;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .hint-box {
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">🎓 CSS for Complete Beginners</h1>
+                    <p class="text-gray-600">Learn CSS step-by-step with hands-on practice and instant feedback</p>
+                </div>
+                <div class="text-center">
+                    <div class="relative w-16 h-16">
+                        <svg class="progress-ring w-16 h-16">
+                            <circle cx="32" cy="32" r="28" stroke="#e5e7eb" stroke-width="4" fill="none"/>
+                            <circle id="progress-circle" cx="32" cy="32" r="28" stroke="#3b82f6" stroke-width="4" fill="none" 
+                                    stroke-dasharray="176" stroke-dashoffset="176" class="transition-all duration-500"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="progress-text" class="text-sm font-semibold text-blue-600">0%</span>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">Progress</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Steps Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg p-4 sticky top-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Learning Steps</h3>
+                    <div id="steps-list" class="space-y-2">
+                        <!-- Steps will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div id="lesson-content">
+                        <!-- Lesson content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Learning steps data
+        const learningSteps = [
+            {
+                id: 1,
+                title: "What is CSS?",
+                description: "Understanding the basics of CSS and what it does",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">🎨 Step 1: What is CSS?</h2>
+                        <p class="text-lg mb-4">Welcome to CSS! Let's start with the basics.</p>
+                        <p class="mb-4"><strong>CSS</strong> stands for <strong>Cascading Style Sheets</strong>. Think of it like this:</p>
+                        <ul class="list-disc list-inside space-y-2 mb-4">
+                            <li><strong>HTML</strong> = The skeleton of a webpage (structure)</li>
+                            <li><strong>CSS</strong> = The clothes and makeup (styling)</li>
+                        </ul>
+                        <p class="mb-4">CSS makes websites look beautiful by controlling colors, fonts, spacing, and layout!</p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">👀 See the Difference:</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-medium mb-2">Without CSS (Plain HTML):</h4>
+                                <div class="border-2 border-gray-300 p-4 bg-white rounded">
+                                    <h1>Welcome to My Website</h1>
+                                    <p>This is a paragraph of text.</p>
+                                    <button>Click Me</button>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-2">With CSS (Styled):</h4>
+                                <div class="border-2 border-gray-300 p-4 bg-white rounded">
+                                    <h1 style="color: #3b82f6; text-align: center; font-size: 24px;">Welcome to My Website</h1>
+                                    <p style="color: #6b7280; line-height: 1.6;">This is a paragraph of text.</p>
+                                    <button style="background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer;">Click Me</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h4 class="font-medium text-green-800 mb-2">✅ What You Learned:</h4>
+                        <ul class="text-green-700 space-y-1">
+                            <li>• CSS makes websites look beautiful</li>
+                            <li>• HTML provides structure, CSS provides styling</li>
+                            <li>• CSS controls colors, fonts, spacing, and layout</li>
+                        </ul>
+                    </div>
+                `,
+                task: null,
+                isCompleted: false
+            },
+            {
+                id: 2,
+                title: "CSS Syntax",
+                description: "Learn how to write CSS rules",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">📝 Step 2: CSS Syntax</h2>
+                        <p class="text-lg mb-4">Every CSS rule follows the same pattern. Let's learn it!</p>
+                        
+                        <div class="bg-gray-100 p-4 rounded-lg mb-4 font-mono text-sm">
+                            <span style="color: #dc2626;">selector</span> {<br>
+                            &nbsp;&nbsp;<span style="color: #059669;">property</span>: <span style="color: #2563eb;">value</span>;<br>
+                            &nbsp;&nbsp;<span style="color: #059669;">property</span>: <span style="color: #2563eb;">value</span>;<br>
+                            }
+                        </div>
+                        
+                        <div class="space-y-3 mb-4">
+                            <div><strong>Selector:</strong> What element you want to style (like <span class="highlight-code">h1</span> or <span class="highlight-code">p</span>)</div>
+                            <div><strong>Property:</strong> What you want to change (like <span class="highlight-code">color</span> or <span class="highlight-code">font-size</span>)</div>
+                            <div><strong>Value:</strong> How you want to change it (like <span class="highlight-code">red</span> or <span class="highlight-code">20px</span>)</div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                            <strong>🔍 Example:</strong> <span class="highlight-code">h1 { color: blue; }</span><br>
+                            This makes all <span class="highlight-code">h1</span> headings blue!
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">✏️ Your First CSS Rule:</h3>
+                        <p class="mb-3">Try changing the color of the heading below. Type your CSS in the box:</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step2-css" class="code-editor w-full h-32" placeholder="Type your CSS here...">h1 {
+  color: blue;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Hint:</strong> Try changing "blue" to "red", "green", or "purple"
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step2-preview">
+                                        <h1>Hello, CSS World!</h1>
+                                        <p>This is a paragraph.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step2-success" class="success-message">
+                            🎉 Great job! You wrote your first CSS rule!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step2-css').value.toLowerCase();
+                        // More flexible checking - just needs to have basic CSS structure
+                        return css.includes('h1') && css.includes('{') && css.includes('}') && 
+                               (css.includes('color') || css.includes('background'));
+                    },
+                    successMessage: "Perfect! You understand CSS syntax!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 3,
+                title: "Colors in CSS",
+                description: "Learn different ways to add colors",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">🌈 Step 3: Colors in CSS</h2>
+                        <p class="text-lg mb-4">There are several ways to specify colors in CSS. Let's explore them!</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-gray-50 p-3 rounded">
+                                <h4 class="font-semibold mb-2">Color Names</h4>
+                                <div class="font-mono text-sm">color: red;<br>color: blue;<br>color: green;</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <h4 class="font-semibold mb-2">Hex Colors</h4>
+                                <div class="font-mono text-sm">color: #ff0000;<br>color: #0000ff;<br>color: #00ff00;</div>
+                            </div>
+                        </div>
+                        
+                        <p class="mb-4">Let's start with <strong>color names</strong> - they're the easiest!</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-red-100 text-red-800 rounded">red</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded">blue</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded">green</span>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded">purple</span>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded">orange</span>
+                            <span class="px-3 py-1 bg-pink-100 text-pink-800 rounded">pink</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">🎨 Practice with Colors:</h3>
+                        <p class="mb-3">Make the heading red and the paragraph green:</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step3-css" class="code-editor w-full h-40" placeholder="Type your CSS here...">h1 {
+  color: /* your color here */;
+}
+
+p {
+  color: /* your color here */;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Goal:</strong> Make h1 red and p green
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step3-preview">
+                                        <h1>This should be RED</h1>
+                                        <p>This should be GREEN</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step3-success" class="success-message">
+                            🎉 Excellent! You can now use colors in CSS!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step3-css').value.toLowerCase();
+                        return css.includes('h1') && css.includes('color:') && css.includes('red') && 
+                               css.includes('p') && css.includes('green');
+                    },
+                    successMessage: "Amazing! You mastered CSS colors!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 4,
+                title: "Font Size & Family",
+                description: "Control text appearance",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">📝 Step 4: Font Size & Family</h2>
+                        <p class="text-lg mb-4">Let's learn how to change the size and style of text!</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-gray-50 p-3 rounded">
+                                <h4 class="font-semibold mb-2">Font Size</h4>
+                                <div class="font-mono text-sm">
+                                    font-size: 12px; <span class="text-gray-500">/* small */</span><br>
+                                    font-size: 16px; <span class="text-gray-500">/* normal */</span><br>
+                                    font-size: 24px; <span class="text-gray-500">/* large */</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded">
+                                <h4 class="font-semibold mb-2">Font Family</h4>
+                                <div class="font-mono text-sm">
+                                    font-family: Arial;<br>
+                                    font-family: Georgia;<br>
+                                    font-family: Times;
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                            <strong>📏 Font Size Tips:</strong><br>
+                            • <span class="highlight-code">px</span> = pixels (exact size)<br>
+                            • Bigger number = bigger text<br>
+                            • Normal text is usually 16px
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">✏️ Style Your Text:</h3>
+                        <p class="mb-3">Make the heading big (30px) and the paragraph small (14px):</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step4-css" class="code-editor w-full h-48" placeholder="Type your CSS here...">h1 {
+  font-size: /* add size here */;
+  font-family: Arial;
+}
+
+p {
+  font-size: /* add size here */;
+  font-family: Georgia;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Goal:</strong> h1 should be 30px, p should be 14px
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step4-preview">
+                                        <h1>Big Heading</h1>
+                                        <p>Small paragraph text that should be 14px in size.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step4-success" class="success-message">
+                            🎉 Perfect! You can now control text size and fonts!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step4-css').value.toLowerCase();
+                        return css.includes('30px') && css.includes('14px') && 
+                               css.includes('font-size') && css.includes('h1') && css.includes('p');
+                    },
+                    successMessage: "Great! You understand font properties!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 5,
+                title: "Background Colors",
+                description: "Add background colors to elements",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">🎨 Step 5: Background Colors</h2>
+                        <p class="text-lg mb-4">Now let's add background colors to make elements stand out!</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold mb-2">Background Color Syntax:</h4>
+                            <div class="font-mono text-sm">
+                                <span style="color: #dc2626;">selector</span> {<br>
+                                &nbsp;&nbsp;<span style="color: #059669;">background-color</span>: <span style="color: #2563eb;">lightblue</span>;<br>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                            <div class="p-3 text-center rounded" style="background-color: lightblue;">lightblue</div>
+                            <div class="p-3 text-center rounded" style="background-color: lightgreen;">lightgreen</div>
+                            <div class="p-3 text-center rounded" style="background-color: lightpink;">lightpink</div>
+                            <div class="p-3 text-center rounded" style="background-color: lightyellow;">lightyellow</div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                            <strong>💡 Pro Tip:</strong> You can use both <span class="highlight-code">color</span> (text color) and <span class="highlight-code">background-color</span> together!
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">🎯 Create a Colorful Card:</h3>
+                        <p class="mb-3">Make a heading with a blue background and white text:</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step5-css" class="code-editor w-full h-48" placeholder="Type your CSS here...">h1 {
+  background-color: /* add background color */;
+  color: /* add text color */;
+  padding: 20px;
+  text-align: center;
+}
+
+p {
+  background-color: lightgray;
+  padding: 15px;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Goal:</strong> h1 with blue background and white text
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step5-preview">
+                                        <h1>Welcome Card</h1>
+                                        <p>This is the card content with a light gray background.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step5-success" class="success-message">
+                            🎉 Awesome! You created a beautiful colored card!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step5-css').value.toLowerCase();
+                        return css.includes('background-color') && css.includes('blue') && 
+                               css.includes('white') && css.includes('h1');
+                    },
+                    successMessage: "Excellent! You mastered background colors!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 6,
+                title: "Padding & Spacing",
+                description: "Add space inside elements",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">📦 Step 6: Padding & Spacing</h2>
+                        <p class="text-lg mb-4">Padding adds space INSIDE an element, making it look less cramped!</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h4 class="font-semibold mb-2">Without Padding:</h4>
+                                <div class="border-2 border-blue-300 bg-blue-100 inline-block">
+                                    <span>Cramped Text</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2">With Padding:</h4>
+                                <div class="border-2 border-blue-300 bg-blue-100 inline-block p-4">
+                                    <span>Comfortable Text</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold mb-2">Padding Syntax:</h4>
+                            <div class="font-mono text-sm space-y-1">
+                                <div>padding: 10px; <span class="text-gray-500">/* all sides */</span></div>
+                                <div>padding: 10px 20px; <span class="text-gray-500">/* top/bottom left/right */</span></div>
+                                <div>padding-top: 10px; <span class="text-gray-500">/* just top */</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">🎯 Add Comfortable Spacing:</h3>
+                        <p class="mb-3">Add padding to make the button and paragraph look better:</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step6-css" class="code-editor w-full h-56" placeholder="Type your CSS here...">button {
+  background-color: green;
+  color: white;
+  padding: /* add padding here */;
+  border: none;
+  font-size: 16px;
+}
+
+p {
+  background-color: lightyellow;
+  padding: /* add padding here */;
+  border: 2px solid orange;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Try:</strong> 15px for button, 20px for paragraph
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step6-preview">
+                                        <button>Click Me!</button>
+                                        <p>This paragraph should have nice spacing around the text.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step6-success" class="success-message">
+                            🎉 Perfect! Your elements now have comfortable spacing!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step6-css').value.toLowerCase();
+                        return css.includes('padding') && css.includes('button') && css.includes('p') &&
+                               (css.includes('15px') || css.includes('20px') || css.includes('10px'));
+                    },
+                    successMessage: "Great! You understand padding and spacing!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 7,
+                title: "Borders & Rounded Corners",
+                description: "Add borders and make rounded corners",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">🔲 Step 7: Borders & Rounded Corners</h2>
+                        <p class="text-lg mb-4">Borders add lines around elements, and border-radius makes corners round!</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-blue-100 border-2 border-blue-500 mx-auto mb-2"></div>
+                                <div class="text-sm">Square Border</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-green-100 border-2 border-green-500 rounded-lg mx-auto mb-2"></div>
+                                <div class="text-sm">Rounded Corners</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-purple-100 border-2 border-purple-500 rounded-full mx-auto mb-2"></div>
+                                <div class="text-sm">Circle</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold mb-2">Border Syntax:</h4>
+                            <div class="font-mono text-sm space-y-1">
+                                <div>border: 2px solid red; <span class="text-gray-500">/* width style color */</span></div>
+                                <div>border-radius: 10px; <span class="text-gray-500">/* rounded corners */</span></div>
+                                <div>border-radius: 50%; <span class="text-gray-500">/* circle */</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">🎨 Create Styled Elements:</h3>
+                        <p class="mb-3">Make a rounded button and a card with borders:</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step7-css" class="code-editor w-full h-64" placeholder="Type your CSS here...">button {
+  background-color: blue;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: /* make it rounded */;
+  font-size: 16px;
+}
+
+.card {
+  background-color: white;
+  padding: 20px;
+  border: /* add border */;
+  border-radius: /* add rounded corners */;
+  margin-top: 10px;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Try:</strong> 25px for button radius, 2px solid gray for card border
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step7-preview">
+                                        <button>Rounded Button</button>
+                                        <div class="card">
+                                            <h3>Card Title</h3>
+                                            <p>This is a card with a border and rounded corners.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step7-success" class="success-message">
+                            🎉 Fantastic! You created beautiful borders and rounded corners!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step7-css').value.toLowerCase();
+                        return css.includes('border-radius') && css.includes('border:') && 
+                               css.includes('button') && css.includes('card');
+                    },
+                    successMessage: "Excellent! You mastered borders and rounded corners!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 8,
+                title: "Text Alignment",
+                description: "Align text left, center, or right",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">📐 Step 8: Text Alignment</h2>
+                        <p class="text-lg mb-4">Control where your text appears: left, center, or right!</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-gray-50 p-3 rounded text-left border">
+                                <div class="font-semibold mb-1">Left Aligned</div>
+                                <div class="text-sm">text-align: left;</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded text-center border">
+                                <div class="font-semibold mb-1">Center Aligned</div>
+                                <div class="text-sm">text-align: center;</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded text-right border">
+                                <div class="font-semibold mb-1">Right Aligned</div>
+                                <div class="text-sm">text-align: right;</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                            <strong>💡 Common Uses:</strong><br>
+                            • <span class="highlight-code">center</span> - for headings and titles<br>
+                            • <span class="highlight-code">left</span> - for normal text (default)<br>
+                            • <span class="highlight-code">right</span> - for dates or signatures
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">🎯 Align Your Content:</h3>
+                        <p class="mb-3">Create a centered title, left-aligned paragraph, and right-aligned date:</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step8-css" class="code-editor w-full h-64" placeholder="Type your CSS here...">h1 {
+  text-align: /* center the title */;
+  background-color: lightblue;
+  padding: 15px;
+}
+
+p {
+  text-align: /* align paragraph left */;
+  padding: 10px;
+}
+
+.date {
+  text-align: /* align date right */;
+  font-style: italic;
+  color: gray;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Goal:</strong> h1 center, p left, .date right
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step8-preview">
+                                        <h1>My Blog Post</h1>
+                                        <p>This is the main content of my blog post. It should be aligned to the left for easy reading.</p>
+                                        <div class="date">Published: March 15, 2024</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step8-success" class="success-message">
+                            🎉 Perfect! You can now align text exactly where you want it!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step8-css').value.toLowerCase();
+                        return css.includes('text-align') && css.includes('center') && 
+                               css.includes('left') && css.includes('right');
+                    },
+                    successMessage: "Great! You mastered text alignment!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 9,
+                title: "Width & Height",
+                description: "Control the size of elements",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">📏 Step 9: Width & Height</h2>
+                        <p class="text-lg mb-4">Control how wide and tall your elements are!</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div class="text-center">
+                                <div class="w-16 h-8 bg-red-200 border border-red-400 mx-auto mb-2"></div>
+                                <div class="text-sm">width: 100px;<br>height: 50px;</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-24 h-16 bg-green-200 border border-green-400 mx-auto mb-2"></div>
+                                <div class="text-sm">width: 150px;<br>height: 100px;</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-32 h-24 bg-blue-200 border border-blue-400 mx-auto mb-2"></div>
+                                <div class="text-sm">width: 200px;<br>height: 150px;</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold mb-2">Size Units:</h4>
+                            <div class="font-mono text-sm space-y-1">
+                                <div>width: 200px; <span class="text-gray-500">/* exact pixels */</span></div>
+                                <div>width: 50%; <span class="text-gray-500">/* half of parent */</span></div>
+                                <div>width: 100%; <span class="text-gray-500">/* full width */</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">🎨 Size Your Elements:</h3>
+                        <p class="mb-3">Create boxes of different sizes:</p>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step9-css" class="code-editor w-full h-64" placeholder="Type your CSS here...">.small-box {
+  width: /* make it 100px wide */;
+  height: /* make it 60px tall */;
+  background-color: lightcoral;
+  margin-bottom: 10px;
+}
+
+.big-box {
+  width: /* make it 250px wide */;
+  height: /* make it 100px tall */;
+  background-color: lightgreen;
+  margin-bottom: 10px;
+}
+
+.full-width {
+  width: /* make it full width */;
+  height: 40px;
+  background-color: lightblue;
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Try:</strong> 100px, 60px, 250px, 100px, 100%
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Result:</label>
+                                <div class="preview-box">
+                                    <div id="step9-preview">
+                                        <div class="small-box"></div>
+                                        <div class="big-box"></div>
+                                        <div class="full-width"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step9-success" class="success-message">
+                            🎉 Awesome! You can now control the size of any element!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step9-css').value.toLowerCase();
+                        return css.includes('width') && css.includes('height') && 
+                               css.includes('100px') && css.includes('100%');
+                    },
+                    successMessage: "Excellent! You mastered width and height!"
+                },
+                isCompleted: false
+            },
+            {
+                id: 10,
+                title: "Final Project",
+                description: "Create a complete styled webpage",
+                content: `
+                    <div class="instruction-box">
+                        <h2 class="text-2xl font-bold text-blue-800 mb-4">🏆 Step 10: Final Project</h2>
+                        <p class="text-lg mb-4">Time to put everything together! Create a beautiful personal card using all the CSS you've learned.</p>
+                        
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                            <h4 class="font-semibold text-green-800 mb-2">✅ Your CSS Skills:</h4>
+                            <div class="grid grid-cols-2 gap-2 text-sm text-green-700">
+                                <div>• Colors & backgrounds</div>
+                                <div>• Font sizes & families</div>
+                                <div>• Padding & spacing</div>
+                                <div>• Borders & rounded corners</div>
+                                <div>• Text alignment</div>
+                                <div>• Width & height</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                            <h4 class="font-semibold text-yellow-800 mb-2">🎯 Project Requirements:</h4>
+                            <ul class="text-sm text-yellow-700 space-y-1">
+                                <li>• Style the card with background color and border</li>
+                                <li>• Make the name large and centered</li>
+                                <li>• Add padding for comfortable spacing</li>
+                                <li>• Use different colors for different elements</li>
+                                <li>• Make it look professional and attractive</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">🎨 Create Your Personal Card:</h3>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-medium mb-2">CSS Code:</label>
+                                <textarea id="step10-css" class="code-editor w-full h-80" placeholder="Style your personal card here...">.card {
+  /* Add your card styling here */
+  background-color: 
+  border: 
+  border-radius: 
+  padding: 
+  width: 
+}
+
+.name {
+  /* Style the name */
+  font-size: 
+  text-align: 
+  color: 
+}
+
+.title {
+  /* Style the job title */
+  
+}
+
+.description {
+  /* Style the description */
+  
+}
+
+.contact {
+  /* Style the contact info */
+  
+}</textarea>
+                                <div class="hint-box">
+                                    💡 <strong>Be Creative!</strong> Use all the properties you've learned
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium mb-2">Your Personal Card:</label>
+                                <div class="preview-box">
+                                    <div id="step10-preview">
+                                        <div class="card">
+                                            <h1 class="name">Your Name</h1>
+                                            <h2 class="title">Web Developer</h2>
+                                            <p class="description">I love creating beautiful websites with HTML and CSS!</p>
+                                            <div class="contact">📧 your.email@example.com</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="step10-success" class="success-message">
+                            🎉 Congratulations! You've completed the CSS course and created an amazing personal card!
+                        </div>
+                    </div>
+                `,
+                task: {
+                    check: function() {
+                        const css = document.getElementById('step10-css').value.toLowerCase();
+                        return css.includes('background-color') && css.includes('padding') && 
+                               css.includes('font-size') && css.includes('text-align') && 
+                               css.includes('border') && css.length > 200;
+                    },
+                    successMessage: "🎉 AMAZING! You've mastered CSS fundamentals!"
+                },
+                isCompleted: false
+            }
+        ];
+
+        // Current step tracking
+        let currentStep = 1;
+        let progress = JSON.parse(localStorage.getItem('cssBeginnerProgress')) || [];
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            renderStepsList();
+            showStep(currentStep);
+            updateProgress();
+        });
+
+        // Render steps list
+        function renderStepsList() {
+            const stepsList = document.getElementById('steps-list');
+            stepsList.innerHTML = learningSteps.map(step => `
+                <div class="step-card p-3 rounded-lg cursor-pointer ${
+                    step.id === currentStep ? 'active' : 
+                    progress.includes(step.id) ? 'completed' : 'bg-white'
+                }" onclick="showStep(${step.id})">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
+                            progress.includes(step.id) ? 'bg-green-500 text-white' :
+                            step.id === currentStep ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'
+                        }">
+                            ${progress.includes(step.id) ? '✓' : step.id}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium text-sm truncate">${step.title}</div>
+                            <div class="text-xs text-gray-500 truncate">${step.description}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show specific step
+        function showStep(stepId) {
+            currentStep = stepId;
+            const step = learningSteps.find(s => s.id === stepId);
+            if (!step) return;
+
+            document.getElementById('lesson-content').innerHTML = step.content + `
+                <div class="mt-8 pt-6 border-t border-gray-200 flex justify-between items-center">
+                    <button onclick="previousStep()" class="px-4 py-2 text-blue-600 hover:text-blue-800 ${stepId === 1 ? 'invisible' : ''}">
+                        ← Previous
+                    </button>
+                    <button onclick="nextStep()" id="next-btn" class="next-btn px-6 py-2 text-white rounded-lg font-medium ${
+                        step.task ? 'opacity-50 cursor-not-allowed' : ''
+                    }" ${step.task ? 'disabled' : ''}>
+                        ${stepId === learningSteps.length ? 'Complete Course!' : 'Next Step →'}
+                    </button>
+                </div>
+            `;
+
+            renderStepsList();
+            
+            // Set up task checking if step has a task
+            if (step.task) {
+                const textarea = document.getElementById(`step${stepId}-css`);
+                if (textarea) {
+                    textarea.addEventListener('input', function() {
+                        updatePreview(stepId);
+                        checkTask(stepId);
+                    });
+                    updatePreview(stepId);
+                }
+            }
+        }
+
+        // Update preview
+        function updatePreview(stepId) {
+            const css = document.getElementById(`step${stepId}-css`).value;
+            const preview = document.getElementById(`step${stepId}-preview`);
+            
+            // Remove existing style
+            const existingStyle = document.getElementById(`step${stepId}-style`);
+            if (existingStyle) existingStyle.remove();
+            
+            // Add new style
+            const style = document.createElement('style');
+            style.id = `step${stepId}-style`;
+            style.textContent = css;
+            document.head.appendChild(style);
+        }
+
+        // Check task completion
+        function checkTask(stepId) {
+            const step = learningSteps.find(s => s.id === stepId);
+            if (!step.task) return;
+
+            const isCompleted = step.task.check();
+            const nextBtn = document.getElementById('next-btn');
+            const successMsg = document.getElementById(`step${stepId}-success`);
+
+            if (isCompleted && !progress.includes(stepId)) {
+                // Task completed!
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                successMsg.style.display = 'block';
+                
+                // Mark as completed
+                progress.push(stepId);
+                localStorage.setItem('cssBeginnerProgress', JSON.stringify(progress));
+                updateProgress();
+                renderStepsList();
+                
+                // Show celebration
+                setTimeout(() => {
+                    showCelebration();
+                }, 500);
+            }
+        }
+
+        // Navigation functions
+        function nextStep() {
+            if (currentStep < learningSteps.length) {
+                showStep(currentStep + 1);
+            } else {
+                // Course completed!
+                showCourseCompletion();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+
+        // Update progress circle
+        function updateProgress() {
+            const progressPercent = (progress.length / learningSteps.length) * 100;
+            const circle = document.getElementById('progress-circle');
+            const text = document.getElementById('progress-text');
+            
+            const circumference = 176; // 2 * π * 28
+            const offset = circumference - (progressPercent / 100) * circumference;
+            
+            circle.style.strokeDashoffset = offset;
+            text.textContent = Math.round(progressPercent) + '%';
+        }
+
+        // Show celebration animation
+        function showCelebration() {
+            const celebration = document.createElement('div');
+            celebration.innerHTML = '🎉';
+            celebration.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 4rem;
+                z-index: 1000;
+                animation: bounce 1s ease-in-out;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes bounce {
+                    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+                    50% { transform: translate(-50%, -50%) scale(1.5); }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                celebration.remove();
+                style.remove();
+            }, 1000);
+        }
+
+        // Show course completion
+        function showCourseCompletion() {
+            document.getElementById('lesson-content').innerHTML = `
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-6">🎓</div>
+                    <h2 class="text-3xl font-bold text-green-600 mb-4">Congratulations!</h2>
+                    <p class="text-xl text-gray-600 mb-6">You've successfully completed the CSS for Beginners course!</p>
+                    
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6 mb-6 max-w-2xl mx-auto">
+                        <h3 class="text-lg font-semibold text-green-800 mb-4">🎯 What You've Learned:</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-green-700">
+                            <div>✅ CSS Syntax & Structure</div>
+                            <div>✅ Colors & Backgrounds</div>
+                            <div>✅ Typography & Fonts</div>
+                            <div>✅ Spacing & Padding</div>
+                            <div>✅ Borders & Rounded Corners</div>
+                            <div>✅ Text Alignment</div>
+                            <div>✅ Width & Height</div>
+                            <div>✅ Complete Project Creation</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <button onclick="resetCourse()" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            Start Over
+                        </button>
+                        <div class="text-sm text-gray-500">
+                            Ready for more? Try learning about Flexbox, Grid, and Responsive Design!
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Reset course progress
+        function resetCourse() {
+            progress = [];
+            currentStep = 1;
+            localStorage.removeItem('cssBeginnerProgress');
+            updateProgress();
+            showStep(1);
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c01a57163b913b',t:'MTc1NzM1MTg4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
