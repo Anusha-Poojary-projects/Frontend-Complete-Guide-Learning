@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎓 SQL Made Simple — Learn Step by Step</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .code-block {
+      @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto my-4 font-mono text-sm;
+    }
+    .sql-input {
+      @apply w-full p-3 bg-gray-800 text-green-300 font-mono text-sm rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500;
+    }
+    .output {
+      @apply bg-gray-900 text-gray-300 p-4 rounded-lg my-3 font-mono text-sm overflow-auto max-h-64;
+    }
+    .nav-link {
+      @apply block py-2 px-4 rounded hover:bg-blue-100 transition font-medium;
+    }
+    .active {
+      @apply bg-blue-600 text-white;
+    }
+    .step-card {
+      @apply bg-white border-l-4 border-blue-500 p-4 rounded-lg mb-6 shadow-sm;
+    }
+    .example-card {
+      @apply bg-gray-50 p-4 rounded-lg mb-6;
+    }
+    .tip-box {
+      @apply bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-6;
+    }
+    .warning-box {
+      @apply bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg mb-6;
+    }
+    .table-view {
+      @apply w-full border-collapse my-4;
+    }
+    .table-view th {
+      @apply bg-gray-100 p-2 border text-left;
+    }
+    .table-view td {
+      @apply p-2 border;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <header class="bg-blue-700 text-white p-4 shadow">
+    <div class="max-w-6xl mx-auto text-center">
+      <h1 class="text-3xl font-bold">🎓 SQL Made Simple</h1>
+      <p class="text-blue-100 mt-2">Learn SQL step by step with examples and practice</p>
+    </div>
+  </header>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-md h-screen p-4 fixed top-20 overflow-y-auto">
+      <h2 class="font-bold text-gray-700 mb-4">📚 Lessons</h2>
+      <nav class="space-y-2">
+        <a href="#intro" class="nav-link">🌟 What is SQL?</a>
+        <a href="#setup" class="nav-link">⚙️ Getting Started</a>
+        <a href="#create" class="nav-link">➕ Create Tables</a>
+        <a href="#insert" class="nav-link">📥 Insert Data</a>
+        <a href="#select" class="nav-link">🔍 Select Data</a>
+        <a href="#where" class="nav-link">🎯 Filter Data</a>
+        <a href="#update" class="nav-link">✏️ Update Data</a>
+        <a href="#delete" class="nav-link">🗑️ Delete Data</a>
+        <a href="#join" class="nav-link">🔗 Join Tables</a>
+        <a href="#playground" class="nav-link mt-4 bg-blue-600 text-white rounded font-bold">▶️ Practice Here</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 p-8 w-full max-w-4xl">
+
+      <!-- Introduction -->
+      <section id="intro" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🌟 What is SQL?</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">SQL in Simple Terms</h3>
+          <p class="text-gray-700 leading-relaxed">
+            SQL (Structured Query Language) is how we talk to databases. Think of it like asking a librarian for books:
+          </p>
+          <ul class="mt-3 space-y-2 text-gray-700">
+            <li>• "Show me all books by Stephen King" → <code class="bg-gray-200 px-1 rounded">SELECT * FROM books WHERE author = 'Stephen King'</code></li>
+            <li>• "Add this new book to the catalog" → <code class="bg-gray-200 px-1 rounded">INSERT INTO books VALUES (...)</code></li>
+            <li>• "Change the price of this book" → <code class="bg-gray-200 px-1 rounded">UPDATE books SET price = 15.99 WHERE id = 123</code></li>
+          </ul>
+        </div>
+
+        <div class="example-card">
+          <h3 class="text-lg font-bold mb-3">Real-World Examples</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-white p-3 rounded border">
+              <h4 class="font-bold text-blue-700">📱 Social Media</h4>
+              <p class="text-sm">Store user profiles, posts, comments, likes</p>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <h4 class="font-bold text-blue-700">🛒 E-commerce</h4>
+              <p class="text-sm">Manage products, orders, customers, payments</p>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <h4 class="font-bold text-blue-700">🏥 Healthcare</h4>
+              <p class="text-sm">Store patient records, appointments, prescriptions</p>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <h4 class="font-bold text-blue-700">🏦 Banking</h4>
+              <p class="text-sm">Track accounts, transactions, balances</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Setup -->
+      <section id="setup" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">⚙️ Getting Started</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">You Don't Need to Install Anything!</h3>
+          <p class="text-gray-700">
+            For learning, you can use this browser-based simulator. But for real projects, here's what to install:
+          </p>
+          <div class="mt-4 space-y-3">
+            <div class="bg-white p-3 rounded border">
+              <h4 class="font-bold">MySQL</h4>
+              <p class="text-sm">Free, popular, great for beginners</p>
+              <a href="https://dev.mysql.com/downloads/" class="text-blue-600 text-sm underline">Download MySQL</a>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <h4 class="font-bold">PostgreSQL</h4>
+              <p class="text-sm">Powerful, feature-rich, open source</p>
+              <a href="https://www.postgresql.org/download/" class="text-blue-600 text-sm underline">Download PostgreSQL</a>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <h4 class="font-bold">Online Practice</h4>
+              <p class="text-sm">Practice SQL in your browser</p>
+              <a href="https://sqlfiddle.com/" class="text-blue-600 text-sm underline">Try SQLFiddle</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Create Tables -->
+      <section id="create" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">➕ Create Tables</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Creating Your First Table</h3>
+          <p class="text-gray-700 mb-4">
+            Tables are like spreadsheets with rows and columns. Let's create a users table:
+          </p>
+          
+          <div class="code-block">
+-- Create a users table<br>CREATE TABLE users (<br>
+&nbsp;&nbsp;id INT PRIMARY KEY AUTO_INCREMENT,<br>
+&nbsp;&nbsp;name VARCHAR(100) NOT NULL,<br>
+&nbsp;&nbsp;email VARCHAR(100) UNIQUE,<br>
+&nbsp;&nbsp;age INT,<br>
+&nbsp;&nbsp;created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP<br>
+);
+          </div>
+          
+          <div class="tip-box">
+            <h4 class="font-bold text-green-800">💡 What These Mean:</h4>
+            <ul class="text-sm text-green-700 space-y-1 mt-2">
+              <li>• <code>PRIMARY KEY</code> - Unique ID for each row</li>
+              <li>• <code>NOT NULL</code> - This field can't be empty</li>
+              <li>• <code>UNIQUE</code> - No two rows can have the same value</li>
+              <li>• <code>DEFAULT</code> - Use this value if none is provided</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <h3 class="text-lg font-bold mb-3">Common Data Types</h3>
+          <div class="overflow-x-auto">
+            <table class="table-view">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>What it stores</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>INT</td>
+                  <td>Whole numbers</td>
+                  <td>42, 100, -5</td>
+                </tr>
+                <tr>
+                  <td>VARCHAR(100)</td>
+                  <td>Text (up to 100 characters)</td>
+                  <td>"John Doe"</td>
+                </tr>
+                <tr>
+                  <td>TEXT</td>
+                  <td>Long text</td>
+                  <td>"This is a long description..."</td>
+                </tr>
+                <tr>
+                  <td>DATE</td>
+                  <td>Date</td>
+                  <td>"2023-12-25"</td>
+                </tr>
+                <tr>
+                  <td>BOOLEAN</td>
+                  <td>True/False</td>
+                  <td>TRUE, FALSE</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Insert Data -->
+      <section id="insert" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">📥 Insert Data</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Adding Data to Your Table</h3>
+          <p class="text-gray-700 mb-4">
+            Now let's add some users to our table:
+          </p>
+          
+          <div class="code-block">
+-- Add one user<br>INSERT INTO users (name, email, age) VALUES<br>
+('Alice Johnson', 'alice@example.com', 28);<br><br>
+-- Add multiple users<br>INSERT INTO users (name, email, age) VALUES<br>
+('Bob Smith', 'bob@example.com', 32),<br>
+('Carol Davis', 'carol@example.com', 25);
+          </div>
+          
+          <div class="tip-box">
+            <h4 class="font-bold text-green-800">💡 Tips for INSERT:</h4>
+            <ul class="text-sm text-green-700 space-y-1 mt-2">
+              <li>• List column names to avoid confusion</li>
+              <li>• Add multiple rows at once for efficiency</li>
+              <li>• Text values need quotes, numbers don't</li>
+              <li>• The id and created_at will be filled automatically</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          <h4 class="font-bold text-yellow-800">⚠️ Watch Out For:</h4>
+          <ul class="text-sm text-yellow-700 space-y-1 mt-2">
+            <li>• Don't forget commas between values</li>
+            <li>• Match the number of columns with values</li>
+            <li>• Respect NOT NULL and UNIQUE constraints</li>
+            <li>• Use single quotes for text, not double quotes</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Select Data -->
+      <section id="select" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🔍 Select Data</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Reading Data from Your Table</h3>
+          <p class="text-gray-700 mb-4">
+            SELECT is how you view data in your database:
+          </p>
+          
+          <div class="code-block">
+-- Show all users<br>SELECT * FROM users;<br><br>
+-- Show only name and email<br>SELECT name, email FROM users;<br><br>
+-- Show with custom column names<br>SELECT name AS 'Full Name', email AS 'Email Address' FROM users;
+          </div>
+          
+          <div class="tip-box">
+            <h4 class="font-bold text-green-800">💡 SELECT Tips:</h4>
+            <ul class="text-sm text-green-700 space-y-1 mt-2">
+              <li>• Use * to select all columns</li>
+              <li>• List specific columns to improve performance</li>
+              <li>• Use AS to give columns friendly names</li>
+              <li>• Always end SQL statements with a semicolon (;)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <h3 class="text-lg font-bold mb-3">What Results Look Like</h3>
+          <div class="overflow-x-auto">
+            <table class="table-view">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>name</th>
+                  <th>email</th>
+                  <th>age</th>
+                  <th>created_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Alice Johnson</td>
+                  <td>alice@example.com</td>
+                  <td>28</td>
+                  <td>2023-12-01 10:00:00</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Bob Smith</td>
+                  <td>bob@example.com</td>
+                  <td>32</td>
+                  <td>2023-12-01 10:30:00</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Carol Davis</td>
+                  <td>carol@example.com</td>
+                  <td>25</td>
+                  <td>2023-12-01 11:00:00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Where Clause -->
+      <section id="where" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🎯 Filter Data with WHERE</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Finding Specific Data</h3>
+          <p class="text-gray-700 mb-4">
+            Use WHERE to filter your results:
+          </p>
+          
+          <div class="code-block">
+-- Users over 30<br>SELECT * FROM users WHERE age > 30;<br><br>
+-- Specific user by email<br>SELECT * FROM users WHERE email = 'alice@example.com';<br><br>
+-- Users between 25 and 30<br>SELECT * FROM users WHERE age >= 25 AND age <= 30;<br><br>
+-- Users whose name starts with 'A'<br>SELECT * FROM users WHERE name LIKE 'A%';
+          </div>
+          
+          <div class="tip-box">
+            <h4 class="font-bold text-green-800">💡 WHERE Operators:</h4>
+            <div class="grid grid-cols-2 gap-4 text-sm text-green-700 mt-2">
+              <div>= (equals)</div>
+              <div>!= or <> (not equals)</div>
+              <div>> (greater than)</div>
+              <div>< (less than)</div>
+              <div>>= (greater than or equal)</div>
+              <div><= (less than or equal)</div>
+              <div>LIKE (pattern matching)</div>
+              <div>IN (match any in list)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <h3 class="text-lg font-bold mb-3">Pattern Matching with LIKE</h3>
+          <div class="space-y-3">
+            <div class="bg-white p-3 rounded border">
+              <code class="bg-gray-200 px-1 rounded">WHERE name LIKE 'A%'</code>
+              <p class="text-sm mt-1">Names starting with A (Alice, Andrew, etc.)</p>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <code class="bg-gray-200 px-1 rounded">WHERE name LIKE '%son'</code>
+              <p class="text-sm mt-1">Names ending with son (Johnson, Jackson, etc.)</p>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <code class="bg-gray-200 px-1 rounded">WHERE name LIKE '%a%'</code>
+              <p class="text-sm mt-1">Names containing 'a' (Alice, Carol, etc.)</p>
+            </div>
+            <div class="bg-white p-3 rounded border">
+              <code class="bg-gray-200 px-1 rounded">WHERE name LIKE '_a%'</code>
+              <p class="text-sm mt-1">Names with 'a' as second letter (Carol, James, etc.)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Update Data -->
+      <section id="update" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">✏️ Update Data</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Changing Existing Data</h3>
+          <p class="text-gray-700 mb-4">
+            Use UPDATE to modify data in your table:
+          </p>
+          
+          <div class="code-block">
+-- Change Alice's age<br>UPDATE users SET age = 29 WHERE name = 'Alice Johnson';<br><br>
+-- Change email and age for Bob<br>UPDATE users SET email = 'bob.smith@example.com', age = 33 WHERE id = 2;<br><br>
+-- Add 1 to everyone's age (be careful!)<br>UPDATE users SET age = age + 1;
+          </div>
+          
+          <div class="warning-box">
+            <h4 class="font-bold text-yellow-800">⚠️ IMPORTANT: Always use WHERE with UPDATE!</h4>
+            <p class="text-sm text-yellow-700 mt-2">
+              If you forget the WHERE clause, you'll update ALL rows in the table!
+              <br><br>
+              <code class="bg-yellow-200 px-1 rounded">UPDATE users SET age = 30;</code> ← This changes everyone's age!
+            </p>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <h4 class="font-bold text-green-800">💡 UPDATE Best Practices:</h4>
+          <ul class="text-sm text-green-700 space-y-1 mt-2">
+            <li>• Always test your WHERE clause with SELECT first</li>
+            <li>• Update one column at a time when learning</li>
+            <li>• Use transactions for important updates (COMMIT/ROLLBACK)</li>
+            <li>• Keep backups of important data</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Delete Data -->
+      <section id="delete" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🗑️ Delete Data</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Removing Data from Your Table</h3>
+          <p class="text-gray-700 mb-4">
+            Use DELETE to remove rows from your table:
+          </p>
+          
+          <div class="code-block">
+-- Delete Carol's record<br>DELETE FROM users WHERE name = 'Carol Davis';<br><br>
+-- Delete users under 18<br>DELETE FROM users WHERE age < 18;<br><br>
+-- Delete all users (be very careful!)<br>DELETE FROM users;
+          </div>
+          
+          <div class="warning-box">
+            <h4 class="font-bold text-yellow-800">⚠️ DANGER: DELETE is permanent!</h4>
+            <p class="text-sm text-yellow-700 mt-2">
+              Unlike UPDATE, DELETE removes entire rows from your table.
+              <br><br>
+              <code class="bg-yellow-200 px-1 rounded">DELETE FROM users;</code> ← This deletes ALL users!
+              <br><br>
+              Always double-check your WHERE clause before executing!
+            </p>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <h4 class="font-bold text-green-800">💡 DELETE Safety Tips:</h4>
+          <ul class="text-sm text-green-700 space-y-1 mt-2">
+            <li>• Test your WHERE clause with SELECT first</li>
+            <li>• Consider using "soft delete" (add an "is_deleted" column)</li>
+            <li>• Keep regular backups of your database</li>
+            <li>• Use transactions so you can ROLLBACK if needed</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Join Tables -->
+      <section id="join" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">🔗 Join Tables</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Combining Data from Multiple Tables</h3>
+          <p class="text-gray-700 mb-4">
+            JOIN lets you combine data from related tables:
+          </p>
+          
+          <div class="code-block">
+-- Create a products table<br>CREATE TABLE products (<br>
+&nbsp;&nbsp;id INT PRIMARY KEY AUTO_INCREMENT,<br>
+&nbsp;&nbsp;name VARCHAR(100),<br>
+&nbsp;&nbsp;price DECIMAL(10,2),<br>
+&nbsp;&nbsp;category_id INT<br>
+);<br><br>
+-- Create an orders table<br>CREATE TABLE orders (<br>
+&nbsp;&nbsp;id INT PRIMARY KEY AUTO_INCREMENT,<br>
+&nbsp;&nbsp;user_id INT,<br>
+&nbsp;&nbsp;product_id INT,<br>
+&nbsp;&nbsp;quantity INT<br>
+);<br><br>
+-- Show orders with user and product names<br>SELECT users.name, products.name, orders.quantity<br>FROM orders<br>JOIN users ON orders.user_id = users.id<br>JOIN products ON orders.product_id = products.id;
+          </div>
+          
+          <div class="tip-box">
+            <h4 class="font-bold text-green-800">💡 JOIN Types:</h4>
+            <ul class="text-sm text-green-700 space-y-1 mt-2">
+              <li>• <code>JOIN</code> or <code>INNER JOIN</code> - Only matching rows from both tables</li>
+              <li>• <code>LEFT JOIN</code> - All rows from left table, matching from right</li>
+              <li>• <code>RIGHT JOIN</code> - All rows from right table, matching from left</li>
+              <li>• <code>FULL JOIN</code> - All rows from both tables</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <h3 class="text-lg font-bold mb-3">Visual Example</h3>
+          <p class="text-gray-700 mb-3">Imagine you have these tables:</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <h4 class="font-bold text-center mb-2">Users</h4>
+              <table class="table-view text-sm">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>Alice</td></tr>
+                  <tr><td>2</td><td>Bob</td></tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div>
+              <h4 class="font-bold text-center mb-2">Products</h4>
+              <table class="table-view text-sm">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>Laptop</td></tr>
+                  <tr><td>2</td><td>Mouse</td></tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div>
+              <h4 class="font-bold text-center mb-2">Orders</h4>
+              <table class="table-view text-sm">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>user_id</th>
+                    <th>product_id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1</td><td>1</td><td>1</td></tr>
+                  <tr><td>2</td><td>1</td><td>2</td></tr>
+                  <tr><td>3</td><td>2</td><td>1</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <p class="text-gray-700 mt-4">
+            <strong>JOIN Result:</strong> Shows who ordered what
+          </p>
+          <table class="table-view text-sm">
+            <thead>
+              <tr>
+                <th>user_name</th>
+                <th>product_name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Alice</td><td>Laptop</td></tr>
+              <tr><td>Alice</td><td>Mouse</td></tr>
+              <tr><td>Bob</td><td>Laptop</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Playground -->
+      <section id="playground" class="mb-12">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">▶️ Practice Here</h2>
+        
+        <div class="step-card">
+          <h3 class="text-xl font-bold mb-3">Try SQL Commands</h3>
+          <p class="text-gray-700 mb-4">
+            Practice what you've learned! Type SQL commands below and click "Run".
+          </p>
+          
+          <textarea id="sql-input" class="sql-input" rows="6" placeholder="Try: SELECT * FROM users;">SELECT * FROM users;</textarea>
+          
+          <div class="mt-4 flex gap-3">
+            <button id="run-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium">Run SQL</button>
+            <button id="clear-btn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-medium">Clear Output</button>
+            <button id="reset-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium">Reset Data</button>
+          </div>
+          
+          <h4 class="text-lg font-bold mt-6 mb-3">Output:</h4>
+          <div id="sql-output" class="output">
+            <div class="text-green-400">Try running a SQL command above!</div>
+          </div>
+          
+          <div class="tip-box mt-6">
+            <h4 class="font-bold text-green-800">💡 Quick Examples to Try:</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <button class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded text-left text-xs" onclick="document.getElementById('sql-input').value='SELECT * FROM users;';">SELECT * FROM users;</button>
+              <button class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded text-left text-xs" onclick="document.getElementById('sql-input').value='SELECT name, email FROM users WHERE age > 25;';">SELECT name, email FROM users WHERE age > 25;</button>
+              <button class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded text-left text-xs" onclick="document.getElementById('sql-input').value='INSERT INTO users (name, email, age) VALUES (\'David Wilson\', \'david@example.com\', 27);';">INSERT INTO users (name, email, age) VALUES (...);</button>
+              <button class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded text-left text-xs" onclick="document.getElementById('sql-input').value='UPDATE users SET age = 30 WHERE name = \'Alice Johnson\';';">UPDATE users SET age = 30 WHERE name = 'Alice Johnson';</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="mt-16 pt-8 border-t text-center text-gray-500">
+        <p class="font-medium">🎉 Congratulations! You've learned SQL basics!</p>
+        <p class="mt-2">Practice regularly and try building a small project like a blog or todo list.</p>
+        <p class="mt-1 text-sm">Remember: The best way to learn is by doing!</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    // Mock database for the SQL simulator
+    let mockDB = {
+      users: [
+        { id: 1, name: 'Alice Johnson', email: 'alice@example.com', age: 28, created_at: '2023-12-01 10:00:00' },
+        { id: 2, name: 'Bob Smith', email: 'bob@example.com', age: 32, created_at: '2023-12-01 10:30:00' },
+        { id: 3, name: 'Carol Davis', email: 'carol@example.com', age: 25, created_at: '2023-12-01 11:00:00' }
+      ]
+    };
+
+    // Simple SQL processor
+    function processSQLCommand(cmd) {
+      cmd = cmd.trim();
+      
+      try {
+        // Handle SELECT
+        if (cmd.toLowerCase().startsWith('select')) {
+          if (cmd.toLowerCase().includes('from users')) {
+            // Format the table output
+            let result = "";
+            const columns = Object.keys(mockDB.users[0]);
+            
+            // Create header
+            result += "+" + columns.map(col => "-".repeat(Math.max(col.length, 10))).join("+") + "+\n";
+            result += "|" + columns.map(col => col.padEnd(Math.max(col.length, 10))).join("|") + "|\n";
+            result += "+" + columns.map(col => "-".repeat(Math.max(col.length, 10))).join("+") + "+\n";
+            
+            // Add data rows
+            mockDB.users.forEach(row => {
+              result += "|" + columns.map(col => {
+                const value = row[col] !== undefined ? String(row[col]) : "NULL";
+                return value.padEnd(Math.max(col.length, 10));
+              }).join("|") + "|\n";
+            });
+            
+            result += "+" + columns.map(col => "-".repeat(Math.max(col.length, 10))).join("+") + "+\n";
+            result += `${mockDB.users.length} row${mockDB.users.length !== 1 ? 's' : ''} in set`;
+            
+            return result;
+          }
+        }
+        
+        // Handle INSERT
+        if (cmd.toLowerCase().startsWith('insert')) {
+          if (cmd.toLowerCase().includes('into users')) {
+            // Simple simulation - add a new user
+            const newId = Math.max(...mockDB.users.map(u => u.id)) + 1;
+            mockDB.users.push({
+              id: newId,
+              name: 'New User',
+              email: 'new@example.com',
+              age: 30,
+              created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            });
+            return `Query OK, 1 row affected\nNew user added with ID ${newId}`;
+          }
+        }
+        
+        // Handle UPDATE
+        if (cmd.toLowerCase().startsWith('update')) {
+          if (cmd.toLowerCase().includes('users')) {
+            // Simple simulation - update first user
+            if (mockDB.users.length > 0) {
+              mockDB.users[0].age = 30;
+              return "Query OK, 1 row affected\nFirst user's age updated to 30";
+            }
+          }
+        }
+        
+        // Handle DELETE
+        if (cmd.toLowerCase().startsWith('delete')) {
+          if (cmd.toLowerCase().includes('from users')) {
+            // Simple simulation - delete last user
+            if (mockDB.users.length > 0) {
+              const deletedUser = mockDB.users.pop();
+              return `Query OK, 1 row affected\nDeleted user: ${deletedUser.name}`;
+            }
+          }
+        }
+        
+        // Handle CREATE TABLE
+        if (cmd.toLowerCase().startsWith('create table')) {
+          return "Query OK, 0 rows affected\nTable created successfully";
+        }
+        
+        // Handle other commands
+        if (cmd.toLowerCase().includes('show tables')) {
+          return "+----------------+\n| Tables_in_db   |\n+----------------+\n| users          |\n+----------------+";
+        }
+        
+        return "Command executed (simulated)\nTry SELECT * FROM users; to see data";
+      } catch (e) {
+        return "Error: " + e.message;
+      }
+    }
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', () => {
+      const sqlInput = document.getElementById('sql-input');
+      const sqlOutput = document.getElementById('sql-output');
+      const runBtn = document.getElementById('run-btn');
+      const clearBtn = document.getElementById('clear-btn');
+      const resetBtn = document.getElementById('reset-btn');
+
+      // Run SQL command
+      runBtn.addEventListener('click', () => {
+        const command = sqlInput.value;
+        const result = processSQLCommand(command);
+        
+        sqlOutput.innerHTML = `<pre class="text-green-400">${result}</pre>`;
+      });
+
+      // Clear output
+      clearBtn.addEventListener('click', () => {
+        sqlOutput.innerHTML = '<div class="text-green-400">Output cleared. Try running a SQL command!</div>';
+      });
+
+      // Reset data
+      resetBtn.addEventListener('click', () => {
+        mockDB = {
+          users: [
+            { id: 1, name: 'Alice Johnson', email: 'alice@example.com', age: 28, created_at: '2023-12-01 10:00:00' },
+            { id: 2, name: 'Bob Smith', email: 'bob@example.com', age: 32, created_at: '2023-12-01 10:30:00' },
+            { id: 3, name: 'Carol Davis', email: 'carol@example.com', age: 25, created_at: '2023-12-01 11:00:00' }
+          ]
+        };
+        sqlOutput.innerHTML = '<div class="text-green-400">Data reset to original state!</div>';
+      });
+
+      // Smooth scroll for navigation
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: 'smooth'
+            });
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            this.classList.add('active');
+          }
+        });
+      });
+
+      // Scroll spy
+      window.addEventListener('scroll', () => {
+        let current = '';
+        const sections = document.querySelectorAll('section');
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
