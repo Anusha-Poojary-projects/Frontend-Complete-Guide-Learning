@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Increment & Decrement Operators</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a235a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e67e22;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .operator-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .operator-table th {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .operator-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .operator-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .operator-table tr:hover {
+            background-color: #e8f4f8;
+        }
+
+        .operator-category {
+            background: linear-gradient(135deg, #e67e2222, #d3540022);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #e67e22;
+        }
+
+        .operator-category h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .operator-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+        }
+
+        .example-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #d35400;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #e67e22, #d35400);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .operator-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            border-radius: 50%;
+            color: white;
+            font-size: 3.5rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 5px solid white;
+        }
+
+        .comparison-result {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .true-result {
+            background: linear-gradient(120deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .false-result {
+            background: linear-gradient(120deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .increment-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .increment-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+
+        .increment-operator {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .increment-desc {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            border: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .best-practices {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+        }
+
+        .best-practices h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .best-practices ul {
+            padding-left: 20px;
+        }
+
+        .best-practices li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>JavaScript Increment & Decrement Operators</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div class="operator-logo">++ --</div>
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    Understanding Pre vs Post Operations
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Mastering the subtle differences between ++x, x++, --x, and x--
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Introduction -->
+        <div class="slide">
+            <h2>What are Increment & Decrement Operators?</h2>
+            <p>The increment (<code>++</code>) and decrement (<code>--</code>) operators are unary operators that increase or decrease the value of a variable by 1.</p>
+            
+            <div class="demo-container">
+                <h3>Basic Syntax</h3>
+                <div class="code-block">
+// Increment operator
+x++;  // Post-increment
+++x;  // Pre-increment
+
+// Decrement operator
+x--;  // Post-decrement
+--x;  // Pre-decrement</div>
+            </div>
+            
+            <div class="increment-examples">
+                <div class="increment-card">
+                    <div class="increment-operator">++</div>
+                    <div class="increment-desc">Increment Operator</div>
+                    <p>Increases the value of a variable by 1</p>
+                </div>
+                
+                <div class="increment-card">
+                    <div class="increment-operator">--</div>
+                    <div class="increment-desc">Decrement Operator</div>
+                    <p>Decreases the value of a variable by 1</p>
+                </div>
+            </div>
+            
+            <div class="best-practices">
+                <h4>Important Notes</h4>
+                <ul>
+                    <li>These operators only work with variables, not with literals or constants</li>
+                    <li>They modify the original variable (unlike most other operators)</li>
+                    <li>The position (prefix vs postfix) affects the return value</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Pre-increment vs Post-increment -->
+        <div class="slide">
+            <h2>Pre-increment vs Post-increment</h2>
+            <p>The position of the operator determines when the increment happens and what value is returned in an expression.</p>
+            
+            <div class="operator-category">
+                <h4>Pre-increment (<code>++x</code>)</h4>
+                <p>Increments the variable <strong>before</strong> returning its value.</p>
+                <div class="code-block">
+let x = 5;
+let y = ++x;  // x becomes 6, then y is assigned 6
+console.log(x); // 6
+console.log(y); // 6</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Post-increment (<code>x++</code>)</h4>
+                <p>Returns the current value, then increments the variable <strong>after</strong>.</p>
+                <div class="code-block">
+let x = 5;
+let y = x++;  // y is assigned 5, then x becomes 6
+console.log(x); // 6
+console.log(y); // 5</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Visual Comparison</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Expression</th>
+                            <th>Initial x</th>
+                            <th>Value Returned</th>
+                            <th>Final x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>++x</code></td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td><code>x++</code></td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 4: Pre-decrement vs Post-decrement -->
+        <div class="slide">
+            <h2>Pre-decrement vs Post-decrement</h2>
+            <p>Similar to increment operators, but decreases the value by 1.</p>
+            
+            <div class="operator-category">
+                <h4>Pre-decrement (<code>--x</code>)</h4>
+                <p>Decrements the variable <strong>before</strong> returning its value.</p>
+                <div class="code-block">
+let x = 5;
+let y = --x;  // x becomes 4, then y is assigned 4
+console.log(x); // 4
+console.log(y); // 4</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Post-decrement (<code>x--</code>)</h4>
+                <p>Returns the current value, then decrements the variable <strong>after</strong>.</p>
+                <div class="code-block">
+let x = 5;
+let y = x--;  // y is assigned 5, then x becomes 4
+console.log(x); // 4
+console.log(y); // 5</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Visual Comparison</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Expression</th>
+                            <th>Initial x</th>
+                            <th>Value Returned</th>
+                            <th>Final x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>--x</code></td>
+                            <td>5</td>
+                            <td>4</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td><code>x--</code></td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 5: Practical Examples -->
+        <div class="slide">
+            <h2>Practical Examples</h2>
+            <p>How increment and decrement operators are commonly used in real code.</p>
+            
+            <div class="operator-category">
+                <h4>Loop Counters</h4>
+                <div class="code-block">
+// Common in for loops
+for (let i = 0; i < 5; i++) {
+    console.log(i); // 0, 1, 2, 3, 4
+}
+
+// While loops
+let count = 3;
+while (count--) {
+    console.log(count); // 2, 1, 0
+}</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Array Indexing</h4>
+                <div class="code-block">
+let arr = ['a', 'b', 'c'];
+let index = 0;
+
+// Get current element and move to next
+let current = arr[index++]; // 'a', index becomes 1
+
+// Move to next element then get it
+let next = arr[++index];    // 'c', index becomes 2</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Counter Operations</h4>
+                <div class="code-block">
+// Simple counter
+let visits = 0;
+visits++; // Increment visit count
+
+// Conditional increment
+let score = 10;
+let bonus = (score > 5) ? ++score : score;
+// score becomes 11, bonus is 11</div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Common Pitfalls -->
+        <div class="slide">
+            <h2>Common Pitfalls & Gotchas</h2>
+            <p>Understanding where mistakes commonly happen with these operators.</p>
+            
+            <div class="operator-category">
+                <h4>Unexpected Behavior in Expressions</h4>
+                <div class="code-block">
+let x = 5;
+let result = x++ + ++x; 
+// x++ returns 5 (x becomes 6)
+// ++x increments to 7 and returns 7
+// result = 5 + 7 = 12
+// Final x = 7</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Multiple Operations on Same Variable</h4>
+                <div class="code-block">
+let a = 1;
+let b = a++ + a++;
+// First a++: returns 1 (a becomes 2)
+// Second a++: returns 2 (a becomes 3)
+// b = 1 + 2 = 3
+// Final a = 3</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Non-numeric Values</h4>
+                <div class="code-block">
+let str = "5";
+str++; // Works! Converts to number first: 5 → 6
+
+let obj = {};
+obj++; // NaN (Not a Number)
+
+let bool = true;
+bool++; // 2 (true converts to 1, then increments)</div>
+            </div>
+            
+            <div class="best-practices">
+                <h4>Best Practice</h4>
+                <p>Avoid complex expressions with multiple increment/decrement operations on the same variable. It reduces readability and increases the chance of bugs.</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Operator Precedence -->
+        <div class="slide">
+            <h2>Operator Precedence</h2>
+            <p>How increment and decrement operators fit into JavaScript's operator precedence hierarchy.</p>
+            
+            <div class="demo-container">
+                <h3>Precedence Level</h3>
+                <p>Increment and decrement operators have <strong>very high precedence</strong> (level 20 out of 21), just below grouping <code>()</code> and above exponentiation <code>**</code>.</p>
+                
+                <div class="code-block">
+// Without parentheses
+let x = 5;
+let result = 3 * ++x; // 3 * 6 = 18
+
+// Same as:
+let result = 3 * (++x); // Explicit grouping
+
+// But different from:
+let result = (3 * x)++; // Syntax error! Can't increment a value</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Associativity</h4>
+                <p>Increment and decrement operators are <strong>right-associative</strong>, meaning they group from right to left.</p>
+                <div class="code-block">
+// This is valid but confusing
+let x = 5;
+let y = ++++x; // Equivalent to ++(++x)
+// First: ++x → x=6
+// Then: ++6 → x=7, y=7
+
+// Avoid this pattern!</div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Best Practices -->
+        <div class="slide">
+            <h2>Best Practices</h2>
+            <p>How to use increment and decrement operators effectively and safely.</p>
+            
+            <div class="best-practices">
+                <h4>When to Use Each Form</h4>
+                <ul>
+                    <li><strong>Use post-increment (<code>x++</code>)</strong> when you need the current value before incrementing (common in loops)</li>
+                    <li><strong>Use pre-increment (<code>++x</code>)</strong> when you need the incremented value immediately</li>
+                    <li><strong>Avoid mixing</strong> increment/decrement operators in complex expressions</li>
+                    <li><strong>Prefer clarity over cleverness</strong> - explicit is better than implicit</li>
+                </ul>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Readability Tips</h4>
+                <div class="code-block">
+// Good: Clear and simple
+count++;
+index--;
+
+// Avoid: Confusing expressions
+let result = arr[i++] + arr[++i];
+
+// Better: Explicit and readable
+let current = arr[i];
+i++;
+let next = arr[i];
+i++;
+let result = current + next;</div>
+            </div>
+            
+            <div class="operator-category">
+                <h4>Performance Note</h4>
+                <p>In modern JavaScript engines, there's <strong>no performance difference</strong> between pre and post operators. Choose based on semantics, not performance.</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide">
+            <h2>Key Takeaways</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3>Operator Behavior</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li><span class="highlight">Pre-increment (++x):</span> Increment then return</li>
+                            <li><span class="highlight">Post-increment (x++):</span> Return then increment</li>
+                            <li><span class="highlight">Pre-decrement (--x):</span> Decrement then return</li>
+                            <li><span class="highlight">Post-decrement (x--):</span> Return then decrement</li>
+                            <li>Both modify the original variable</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Best Practices</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li>Use in simple statements, not complex expressions</li>
+                            <li>Prefer pre-increment when you don't need the original value</li>
+                            <li>Be consistent in your codebase</li>
+                            <li>Understand type coercion with non-numeric values</li>
+                            <li>Remember they have very high operator precedence</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #e67e22, #d35400); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">++ Master These Operators, -- Avoid Common Bugs!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">Understanding the subtle differences between pre and post operations will make you a better JavaScript developer.</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

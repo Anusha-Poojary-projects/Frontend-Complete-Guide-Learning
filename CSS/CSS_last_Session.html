@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+                        /* background-image: url("Bhagat.jpg");
+                        /* background-size: 100% 100%; */
+                        /* background-position: 10% 10%;
+                        background-repeat: repeat-y; */ 
+                         /* background: linear-gradient(45deg, #ff6b6b, #4ecdc4); } .radial-bg { background: radial-gradient(circle, #667eea, #764ba2);  */
+
+
+        }
+        .grid_container{
+            display: grid;
+            border: 1px solid black;
+            grid-template-columns: 200px 1fr 2fr;
+            grid-template-rows: repeat(3,100px);
+            gap:50px 30px;
+        }
+        @keyframes slidein{
+            from{
+                margin-left: 100%;
+                width: 300%;
+            }
+            to{
+                margin-left: 0%;
+                width: 100%;
+            }
+        }
+        /* .background{ */
+            /* background-image: url("Bhagat.jpg"); */
+            /* width: 1000px; */
+            /* height: 400px; */
+            /* background-repeat: no-repeat;
+            /* transform:skew(20deg,10deg); */
+
+            /* animation: slidein 3s ease-in-out; */ 
+
+        /* } */
+        .btn{
+            background-color: #4CAF50; /* Green */
+            color: black;
+        }
+        .btn:focus{
+            background-color: burlywood;
+            color: white;
+        }
+        .background{
+                    background-image: url("Bhagat.jpg");
+                    height: 300px;
+                    width: 500px;
+                    background-repeat: no-repeat;
+                    /* transform: skew(45deg,10deg); */
+                    /* margin-left: 0%; */
+                    animation: slidein 2s ease-in-out
+
+
+        }
+
+        h1::before{
+            content: " - The Last CSS Session";
+            font-size: 0.8em;
+            color: gray;
+        }
+        
+</style>
+</head>
+<body>
+    <h1>Welcome to the Last CSS Session</h1>
+    <div class="grid_container">
+        <div class="item1" style="background-color: lightcyan;">1</div>
+        <div class="item2" style="background-color: lightgreen;">2</div>
+        <div class="item3" style="background-color: lightpink;">3</div>
+        <div class="item4" style="background-color: lightcoral;">4</div>
+        <div class="item5" style="background-color: lightsalmon;">5</div>
+        <div class="item6" style="background-color: lightgoldenrodyellow;">6</div>
+    </div>
+    <br>
+    <br>
+    <h1>background</h1>
+    <div class="background" style="height: 1000px;width: 1000px; border: 1px solid black;">
+    <!-- <div >
+         <h1>Hello World</h1>
+    </div>
+    <div>
+        <h1>Hello class</h1>
+    </div> -->
+    </div>
+
+    <button class="btn">Click Me</button>
+
+</body>
+</html>

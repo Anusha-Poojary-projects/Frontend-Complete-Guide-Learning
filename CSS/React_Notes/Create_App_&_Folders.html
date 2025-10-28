@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating a React App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #1a2a6c;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #1a2a6c;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #6a11cb;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #1a2a6c;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .folder-structure {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .folder-component {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            margin: 0 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .folder-component h4 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6a11cb;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .console-output {
+            background: #1a2a6c;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .dependencies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .dependency-card {
+            background: linear-gradient(135deg, #6a11cb22, #2575fc22);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #6a11cb;
+        }
+
+        .dependency-card h4 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .file-explorer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .file-explorer .folder {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .file-explorer .file {
+            color: #2ecc71;
+        }
+
+        .file-explorer .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .navigation {
+            background: #1a2a6c;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #2575fc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .react-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 50%;
+            color: white;
+            font-size: 3.5rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 5px solid white;
+        }
+
+        .setup-steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+        }
+
+        .step-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1a2a6c;
+            padding: 8px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+
+        .file-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .file-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #6a11cb;
+        }
+
+        .file-card h4 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .essential-deps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .dep-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .dep-title {
+            font-weight: bold;
+            color: #1a2a6c;
+            margin-bottom: 5px;
+        }
+
+        .code-block {
+            background: #1a2a6c;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Creating a React App</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div class="react-logo">⚛️</div>
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    Setup, Folder Structure & Dependencies
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Everything you need to start building with React
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Prerequisites -->
+        <div class="slide">
+            <h2>Prerequisites</h2>
+            <p>Before creating a React app, ensure you have these installed:</p>
+            
+            <div class="setup-steps">
+                <div class="step-container">
+                    <div class="step-title">Node.js & npm</div>
+                    <p><strong>Node.js</strong> (version 14.0 or newer) is required to run JavaScript outside the browser.</p>
+                    <p><strong>npm</strong> (Node Package Manager) comes bundled with Node.js and is used to install packages.</p>
+                    <div class="console-output">
+# Check your versions
+node --version
+npm --version
+                    </div>
+                </div>
+                
+                <div class="step-container">
+                    <div class="step-title">Code Editor</div>
+                    <p>While any text editor works, these are recommended:</p>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Visual Studio Code</strong> (most popular with excellent React support)</li>
+                        <li><strong>WebStorm</strong> (powerful IDE with built-in React tools)</li>
+                        <li><strong>Sublime Text</strong> (lightweight with React plugins)</li>
+                    </ul>
+                </div>
+                
+                <div class="step-container">
+                    <div class="step-title">Browser</div>
+                    <p>Modern browsers with developer tools:</p>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li>Google Chrome (with React Developer Tools extension)</li>
+                        <li>Mozilla Firefox</li>
+                        <li>Microsoft Edge</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Creating a React App -->
+        <div class="slide">
+            <h2>Creating a React App</h2>
+            <p>The easiest way to create a new React app is using Create React App (CRA).</p>
+            
+            <div class="demo-container">
+                <h3>Using npx (Recommended)</h3>
+                <p><code>npx</code> is a package runner tool that comes with npm 5.2+. It allows you to run packages without installing them globally.</p>
+                <div class="console-output">
+# Create a new React app named 'my-app'
+npx create-react-app my-app
+
+# Navigate to your app directory
+cd my-app
+
+# Start the development server
+npm start
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Alternative Methods</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Using npm:</strong> <code>npm init react-app my-app</code></li>
+                    <li><strong>Using Yarn:</strong> <code>yarn create react-app my-app</code></li>
+                    <li><strong>Vite (Modern Alternative):</strong> <code>npm create vite@latest my-app -- --template react</code></li>
+                </ul>
+            </div>
+            
+            <div class="demo-container">
+                <h3>What Happens During Setup?</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>Creates a project directory with all necessary files</li>
+                    <li>Installs React, ReactDOM, and development dependencies</li>
+                    <li>Sets up Webpack, Babel, and ESLint with sensible defaults</li>
+                    <li>Configures development server with hot reloading</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Folder Structure -->
+        <div class="slide">
+            <h2>React App Folder Structure</h2>
+            <p>Understanding the default folder structure is crucial for efficient development.</p>
+            
+            <div class="file-explorer">
+my-app/<br>
+├── <span class="folder">node_modules/</span>          <span class="comment"># Installed dependencies</span><br>
+├── <span class="folder">public/</span>                 <span class="comment"># Static assets served directly</span><br>
+│   ├── favicon.ico<br>
+│   ├── index.html          <span class="comment"># Main HTML template</span><br>
+│   └── manifest.json       <span class="comment"># Web app manifest</span><br>
+├── <span class="folder">src/</span>                    <span class="comment"># Source code directory</span><br>
+│   ├── App.css             <span class="comment"># App component styles</span><br>
+│   ├── App.js              <span class="comment"># Main App component</span><br>
+│   ├── App.test.js         <span class="comment"># App component tests</span><br>
+│   ├── index.css           <span class="comment"># Global styles</span><br>
+│   ├── index.js            <span class="comment"># Entry point</span><br>
+│   ├── logo.svg            <span class="comment"># React logo</span><br>
+│   └── reportWebVitals.js  <span class="comment"># Performance monitoring</span><br>
+├── .gitignore              <span class="comment"># Files to ignore in Git</span><br>
+├── package.json            <span class="comment"># Project metadata and dependencies</span><br>
+├── package-lock.json       <span class="comment"># Exact dependency versions</span><br>
+└── README.md               <span class="comment"># Project documentation</span>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Key Directories</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>public/</strong>: Contains static files that are served directly by the web server</li>
+                    <li><strong>src/</strong>: Contains all your React components, styles, and application logic</li>
+                    <li><strong>node_modules/</strong>: Contains all installed npm packages (should be in .gitignore)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: Essential Files Explained -->
+        <div class="slide">
+            <h2>Essential Files Explained</h2>
+            <p>Understanding the purpose of each key file helps you navigate your React project.</p>
+            
+            <div class="file-details">
+                <div class="file-card">
+                    <h4>public/index.html</h4>
+                    <p>The main HTML template. React injects your app into the <code><div id="root"></div></code> element.</p>
+                    <div class="code-block">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>React App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+                    </div>
+                </div>
+                
+                <div class="file-card">
+                    <h4>src/index.js</h4>
+                    <p>The entry point of your React application. It renders the root App component into the DOM.</p>
+                    <div class="code-block">
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root')
+);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+reportWebVitals();
+                    </div>
+                </div>
+                
+                <div class="file-card">
+                    <h4>src/App.js</h4>
+                    <p>The main component that serves as the root of your application's component tree.</p>
+                    <div class="code-block">
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>Edit <code>src/App.js</code> and save to reload.</p>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+                    </div>
+                </div>
+                
+                <div class="file-card">
+                    <h4>package.json</h4>
+                    <p>Contains project metadata, dependencies, scripts, and configuration.</p>
+                    <div class="code-block">
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
+  }
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Dependencies Overview -->
+        <div class="slide">
+            <h2>Dependencies Overview</h2>
+            <p>React apps rely on various dependencies for development and production.</p>
+            
+            <div class="dependencies-grid">
+                <div class="dependency-card">
+                    <h4>Core Dependencies</h4>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>react</strong>: The React library itself</li>
+                        <li><strong>react-dom</strong>: Provides DOM-specific methods</li>
+                    </ul>
+                </div>
+                
+                <div class="dependency-card">
+                    <h4>Development Dependencies</h4>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>react-scripts</strong>: Configuration and scripts for CRA</li>
+                        <li><strong>web-vitals</strong>: Performance monitoring</li>
+                    </ul>
+                </div>
+                
+                <div class="dependency-card">
+                    <h4>Build Tools (Included)</h4>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Webpack</strong>: Module bundler</li>
+                        <li><strong>Babel</strong>: JavaScript compiler</li>
+                        <li><strong>ESLint</strong>: Code linter</li>
+                        <li><strong>Jest</strong>: Testing framework</li>
+                    </ul>
+                </div>
+                
+                <div class="dependency-card">
+                    <h4>Optional but Recommended</h4>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>prop-types</strong>: Runtime type checking</li>
+                        <li><strong>react-router-dom</strong>: Routing</li>
+                        <li><strong>axios</strong>: HTTP client</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Viewing Dependencies</h3>
+                <div class="console-output">
+# View all dependencies
+npm list --depth=0
+
+# View production dependencies only
+npm list --depth=0 --production
+
+# View development dependencies only
+npm list --depth=0 --dev
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Essential Dependencies to Install -->
+        <div class="slide">
+            <h2>Essential Dependencies to Install</h2>
+            <p>While Create React App includes many tools, you'll often need to add these common dependencies.</p>
+            
+            <div class="essential-deps">
+                <div class="dep-item">
+                    <div class="dep-title">React Router</div>
+                    <p>For client-side routing</p>
+                    <div class="code-block">npm install react-router-dom</div>
+                </div>
+                <div class="dep-item">
+                    <div class="dep-title">Axios</div>
+                    <p>Promise-based HTTP client</p>
+                    <div class="code-block">npm install axios</div>
+                </div>
+                <div class="dep-item">
+                    <div class="dep-title">Styled Components</div>
+                    <p>CSS-in-JS styling</p>
+                    <div class="code-block">npm install styled-components</div>
+                </div>
+                <div class="dep-item">
+                    <div class="dep-title">Redux Toolkit</div>
+                    <p>State management</p>
+                    <div class="code-block">npm install @reduxjs/toolkit react-redux</div>
+                </div>
+                <div class="dep-item">
+                    <div class="dep-title">Formik</div>
+                    <p>Form handling</p>
+                    <div class="code-block">npm install formik</div>
+                </div>
+                <div class="dep-item">
+                    <div class="dep-title">React Icons</div>
+                    <p>Popular icon libraries</p>
+                    <div class="code-block">npm install react-icons</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Installing Dependencies</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Production dependencies:</strong> <code>npm install package-name</code></li>
+                    <li><strong>Development dependencies:</strong> <code>npm install --save-dev package-name</code></li>
+                    <li><strong>Global packages:</strong> <code>npm install -g package-name</code> (rarely needed)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Development Scripts -->
+        <div class="slide">
+            <h2>Development Scripts</h2>
+            <p>Create React App provides several useful scripts in package.json.</p>
+            
+            <div class="dependencies-grid">
+                <div class="dependency-card">
+                    <h4>npm start</h4>
+                    <p>Runs the app in development mode with hot reloading.</p>
+                    <div class="console-output">Local: http://localhost:3000<br>On Your Network: http://192.168.x.x:3000</div>
+                </div>
+                
+                <div class="dependency-card">
+                    <h4>npm test</h4>
+                    <p>Launches the test runner in watch mode.</p>
+                    <p>Runs tests related to files changed since last commit.</p>
+                </div>
+                
+                <div class="dependency-card">
+                    <h4>npm run build</h4>
+                    <p>Builds the app for production to the <code>build</code> folder.</p>
+                    <p>Optimizes for performance with minification and code splitting.</p>
+                </div>
+                
+                <div class="dependency-card">
+                    <h4>npm run eject</h4>
+                    <p><strong>⚠️ One-way operation!</strong> Exposes all configuration files.</p>
+                    <p>Allows customization of webpack, Babel, etc. but removes CRA abstraction.</p>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Custom Scripts</h3>
+                <p>You can add your own scripts to package.json:</p>
+                <div class="code-block">
+{
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src",
+    "format": "prettier --write src"
+  }
+}
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide">
+            <h2>Creating a React App: Key Takeaways</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3>Setup Process</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li>Install Node.js and npm</li>
+                            <li>Use <code>npx create-react-app my-app</code></li>
+                            <li>Run <code>npm start</code> to launch development server</li>
+                            <li>Start coding in the <code>src</code> directory</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Folder Structure</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li><strong>public/</strong>: Static assets and HTML template</li>
+                            <li><strong>src/</strong>: All React components and logic</li>
+                            <li><strong>index.js</strong>: Entry point that renders App</li>
+                            <li><strong>App.js</strong>: Root component of your application</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🚀 Ready to Build Amazing Apps!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">With your React environment set up and understanding the structure, you're ready to create powerful, interactive user interfaces.</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Flexbox - Student Guide Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+    }
+    h2 {
+      color: #2c3e50;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-left: 5px solid #3498db;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .flex-container {
+      display: flex;
+      border: 2px solid #000;
+      padding: 10px;
+      margin: 20px 0;
+      height: 150px;
+      background: #fdfdfd;
+    }
+    .flex-item {
+      background: #add8e6;
+      padding: 20px;
+      margin: 5px;
+      color: #000;
+      font-weight: bold;
+      text-align: center;
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>CSS Flexbox </h1>
+
+  <h2>What You Will Learn</h2>
+  <p>This guide helps you understand <strong>CSS Flexbox</strong> and lets you practice layout alignment interactively.</p>
+
+  <h2>Steps for Students</h2>
+  <ol>
+    <li><strong>Observe Flex Container:</strong> Notice the container has <code>display: flex</code> and how its items behave.</li>
+    <li><strong>Try Changing Flex Direction:</strong> Experiment with <code>flex-direction: row | column | row-reverse | column-reverse</code>.</li>
+    <li><strong>Justify Content:</strong> Change <code>justify-content</code> values (<code>flex-start, flex-end, center, space-between, space-around, space-evenly</code>) and see how items align along the main axis.</li>
+    <li><strong>Align Items:</strong> Modify <code>align-items</code> (<code>stretch, flex-start, flex-end, center, baseline</code>) to align items along the cross axis.</li>
+    <li><strong>Align Self:</strong> Apply <code>align-self</code> on a single item to override <code>align-items</code>.</li>
+    <li><strong>Flex Grow, Shrink, Basis:</strong> Play with <code>flex: 1, flex: 2, flex: 0.5</code> to see how items expand or shrink.</li>
+    <li><strong>Practice:</strong> Create multiple flex containers and experiment with combinations of direction, alignment, and spacing.</li>
+    <li><strong>Reflect:</strong> Think about how Flexbox is used in real-world layouts like navbars, cards, and galleries.</li>
+  </ol>
+
+  <h2>Live Demo</h2>
+  <div class="flex-container">
+    <div class="flex-item">Item 1</div>
+    <div class="flex-item">Item 2</div>
+    <div class="flex-item">Item 3</div>
+  </div>
+
+  <h2>Tips for Learning</h2>
+  <ul>
+    <li>Use DevTools to change flex properties live and observe behavior instantly.</li>
+    <li>Take notes on how each property affects main and cross axes.</li>
+    <li>Experiment with nested flex containers for complex layouts.</li>
+    <li>Try using Flexbox in mini-projects to solidify your understanding.</li>
+  </ul>
+</body>
+</html>

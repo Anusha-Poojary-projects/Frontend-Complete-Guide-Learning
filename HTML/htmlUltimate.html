@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete HTML Mastery - Beginner to Expert</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .slide {
+            display: none;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        .code-block .tag { color: #f472b6; }
+        .code-block .attr { color: #60a5fa; }
+        .code-block .string { color: #34d399; }
+        .code-block .comment { color: #94a3b8; font-style: italic; }
+        .code-block .keyword { color: #fbbf24; }
+        .demo-box {
+            border: 2px dashed #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            background: #f9fafb;
+            min-height: 100px;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .nav-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .nav-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .highlight {
+            background: linear-gradient(120deg, #fbbf24 0%, #fbbf24 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0.2em;
+            background-position: 0 88%;
+            padding: 0 4px;
+        }
+        .quiz-option {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 8px 0;
+        }
+        .quiz-option:hover {
+            background: #e5e7eb;
+            border-color: #3b82f6;
+        }
+        .quiz-option.correct {
+            background: #dcfce7;
+            border-color: #16a34a;
+            color: #15803d;
+        }
+        .quiz-option.incorrect {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .beginner { background: #dcfce7; color: #15803d; }
+        .intermediate { background: #fef3c7; color: #d97706; }
+        .advanced { background: #fee2e2; color: #dc2626; }
+        .expert { background: #e0e7ff; color: #3730a3; }
+        .interactive-demo {
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+        }
+        .tag-desc {
+            font-size: 11px;
+            color: #4b5563;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+        .attr-badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin: 2px;
+        }
+        .tag-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .tag-item {
+            background: #f1f5f9;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: center;
+        }
+        .slide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+    </style>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length; // 50
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('progressFill').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            const newSlide = currentSlide + direction;
+            if (newSlide >= 0 && newSlide < totalSlides) {
+                currentSlide = newSlide;
+                updateSlide();
+            }
+        }
+
+        function jumpToSlide(slideIndex) {
+            if (slideIndex >= 0 && slideIndex < totalSlides) {
+                currentSlide = slideIndex;
+                updateSlide();
+                hideJumpMenu();
+            }
+        }
+
+        function showJumpMenu() {
+            document.getElementById('jumpMenu').classList.remove('hidden');
+        }
+
+        function hideJumpMenu() {
+            document.getElementById('jumpMenu').classList.add('hidden');
+        }
+
+        function selectAnswer(element, isCorrect) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option === element) {
+                    option.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (option.onclick.toString().includes('true')) {
+                    option.classList.add('correct');
+                }
+            });
+            const result = document.getElementById('quizResult');
+            const resultText = result.querySelector('p');
+            if (isCorrect) {
+                result.className = 'mt-6 p-4 rounded-lg text-center bg-green-100 border border-green-300';
+                resultText.textContent = '🎉 Correct! The alt attribute is required for accessibility.';
+                resultText.className = 'text-lg font-semibold text-green-800';
+            } else {
+                result.className = 'mt-6 p-4 rounded-lg text-center bg-red-100 border border-red-300';
+                resultText.textContent = '❌ Not quite. Always use alt for images.';
+                resultText.className = 'text-lg font-semibold text-red-800';
+            }
+            result.classList.remove('hidden');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            else if (e.key === 'ArrowRight') changeSlide(1);
+            else if (e.key === 'Escape') hideJumpMenu();
+        });
+
+        updateSlide();
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-50">
+    <!-- Progress Bar -->
+    <div class="progress-bar fixed top-0 left-0 w-full z-50">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+    <!-- Slide Counter -->
+    <div class="slide-counter" id="slideCounter">1 / 50</div>
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="jumpBtn" onclick="showJumpMenu()">Jump to Section</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+    <!-- Jump Menu -->
+    <div id="jumpMenu" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 max-w-4xl max-h-96 overflow-y-auto">
+            <h3 class="text-xl font-bold mb-4">Jump to Section</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-80 overflow-y-auto">
+                <div>
+                    <h4 class="font-semibold text-green-600 mb-2">🟢 Beginner (1-15)</h4>
+                    <div class="space-y-1 text-sm">
+                        <button onclick="jumpToSlide(0)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">1. Introduction</button>
+                        <button onclick="jumpToSlide(1)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">2. What is HTML?</button>
+                        <button onclick="jumpToSlide(2)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">3. HTML Structure</button>
+                        <button onclick="jumpToSlide(3)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">4. HTML Tags</button>
+                        <button onclick="jumpToSlide(4)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">5. Common Tags</button>
+                        <button onclick="jumpToSlide(5)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">6. Headings (h1-h6)</button>
+                        <button onclick="jumpToSlide(6)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">7. Text Formatting</button>
+                        <button onclick="jumpToSlide(7)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">8. Quotations</button>
+                        <button onclick="jumpToSlide(8)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">9. Edit Tags</button>
+                        <button onclick="jumpToSlide(9)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">10. Semantic Tags I</button>
+                        <button onclick="jumpToSlide(10)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">11. Semantic Tags II</button>
+                        <button onclick="jumpToSlide(11)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">12. Lists</button>
+                        <button onclick="jumpToSlide(12)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">13. Links</button>
+                        <button onclick="jumpToSlide(13)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">14. Images</button>
+                        <button onclick="jumpToSlide(14)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">15. Tables</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-amber-600 mb-2">🟡 Intermediate (16-30)</h4>
+                    <div class="space-y-1 text-sm">
+                        <button onclick="jumpToSlide(15)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">16. Forms I</button>
+                        <button onclick="jumpToSlide(16)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">17. Forms II</button>
+                        <button onclick="jumpToSlide(17)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">18. Embedded Content</button>
+                        <button onclick="jumpToSlide(18)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">19. Interactive Elements</button>
+                        <button onclick="jumpToSlide(19)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">20. Document Structure</button>
+                        <button onclick="jumpToSlide(20)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">21. Global Attributes</button>
+                        <button onclick="jumpToSlide(21)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">22. Link Attributes</button>
+                        <button onclick="jumpToSlide(22)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">23. Image Attributes</button>
+                        <button onclick="jumpToSlide(23)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">24. Form Attributes</button>
+                        <button onclick="jumpToSlide(24)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">25. Media Attributes</button>
+                        <button onclick="jumpToSlide(25)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">26. Script/Style Attributes</button>
+                        <button onclick="jumpToSlide(26)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">27. ARIA Attributes</button>
+                        <button onclick="jumpToSlide(27)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">28. Meta Tags</button>
+                        <button onclick="jumpToSlide(28)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">29. Link Relations</button>
+                        <button onclick="jumpToSlide(29)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">30. Input Types</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-red-600 mb-2">🔴 Advanced (31-50)</h4>
+                    <div class="space-y-1 text-sm">
+                        <button onclick="jumpToSlide(30)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">31. Form Validation</button>
+                        <button onclick="jumpToSlide(31)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">32. Responsive Images</button>
+                        <button onclick="jumpToSlide(32)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">33. Canvas & SVG</button>
+                        <button onclick="jumpToSlide(33)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">34. Web Components</button>
+                        <button onclick="jumpToSlide(34)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">35. Microdata</button>
+                        <button onclick="jumpToSlide(35)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">36. Open Graph</button>
+                        <button onclick="jumpToSlide(36)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">37. Structured Data</button>
+                        <button onclick="jumpToSlide(37)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">38. Accessibility Deep Dive</button>
+                        <button onclick="jumpToSlide(38)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">39. SEO Best Practices</button>
+                        <button onclick="jumpToSlide(39)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">40. Performance Tips</button>
+                        <button onclick="jumpToSlide(40)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">41. Your First Page</button>
+                        <button onclick="jumpToSlide(41)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">42. Semantic HTML Deep Dive</button>
+                        <button onclick="jumpToSlide(42)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">43. Form Deep Dive</button>
+                        <button onclick="jumpToSlide(43)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">44. Media Deep Dive</button>
+                        <button onclick="jumpToSlide(44)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">45. Tables Deep Dive</button>
+                        <button onclick="jumpToSlide(45)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">46. Accessibility Checklist</button>
+                        <button onclick="jumpToSlide(46)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">47. HTML Validation</button>
+                        <button onclick="jumpToSlide(47)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">48. Best Practices</button>
+                        <button onclick="jumpToSlide(48)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">49. Common Mistakes</button>
+                        <button onclick="jumpToSlide(49)" class="block w-full text-left p-2 hover:bg-gray-100 rounded">50. Final Quiz</button>
+                    </div>
+                </div>
+            </div>
+            <button onclick="hideJumpMenu()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Close</button>
+        </div>
+    </div>
+
+    <!-- BEGIN: ORIGINAL SLIDES (1-5) ENHANCED -->
+    <!-- Slide 1: Title Slide -->
+    <div class="slide active flex-col justify-center items-center text-center p-8">
+        <div class="max-w-4xl">
+            <h1 class="text-6xl font-bold text-gray-800 mb-6">
+                Complete HTML <span class="text-blue-600">Mastery</span>
+            </h1>
+            <p class="text-2xl text-gray-600 mb-8">From Absolute Beginner to Expert in 50 Comprehensive Lessons</p>
+            <div class="flex justify-center items-center space-x-8 mb-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mb-2">
+                        <span class="text-white font-bold text-xl">HTML</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Structure</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-2">
+                        <span class="text-white font-bold text-xl">HTML5</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Modern</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mb-2">
+                        <span class="text-white font-bold text-xl">APIs</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Advanced</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="difficulty-badge beginner">🟢 Beginner</div>
+                <div class="difficulty-badge intermediate">🟡 Intermediate</div>
+                <div class="difficulty-badge advanced">🔴 Advanced</div>
+                <div class="difficulty-badge expert">🔵 Expert</div>
+            </div>
+            <p class="text-lg text-gray-500">Master every aspect of HTML — from tags to accessibility, SEO, and beyond! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: What is HTML? -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-5xl font-bold text-gray-800 mb-8 text-center">What is HTML?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-600 mb-4">HTML stands for:</h3>
+                    <ul class="space-y-3 text-lg">
+                        <li class="flex items-center"><span class="text-blue-500 mr-3">•</span> <span class="highlight">H</span>yper<span class="highlight">T</span>ext</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-3">•</span> <span class="highlight">M</span>arkup</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-3">•</span> <span class="highlight">L</span>anguage</li>
+                    </ul>
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <p class="text-gray-700"><strong>Think of HTML as:</strong> The skeleton of a webpage - it provides structure and meaning to content.</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-green-600 mb-4">HTML is like:</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-3 bg-white rounded-lg shadow-sm">
+                            <span class="text-2xl mr-3">🏠</span>
+                            <span>The blueprint of a house</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-white rounded-lg shadow-sm">
+                            <span class="text-2xl mr-3">📝</span>
+                            <span>The outline of an essay</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-white rounded-lg shadow-sm">
+                            <span class="text-2xl mr-3">🦴</span>
+                            <span>The skeleton of a body</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: HTML Structure -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Basic HTML Structure</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Every HTML document has:</h3>
+                    <div class="code-block">
+<span class="comment"><!-- This tells the browser it's HTML5 --></span>
+<span class="tag"><!DOCTYPE html></span>
+<span class="tag"><html</span> <span class="attr">lang</span>=<span class="string">"en"</span><span class="tag">></span>
+  <span class="tag"><head></span>
+    <span class="comment"><!-- Information about the page --></span>
+    <span class="tag"><title></span>My First Webpage<span class="tag"></title></span>
+  <span class="tag"></head></span>
+  <span class="tag"><body></span>
+    <span class="comment"><!-- Visible content goes here --></span>
+    <span class="tag"><h1></span>Hello World!<span class="tag"></h1></span>
+  <span class="tag"></body></span>
+<span class="tag"></html></span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Think of it like a letter:</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-yellow-50 border-l-4 border-yellow-400">
+                            <strong><!DOCTYPE html></strong><br>
+                            <span class="text-sm text-gray-600">"This is an HTML letter"</span>
+                        </div>
+                        <div class="p-4 bg-blue-50 border-l-4 border-blue-400">
+                            <strong><head></strong><br>
+                            <span class="text-sm text-gray-600">The envelope (title, metadata)</span>
+                        </div>
+                        <div class="p-4 bg-green-50 border-l-4 border-green-400">
+                            <strong><body></strong><br>
+                            <span class="text-sm text-gray-600">The actual letter content</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: HTML Tags -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Understanding HTML Tags</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-600 mb-4">Tags are like containers</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-white rounded-lg shadow-sm border">
+                            <div class="code-block mb-2">
+<span class="tag"><h1></span>This is a heading<span class="tag"></h1></span>
+                            </div>
+                            <div class="demo-box">
+                                <h1 class="text-2xl font-bold">This is a heading</h1>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-lg shadow-sm border">
+                            <div class="code-block mb-2">
+<span class="tag"><p></span>This is a paragraph<span class="tag"></p></span>
+                            </div>
+                            <div class="demo-box">
+                                <p>This is a paragraph</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-green-600 mb-4">Tag Anatomy</h3>
+                    <div class="p-6 bg-white rounded-lg shadow-sm border">
+                        <div class="text-center mb-4">
+                            <div class="inline-block p-4 bg-gray-100 rounded-lg font-mono text-lg">
+                                <span class="text-red-500"><</span><span class="text-blue-600">tag</span><span class="text-red-500">></span><span class="text-gray-800">content</span><span class="text-red-500"></</span><span class="text-blue-600">tag</span><span class="text-red-500">></span>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-red-500 rounded mr-2"></div>
+                                <span><strong>Angle brackets:</strong> < ></span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-blue-600 rounded mr-2"></div>
+                                <span><strong>Tag name:</strong> h1, p, div, etc.</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-gray-800 rounded mr-2"></div>
+                                <span><strong>Content:</strong> What users see</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Common HTML Tags (Enhanced with descriptions) -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-6xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Common HTML Tags</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">Headings (<h1>–<h6>)</h3>
+                    <div class="code-block text-xs mb-2">
+<span class="tag"><h1></span>Main title<span class="tag"></h1></span>
+                    </div>
+                    <div class="demo-box text-xs">
+                        <h1 class="text-lg font-bold">Main title</h1>
+                    </div>
+                    <p class="tag-desc">Define hierarchical headings from most to least important.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">Paragraph (<p>)</h3>
+                    <div class="code-block text-xs mb-2">
+<span class="tag"><p></span>Paragraph text.<span class="tag"></p></span>
+                    </div>
+                    <div class="demo-box text-xs">
+                        <p>Paragraph text.</p>
+                    </div>
+                    <p class="tag-desc">Represents a block of text.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2">Lists (<ul>, <ol>, <li>)</h3>
+                    <div class="code-block text-xs mb-2">
+<span class="tag"><ul><li></span>Item<span class="tag"></li></ul></span>
+                    </div>
+                    <div class="demo-box text-xs">
+                        <ul class="list-disc list-inside"><li>Item</li></ul>
+                    </div>
+                    <p class="tag-desc">Create bulleted or numbered lists.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-red-600 mb-2">Link (<a>)</h3>
+                    <div class="code-block text-xs mb-2">
+<span class="tag"><a</span> <span class="attr">href</span>=<span class="string">"#"</span><span class="tag">></span>Link<span class="tag"></a></span>
+                    </div>
+                    <div class="demo-box text-xs">
+                        <a href="#" class="text-blue-600 underline">Link</a>
+                    </div>
+                    <p class="tag-desc">Creates a hyperlink to another resource.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-yellow-600 mb-2">Image (<img>)</h3>
+                    <div class="code-block text-xs mb-2">
+<span class="tag"><img</span> <span class="attr">src</span>=<span class="string">"img.jpg"</span> <span class="attr">alt</span>=<span class="string">"Alt"</span><span class="tag">></span>
+                    </div>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-12 h-8 bg-gray-300 rounded flex items-center justify-center text-xs">IMG</div>
+                    </div>
+                    <p class="tag-desc">Embeds an image with alternative text.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2">Containers (<div>, <span>)</h3>
+                    <div class="code-block text-xs mb-2">
+<span class="tag"><div></span>Block<span class="tag"></div></span>
+                    </div>
+                    <div class="demo-box text-xs">
+                        <div class="bg-gray-200 p-1">Block</div>
+                    </div>
+                    <p class="tag-desc"><div> for block layout; <span> for inline styling.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: ORIGINAL SLIDES ENHANCED -->
+
+    <!-- BEGIN: NEW SLIDES 6-50 -->
+    <!-- Slides 6-50 are fully integrated below -->
+    <!-- Slide 6: Headings h1-h6 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Heading Tags: <h1> to <h6></h2>
+            <div class="space-y-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h1 class="text-3xl font-bold">Heading 1</h1>
+                    <div class="code-block text-sm mt-2"><h1>Heading 1</h1></div>
+                    <p class="tag-desc">Main heading of the page (use only once).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h2 class="text-2xl font-bold">Heading 2</h2>
+                    <div class="code-block text-sm mt-2"><h2>Heading 2</h2></div>
+                    <p class="tag-desc">Major section heading.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="text-xl font-bold">Heading 3</h3>
+                    <div class="code-block text-sm mt-2"><h3>Heading 3</h3></div>
+                    <p class="tag-desc">Subsection under an h2.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-3 rounded-lg shadow-sm border text-center">
+                        <h4 class="font-semibold">Heading 4</h4>
+                        <div class="code-block text-xs mt-1"><h4></h4></div>
+                        <p class="tag-desc text-xs">Minor heading.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm border text-center">
+                        <h5 class="font-medium">Heading 5</h5>
+                        <div class="code-block text-xs mt-1"><h5></h5></div>
+                        <p class="tag-desc text-xs">Very minor heading.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm border text-center">
+                        <h6 class="text-sm">Heading 6</h6>
+                        <div class="code-block text-xs mt-1"><h6></h6></div>
+                        <p class="tag-desc text-xs">Smallest heading level.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200 text-sm text-blue-800">
+                📌 Use headings in order (h1 → h2 → h3...). Never skip levels!
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Text Formatting -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Text Formatting Tags</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><strong></h3>
+                    <div class="demo-box text-xs"><strong>Strong</strong></div>
+                    <div class="code-block text-xs mt-2"><strong>...</strong></div>
+                    <p class="tag-desc">Indicates strong importance (usually bold).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><em></h3>
+                    <div class="demo-box text-xs"><em>Emphasis</em></div>
+                    <div class="code-block text-xs mt-2"><em>...</em></div>
+                    <p class="tag-desc">Stress emphasis (usually italic).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><mark></h3>
+                    <div class="demo-box text-xs"><mark>Marked</mark></div>
+                    <div class="code-block text-xs mt-2"><mark>...</mark></div>
+                    <p class="tag-desc">Highlights text for reference.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><small></h3>
+                    <div class="demo-box text-xs"><small>Small</small></div>
+                    <div class="code-block text-xs mt-2"><small>...</small></div>
+                    <p class="tag-desc">Side comments or legal text.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><sub>/<sup></h3>
+                    <div class="demo-box text-xs">H<sub>2</sub>O</div>
+                    <div class="code-block text-xs mt-2"><sub>2</sub></div>
+                    <p class="tag-desc">Subscript and superscript for formulas.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><code></h3>
+                    <div class="demo-box text-xs"><code class="bg-gray-100 px-1 rounded">code()</code></div>
+                    <div class="code-block text-xs mt-2"><code>...</code></div>
+                    <p class="tag-desc">Inline fragment of computer code.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Quotations & Citations -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Quotations & Citations</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-teal-600 mb-2"><blockquote></h3>
+                    <div class="demo-box text-xs">
+                        <blockquote class="italic text-gray-700 border-l-4 border-gray-300 pl-3">Long quote...</blockquote>
+                    </div>
+                    <div class="code-block text-xs mt-2"><blockquote>...</blockquote></div>
+                    <p class="tag-desc">Block-level quotation from another source.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-teal-600 mb-2"><q></h3>
+                    <div class="demo-box text-xs"><q>Short quote</q></div>
+                    <div class="code-block text-xs mt-2"><q>...</q></div>
+                    <p class="tag-desc">Short inline quotation.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-teal-600 mb-2"><cite></h3>
+                    <div class="demo-box text-xs italic"><cite class="not-italic font-medium">Book Title</cite></div>
+                    <div class="code-block text-xs mt-2"><cite>...</cite></div>
+                    <p class="tag-desc">Title of a creative work (book, film, etc.).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-teal-600 mb-2"><abbr></h3>
+                    <div class="demo-box text-xs"><abbr title="World Health Organization" class="underline decoration-dotted">WHO</abbr></div>
+                    <div class="code-block text-xs mt-2"><abbr title="...">WHO</abbr></div>
+                    <p class="tag-desc">Abbreviation or acronym with tooltip.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Edit Tags -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Edit Tags: Insert & Delete</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><ins></h3>
+                    <div class="demo-box text-xs"><ins class="text-green-600 no-underline">New text</ins></div>
+                    <div class="code-block text-xs mt-2"><ins>...</ins></div>
+                    <p class="tag-desc">Inserted (new) text, often underlined.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-red-600 mb-2"><del></h3>
+                    <div class="demo-box text-xs"><del class="text-red-500">Deleted text</del></div>
+                    <div class="code-block text-xs mt-2"><del>...</del></div>
+                    <p class="tag-desc">Deleted (removed) text, often strikethrough.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Semantic Tags I -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Semantic Tags I</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2"><article></h3>
+                    <div class="demo-box text-xs">
+                        <article class="border-l-4 border-purple-200 pl-3">
+                            <h3 class="font-semibold">Blog Post</h3>
+                        </article>
+                    </div>
+                    <div class="code-block text-xs mt-2"><article>...</article></div>
+                    <p class="tag-desc">Self-contained composition (blog, news, etc.).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2"><address></h3>
+                    <div class="demo-box text-xs">
+                        <address class="not-italic text-gray-600">contact@example.com</address>
+                    </div>
+                    <div class="code-block text-xs mt-2"><address>...</address></div>
+                    <p class="tag-desc">Contact information for the author/owner.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2"><time></h3>
+                    <div class="demo-box text-xs"><time>2025-01-01</time></div>
+                    <div class="code-block text-xs mt-2"><time datetime="...">...</time></div>
+                    <p class="tag-desc">Machine-readable date/time.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2"><map> + <area></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="inline-block w-10 h-10 bg-purple-200 rounded"></div>
+                    </div>
+                    <div class="code-block text-xs mt-2"><img usemap="#mymap"><map name="mymap">...</map></div>
+                    <p class="tag-desc">Defines clickable areas on an image.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Semantic Tags II -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Semantic Tags II</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2"><details> + <summary></h3>
+                    <div class="demo-box text-xs">
+                        <details>
+                            <summary class="cursor-pointer">More info</summary>
+                            <p class="mt-2 text-sm">Hidden content revealed on click.</p>
+                        </details>
+                    </div>
+                    <div class="code-block text-xs mt-2"><details><summary>...</summary>...</details></div>
+                    <p class="tag-desc">Disclosure widget for additional details.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2"><figure> + <figcaption></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-16 h-12 bg-gray-300 mx-auto mb-2"></div>
+                        <figcaption class="text-sm">Figure caption</figcaption>
+                    </div>
+                    <div class="code-block text-xs mt-2"><figure><img><figcaption>...</figcaption></figure></div>
+                    <p class="tag-desc">Self-contained content with optional caption.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2"><dialog></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-full h-12 bg-indigo-100 rounded flex items-center justify-center text-xs">Dialog Box</div>
+                    </div>
+                    <div class="code-block text-xs mt-2"><dialog open>...</dialog></div>
+                    <p class="tag-desc">Modal or non-modal dialog window.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2"><main></h3>
+                    <div class="demo-box text-xs">
+                        <main class="border-2 border-indigo-300 p-2">
+                            <p>Main content area</p>
+                        </main>
+                    </div>
+                    <div class="code-block text-xs mt-2"><main>...</main></div>
+                    <p class="tag-desc">Represents the dominant content of the document.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Lists -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">List Tags</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><ul></h3>
+                    <div class="demo-box text-xs">
+                        <ul class="list-disc list-inside">
+                            <li>Item 1</li>
+                            <li>Item 2</li>
+                        </ul>
+                    </div>
+                    <div class="code-block text-xs mt-2"><ul><li>...</li></ul></div>
+                    <p class="tag-desc">Unordered (bulleted) list.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><ol></h3>
+                    <div class="demo-box text-xs">
+                        <ol class="list-decimal list-inside">
+                            <li>First</li>
+                            <li>Second</li>
+                        </ol>
+                    </div>
+                    <div class="code-block text-xs mt-2"><ol><li>...</li></ol></div>
+                    <p class="tag-desc">Ordered (numbered) list.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><dl></h3>
+                    <div class="demo-box text-xs">
+                        <dl class="space-y-1">
+                            <dt class="font-semibold">Term</dt>
+                            <dd class="ml-4">Definition</dd>
+                        </dl>
+                    </div>
+                    <div class="code-block text-xs mt-2"><dl><dt>...</dt><dd>...</dd></dl></div>
+                    <p class="tag-desc">Description list for terms and definitions.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><menu></h3>
+                    <div class="demo-box text-xs">
+                        <menu class="list-disc list-inside">
+                            <li>Menu item</li>
+                        </menu>
+                    </div>
+                    <div class="code-block text-xs mt-2"><menu><li>...</li></menu></div>
+                    <p class="tag-desc">Represents a list of commands (rarely used).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Links & Navigation -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Links & Navigation</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2"><a></h3>
+                    <div class="demo-box text-xs">
+                        <a href="#" class="text-blue-600 underline">External Link</a>
+                    </div>
+                    <div class="code-block text-xs mt-2"><a href="...">...</a></div>
+                    <p class="tag-desc">Creates a hyperlink to another resource.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2"><nav></h3>
+                    <div class="demo-box text-xs">
+                        <nav class="flex space-x-4">
+                            <a href="#" class="text-blue-600">Home</a>
+                            <a href="#" class="text-blue-600">About</a>
+                        </nav>
+                    </div>
+                    <div class="code-block text-xs mt-2"><nav><a>...</a></nav></div>
+                    <p class="tag-desc">Section with navigation links.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2"><base></h3>
+                    <div class="code-block text-xs mt-2"><base href="https://example.com/"></div>
+                    <p class="tag-desc">Specifies the base URL for all relative URLs in a document.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2"><link></h3>
+                    <div class="code-block text-xs mt-2"><link rel="stylesheet" href="style.css"></div>
+                    <p class="tag-desc">Links external resources like CSS files.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: Images & Media -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Images & Media</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><img></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-16 h-12 bg-green-200 mx-auto"></div>
+                    </div>
+                    <div class="code-block text-xs mt-2"><img src="..." alt="..."></div>
+                    <p class="tag-desc">Embeds an image with required alt text.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><picture></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-16 h-12 bg-green-200 mx-auto"></div>
+                    </div>
+                    <div class="code-block text-xs mt-2"><picture><source>...<img></picture></div>
+                    <p class="tag-desc">Responsive image container for multiple sources.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><audio></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-full h-8 bg-green-100 rounded flex items-center justify-center text-xs">Audio Player</div>
+                    </div>
+                    <div class="code-block text-xs mt-2"><audio controls><source src="..."></audio></div>
+                    <p class="tag-desc">Embeds sound content with playback controls.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><video></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-24 h-16 bg-green-100 mx-auto"></div>
+                    </div>
+                    <div class="code-block text-xs mt-2"><video controls><source src="..."></video></div>
+                    <p class="tag-desc">Embeds video content with playback controls.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Tables -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Table Tags</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="demo-box">
+                    <table class="w-full text-sm">
+                        <caption class="caption-top mb-2 font-semibold">Sample Table</caption>
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border p-2">Name</th>
+                                <th class="border p-2">Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border p-2">Alice</td>
+                                <td class="border p-2">30</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="code-block text-xs mt-4">
+<table>
+  <caption>...</caption>
+  <thead><tr><th>...</th></tr></thead>
+  <tbody><tr><td>...</td></tr></tbody>
+</table>
+                </div>
+                <div class="tag-list mt-4">
+                    <div class="tag-item"><table></div>
+                    <div class="tag-item"><caption></div>
+                    <div class="tag-item"><thead></div>
+                    <div class="tag-item"><tbody></div>
+                    <div class="tag-item"><tfoot></div>
+                    <div class="tag-item"><tr></div>
+                    <div class="tag-item"><th></div>
+                    <div class="tag-item"><td></div>
+                    <div class="tag-item"><colgroup></div>
+                    <div class="tag-item"><col></div>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Tables display tabular data in rows and columns.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Forms I -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Form Tags I</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2"><form></h3>
+                    <div class="code-block text-xs mt-2"><form action="/submit" method="post">...</form></div>
+                    <p class="tag-desc">Container for user input controls.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2"><input></h3>
+                    <div class="demo-box text-xs">
+                        <input type="text" placeholder="Text input" class="w-full p-1 border text-xs">
+                    </div>
+                    <div class="code-block text-xs mt-2"><input type="text"></div>
+                    <p class="tag-desc">Input field for user data (many types available).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2"><textarea></h3>
+                    <div class="demo-box text-xs">
+                        <textarea class="w-full p-1 border text-xs" rows="2" placeholder="Message"></textarea>
+                    </div>
+                    <div class="code-block text-xs mt-2"><textarea>...</textarea></div>
+                    <p class="tag-desc">Multi-line text input area.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2"><button></h3>
+                    <div class="demo-box text-xs">
+                        <button class="bg-blue-600 text-white px-2 py-1 text-xs rounded">Submit</button>
+                    </div>
+                    <div class="code-block text-xs mt-2"><button>...</button></div>
+                    <p class="tag-desc">Clickable button (submit, reset, or custom).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 17: Forms II -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Form Tags II</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">select</h3>
+                    <div class="demo-box text-xs">
+                        <select class="w-full p-1 border text-xs">
+                            <option>Option 1</option>
+                        </select>
+                    </div>
+                    <div class="code-block text-xs mt-2"><select><option>...</option></select></div>
+                    <p class="tag-desc">Dropdown list of options.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2"><label></h3>
+                    <div class="demo-box text-xs">
+                        <label class="block text-xs"><input type="checkbox" class="mr-1"> Checkbox</label>
+                    </div>
+                    <div class="code-block text-xs mt-2"><label for="id">...</label></div>
+                    <p class="tag-desc">Associates text with a form control for accessibility.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2"><fieldset></h3>
+                    <div class="demo-box text-xs">
+                        <fieldset class="border p-2 text-xs">
+                            <legend class="font-semibold text-xs">Group</legend>
+                            <input type="radio" name="group"> Option
+                        </fieldset>
+                    </div>
+                    <div class="code-block text-xs mt-2"><fieldset><legend>...</legend>...</fieldset></div>
+                    <p class="tag-desc">Groups related form controls with a caption.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2"><datalist></h3>
+                    <div class="demo-box text-xs">
+                        <input list="browsers" class="w-full p-1 border text-xs" placeholder="Type...">
+                        <datalist id="browsers"><option>Chrome</option></datalist>
+                    </div>
+                    <div class="code-block text-xs mt-2"><input list="..."><datalist id="...">...</datalist></div>
+                    <p class="tag-desc">Provides autocomplete suggestions for input.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 18: Embedded Content -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Embedded Content</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><iframe></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-full h-16 bg-orange-100 rounded flex items-center justify-center text-xs">Embedded Content</div>
+                    </div>
+                    <div class="code-block text-xs mt-2"><iframe src="..."></iframe></div>
+                    <p class="tag-desc">Embeds another HTML page inline.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><embed></h3>
+                    <div class="code-block text-xs mt-2"><embed src="..." type="..."></div>
+                    <p class="tag-desc">Embeds external content (plugins, PDFs, etc.).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><object></h3>
+                    <div class="code-block text-xs mt-2"><object data="..." type="...">...</object></div>
+                    <p class="tag-desc">Embeds external resources with fallback content.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><param></h3>
+                    <div class="code-block text-xs mt-2"><object><param name="..." value="..."></object></div>
+                    <p class="tag-desc">Defines parameters for <object> elements.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 19: Interactive Elements -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Interactive Elements</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-rose-600 mb-2"><details></h3>
+                    <div class="demo-box text-xs">
+                        <details>
+                            <summary>Toggle</summary>
+                            <p class="mt-2 text-xs">Revealed content</p>
+                        </details>
+                    </div>
+                    <p class="tag-desc">Disclosure widget for additional content.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-rose-600 mb-2"><dialog></h3>
+                    <div class="demo-box text-xs text-center">
+                        <div class="w-full h-12 bg-rose-100 rounded flex items-center justify-center text-xs">Dialog Box</div>
+                    </div>
+                    <p class="tag-desc">Modal or non-modal dialog window.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-rose-600 mb-2"><meter></h3>
+                    <div class="demo-box text-xs">
+                        <meter value="0.7">70%</meter>
+                    </div>
+                    <p class="tag-desc">Scalar measurement within a known range.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-rose-600 mb-2"><progress></h3>
+                    <div class="demo-box text-xs">
+                        <progress value="60" max="100">60%</progress>
+                    </div>
+                    <p class="tag-desc">Progress indicator for tasks.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 20: Document Structure -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Document Structure Tags</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="tag-list">
+                    <div class="tag-item"><!DOCTYPE html></div>
+                    <div class="tag-item"><html></div>
+                    <div class="tag-item"><head></div>
+                    <div class="tag-item"><title></div>
+                    <div class="tag-item"><base></div>
+                    <div class="tag-item"><link></div>
+                    <div class="tag-item"><meta></div>
+                    <div class="tag-item"><style></div>
+                    <div class="tag-item"><script></div>
+                    <div class="tag-item"><noscript></div>
+                    <div class="tag-item"><template></div>
+                    <div class="tag-item"><body></div>
+                </div>
+                <div class="code-block text-xs mt-4">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Title</title>
+</head>
+<body>
+  <h1>Content</h1>
+</body>
+</html>
+                </div>
+                <p class="tag-desc mt-3 text-sm">These tags define the overall structure of an HTML document.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 21: Global Attributes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Global Attributes</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <p class="text-sm mb-3">Work on <em>any</em> HTML element:</p>
+                <div class="tag-list">
+                    <div class="tag-item">class</div>
+                    <div class="tag-item">id</div>
+                    <div class="tag-item">style</div>
+                    <div class="tag-item">title</div>
+                    <div class="tag-item">lang</div>
+                    <div class="tag-item">tabindex</div>
+                    <div class="tag-item">contenteditable</div>
+                    <div class="tag-item">hidden</div>
+                    <div class="tag-item">data-*</div>
+                    <div class="tag-item">aria-*</div>
+                    <div class="tag-item">accesskey</div>
+                    <div class="tag-item">draggable</div>
+                </div>
+                <div class="code-block text-xs mt-4">
+<p class="intro" id="p1" title="Tooltip" lang="en">Hello</p>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Global attributes can be used on any HTML element.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 22: Link Attributes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Link Attributes</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-blue-600 mb-2">For <a></h3>
+                        <div class="tag-list">
+                            <div class="tag-item">href</div>
+                            <div class="tag-item">target</div>
+                            <div class="tag-item">rel</div>
+                            <div class="tag-item">download</div>
+                            <div class="tag-item">hreflang</div>
+                            <div class="tag-item">ping</div>
+                            <div class="tag-item">referrerpolicy</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-blue-600 mb-2">Example</h3>
+                        <div class="code-block text-xs">
+<a href="https://example.com" target="_blank" rel="noopener noreferrer">Link</a>
+                        </div>
+                    </div>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Attributes that control link behavior and security.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 23: Image Attributes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Image Attributes</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-green-600 mb-2">For <img></h3>
+                        <div class="tag-list">
+                            <div class="tag-item">src</div>
+                            <div class="tag-item">alt</div>
+                            <div class="tag-item">width</div>
+                            <div class="tag-item">height</div>
+                            <div class="tag-item">loading</div>
+                            <div class="tag-item">srcset</div>
+                            <div class="tag-item">sizes</div>
+                            <div class="tag-item">crossorigin</div>
+                            <div class="tag-item">decoding</div>
+                            <div class="tag-item">fetchpriority</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-green-600 mb-2">Example</h3>
+                        <div class="code-block text-xs">
+<img src="photo.jpg" alt="Description" loading="lazy" 
+     srcset="small.jpg 480w, large.jpg 800w" sizes="(max-width: 600px) 480px, 800px">
+                        </div>
+                    </div>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Attributes for image source, accessibility, and performance.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 24: Form Attributes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Form Attributes</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-amber-600 mb-2">For <form></h3>
+                        <div class="tag-list">
+                            <div class="tag-item">action</div>
+                            <div class="tag-item">method</div>
+                            <div class="tag-item">enctype</div>
+                            <div class="tag-item">autocomplete</div>
+                            <div class="tag-item">novalidate</div>
+                            <div class="tag-item">target</div>
+                            <div class="tag-item">name</div>
+                        </div>
+                        <h3 class="font-semibold text-amber-600 mt-4 mb-2">For <input></h3>
+                        <div class="tag-list">
+                            <div class="tag-item">type</div>
+                            <div class="tag-item">name</div>
+                            <div class="tag-item">value</div>
+                            <div class="tag-item">placeholder</div>
+                            <div class="tag-item">required</div>
+                            <div class="tag-item">min</div>
+                            <div class="tag-item">max</div>
+                            <div class="tag-item">step</div>
+                            <div class="tag-item">pattern</div>
+                            <div class="tag-item">readonly</div>
+                            <div class="tag-item">disabled</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-amber-600 mb-2">Example</h3>
+                        <div class="code-block text-xs">
+<form action="/submit" method="post" autocomplete="on">
+  <input type="email" name="email" required>
+</form>
+                        </div>
+                    </div>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Attributes that control form submission and validation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 25: Media Attributes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Media Attributes</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-purple-600 mb-2">For <audio>/<video></h3>
+                        <div class="tag-list">
+                            <div class="tag-item">src</div>
+                            <div class="tag-item">controls</div>
+                            <div class="tag-item">autoplay</div>
+                            <div class="tag-item">loop</div>
+                            <div class="tag-item">muted</div>
+                            <div class="tag-item">poster</div>
+                            <div class="tag-item">preload</div>
+                            <div class="tag-item">playsinline</div>
+                            <div class="tag-item">crossorigin</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-purple-600 mb-2">Example</h3>
+                        <div class="code-block text-xs">
+<video src="movie.mp4" controls poster="thumb.jpg" preload="metadata"></video>
+                        </div>
+                    </div>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Attributes for media playback and display.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 26: Script/Style Attributes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Script & Style Attributes</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><script></h3>
+                    <div class="code-block text-xs mt-2">
+<script src="app.js" defer integrity="sha384-..."></script>
+                    </div>
+                    <p class="tag-desc">Attributes: src, type, defer, async, integrity, crossorigin.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><style></h3>
+                    <div class="code-block text-xs mt-2">
+<style type="text/css" media="screen">...</style>
+                    </div>
+                    <p class="tag-desc">Attributes: type, media, scoped (deprecated).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><link></h3>
+                    <div class="code-block text-xs mt-2">
+<link rel="stylesheet" href="style.css" media="print">
+                    </div>
+                    <p class="tag-desc">Attributes: rel, href, type, media, integrity, crossorigin.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><noscript></h3>
+                    <div class="demo-box text-xs">
+                        <noscript class="text-red-600 text-sm">Enable JavaScript</noscript>
+                    </div>
+                    <p class="tag-desc">Displays content if scripts are disabled.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 27: ARIA Attributes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">ARIA Attributes</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <p class="text-sm mb-3">ARIA (Accessible Rich Internet Applications) enhances accessibility:</p>
+                <div class="slide-grid">
+                    <div class="bg-gray-50 p-3 rounded">
+                        <div class="attr-badge">aria-label</div>
+                        <p class="tag-desc text-xs">Defines a string value for accessibility.</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <div class="attr-badge">aria-labelledby</div>
+                        <p class="tag-desc text-xs">References another element as the label.</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <div class="attr-badge">aria-hidden</div>
+                        <p class="tag-desc text-xs">Hides element from accessibility tree.</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <div class="attr-badge">aria-expanded</div>
+                        <p class="tag-desc text-xs">Indicates if a collapsible element is expanded.</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <div class="attr-badge">aria-current</div>
+                        <p class="tag-desc text-xs">Indicates current item in a set (e.g., nav).</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <div class="attr-badge">role</div>
+                        <p class="tag-desc text-xs">Defines the purpose of an element.</p>
+                    </div>
+                </div>
+                <div class="code-block text-xs mt-3">
+<button aria-expanded="false" aria-controls="menu">Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 28: Meta Tags -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Meta Tags</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><meta charset></h3>
+                    <div class="code-block text-xs mt-2"><meta charset="UTF-8"></div>
+                    <p class="tag-desc">Specifies character encoding (always use UTF-8).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><meta viewport></h3>
+                    <div class="code-block text-xs mt-2"><meta name="viewport" content="width=device-width, initial-scale=1.0"></div>
+                    <p class="tag-desc">Controls layout on mobile browsers.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><meta description></h3>
+                    <div class="code-block text-xs mt-2"><meta name="description" content="Page description"></div>
+                    <p class="tag-desc">Brief summary for search engines and social media.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-cyan-600 mb-2"><meta robots></h3>
+                    <div class="code-block text-xs mt-2"><meta name="robots" content="index, follow"></div>
+                    <p class="tag-desc">Controls search engine crawling and indexing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 29: Link Relations -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Link Relations (<link rel="">)</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">stylesheet</h3>
+                    <div class="code-block text-xs mt-2"><link rel="stylesheet" href="style.css"></div>
+                    <p class="tag-desc">Links an external CSS file.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">icon / apple-touch-icon</h3>
+                    <div class="code-block text-xs mt-2"><link rel="icon" href="favicon.ico"></div>
+                    <p class="tag-desc">Specifies website favicon.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">canonical</h3>
+                    <div class="code-block text-xs mt-2"><link rel="canonical" href="https://example.com/page"></div>
+                    <p class="tag-desc">Prevents duplicate content issues in SEO.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">preload</h3>
+                    <div class="code-block text-xs mt-2"></div>
+                    <p class="tag-desc">Preloads critical resources for performance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 30: Input Types -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Input Types</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">Text & Email</h3>
+                    <div class="demo-box text-xs">
+                        <input type="text" placeholder="Text" class="w-full p-1 border text-xs mb-1">
+                        <input type="email" placeholder="Email" class="w-full p-1 border text-xs">
+                    </div>
+                    <p class="tag-desc">Standard text and email validation.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">Number & Range</h3>
+                    <div class="demo-box text-xs">
+                        <input type="number" min="1" max="10" class="w-full p-1 border text-xs mb-1">
+                        <input type="range" min="0" max="100" class="w-full">
+                    </div>
+                    <p class="tag-desc">Numeric input and slider control.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">Date & Color</h3>
+                    <div class="demo-box text-xs">
+                        <input type="date" class="w-full p-1 border text-xs mb-1">
+                        <input type="color" value="#3b82f6" class="w-full p-1 border text-xs">
+                    </div>
+                    <p class="tag-desc">Date picker and color selector.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">File & Checkbox</h3>
+                    <div class="demo-box text-xs">
+                        <input type="file" class="w-full text-xs mb-1">
+                        <label class="text-xs"><input type="checkbox" class="mr-1"> Agree</label>
+                    </div>
+                    <p class="tag-desc">File upload and boolean selection.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 31: Form Validation -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Form Validation</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">HTML5 Built-in Validation</h3>
+                    <div class="demo-box text-xs">
+                        <form class="space-y-2">
+                            <input type="email" required placeholder="Valid email" class="w-full p-1 border text-xs">
+                            <input type="number" min="1" max="10" required placeholder="1-10" class="w-full p-1 border text-xs">
+                        </form>
+                    </div>
+                    <p class="tag-desc">Uses type, required, min, max, pattern for automatic validation.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">Custom Error Messages</h3>
+                    <div class="code-block text-xs mt-2">
+<input type="email" id="email">
+<script>
+  document.getElementById('email').setCustomValidity('Please enter a valid email');
+</script>
+                    </div>
+                    <p class="tag-desc">Use JavaScript to set custom validation messages.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">Constraint Validation API</h3>
+                    <div class="code-block text-xs mt-2">
+element.checkValidity()
+element.validity.valid
+                    </div>
+                    <p class="tag-desc">JavaScript API to programmatically validate forms.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-amber-600 mb-2">novalidate Attribute</h3>
+                    <div class="code-block text-xs mt-2">
+<form novalidate>...</form>
+                    </div>
+                    <p class="tag-desc">Disables browser's built-in validation (for custom handling).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 32: Responsive Images -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Responsive Images</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><img srcset></h3>
+                    <div class="code-block text-xs mt-2">
+<img src="small.jpg" 
+     srcset="small.jpg 480w, medium.jpg 800w, large.jpg 1200w">
+                    </div>
+                    <p class="tag-desc">Provides multiple image sources for different screen sizes.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><img sizes></h3>
+                    <div class="code-block text-xs mt-2">
+<img srcset="..." 
+     sizes="(max-width: 600px) 100vw, 50vw">
+                    </div>
+                    <p class="tag-desc">Defines image display size based on viewport conditions.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2"><picture></h3>
+                    <div class="code-block text-xs mt-2">
+<picture>
+  <source media="(min-width: 800px)" srcset="desktop.jpg">
+  <source media="(min-width: 400px)" srcset="tablet.jpg">
+  <img src="mobile.jpg" alt="Responsive image">
+</picture>
+                    </div>
+                    <p class="tag-desc">Art direction: serve different crops for different screens.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">loading="lazy"</h3>
+                    <div class="code-block text-xs mt-2">
+<img src="image.jpg" loading="lazy" alt="...">
+                    </div>
+                    <p class="tag-desc">Defers loading offscreen images for better performance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 33: Canvas & SVG -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Canvas & SVG</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2"><canvas></h3>
+                    <div class="demo-box text-xs text-center">
+                        <canvas width="100" height="50" class="border bg-orange-50"></canvas>
+                    </div>
+                    <div class="code-block text-xs mt-2">
+<canvas width="100" height="50"></canvas>
+<script>
+  const ctx = canvas.getContext('2d');
+  ctx.fillRect(10, 10, 50, 30);
+</script>
+                    </div>
+                    <p class="tag-desc">Scriptable bitmap graphics (pixel-based).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2">Inline SVG</h3>
+                    <div class="demo-box text-xs text-center">
+                        <svg width="50" height="50" class="text-orange-600">
+                            <circle cx="25" cy="25" r="20" fill="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="code-block text-xs mt-2">
+<svg width="50" height="50">
+  <circle cx="25" cy="25" r="20" fill="blue" />
+</svg>
+                    </div>
+                    <p class="tag-desc">Vector graphics embedded directly in HTML.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-orange-600 mb-2">SVG vs Canvas</h3>
+                    <ul class="text-xs space-y-1">
+                        <li>✅ SVG: Scalable, DOM-based, great for icons</li>
+                        <li>✅ Canvas: Fast, pixel-based, great for games</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 34: Web Components -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge advanced mb-4">🔴 Advanced</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Web Components</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2">Custom Elements</h3>
+                    <div class="code-block text-xs mt-2">
+class MyButton extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `<button>Click me</button>`;
+  }
+}
+customElements.define('my-button', MyButton);
+                    </div>
+                    <p class="tag-desc">Define reusable custom HTML elements.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2">Shadow DOM</h3>
+                    <div class="code-block text-xs mt-2">
+const shadow = this.attachShadow({mode: 'open'});
+shadow.innerHTML = `<style>button { color: blue; }</style><button>...</button>`;
+                    </div>
+                    <p class="tag-desc">Encapsulates styles and markup (no CSS leakage).</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-indigo-600 mb-2">Usage</h3>
+                    <div class="demo-box text-xs">
+                        <my-button></my-button>
+                    </div>
+                    <p class="tag-desc">Use like any other HTML tag: <my-button></my-button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 35: Microdata -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge advanced mb-4">🔴 Advanced</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Microdata</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="demo-box">
+                    <div itemscope itemtype="https://schema.org/Person">
+                        <h3 itemprop="name">John Doe</h3>
+                        <p itemprop="jobTitle">Web Developer</p>
+                    </div>
+                </div>
+                <div class="code-block text-xs mt-4">
+<div itemscope itemtype="https://schema.org/Person">
+  <h3 itemprop="name">John Doe</h3>
+  <p itemprop="jobTitle">Web Developer</p>
+</div>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Adds semantic meaning for search engines using itemscope, itemtype, and itemprop.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 36: Open Graph -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Open Graph Protocol</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">og:title</h3>
+                    <div class="code-block text-xs mt-2">
+<meta property="og:title" content="Page Title">
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">og:description</h3>
+                    <div class="code-block text-xs mt-2">
+<meta property="og:description" content="Page description">
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">og:image</h3>
+                    <div class="code-block text-xs mt-2">
+<meta property="og:image" content="https://example.com/image.jpg">
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-blue-600 mb-2">og:url</h3>
+                    <div class="code-block text-xs mt-2">
+<meta property="og:url" content="https://example.com/page">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200 text-sm text-blue-800">
+                📌 Open Graph tags control how your page appears when shared on social media (Facebook, LinkedIn, etc.).
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 37: Structured Data -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge advanced mb-4">🔴 Advanced</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Structured Data (JSON-LD)</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="code-block text-xs">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "My Company",
+  "url": "https://example.com"
+}
+</script>
+                </div>
+                <p class="tag-desc mt-3 text-sm">JSON-LD is the recommended format by Google for structured data (rich snippets in search results).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 38: Accessibility Deep Dive -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Accessibility Deep Dive</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <ul class="text-lg space-y-3">
+                    <li>✅ Always use <code><alt></code> for images (empty for decorative: <code>alt=""</code>)</li>
+                    <li>✅ Use semantic tags (<code><nav></code>, <code><main></code>, <code><button></code>)</li>
+                    <li>✅ Ensure proper heading hierarchy (h1 → h2 → h3)</li>
+                    <li>✅ Use <code><label for="id"></code> with all form inputs</li>
+                    <li>✅ Ensure sufficient color contrast (4.5:1 for normal text)</li>
+                    <li>✅ Test with keyboard navigation (Tab, Enter, Space)</li>
+                    <li>✅ Test with screen readers (NVDA, VoiceOver)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 39: SEO Best Practices -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">HTML SEO Best Practices</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">Title Tag</h3>
+                    <p class="tag-desc">Keep under 60 characters; include primary keyword.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">Meta Description</h3>
+                    <p class="tag-desc">Write compelling 150-160 char summary for CTR.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">Semantic Structure</h3>
+                    <p class="tag-desc">Use headings properly; avoid div soup.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">Internal Links</h3>
+                    <p class="tag-desc">Use descriptive anchor text (not "click here").</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">Mobile-Friendly</h3>
+                    <p class="tag-desc">Include viewport meta tag; responsive design.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-green-600 mb-2">Page Speed</h3>
+                    <p class="tag-desc">Optimize images; lazy load; minimize DOM size.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 40: Performance Tips -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">HTML Performance Tips</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <ul class="text-lg space-y-3">
+                    <li>✅ Minimize DOM size (fewer elements = faster rendering)</li>
+                    <li>✅ Use semantic tags (smaller than div soup)</li>
+                    <li>✅ Lazy load images (<code>loading="lazy"</code>)</li>
+                    <li>✅ Preload critical resources (<code><link rel="preload"></code>)</li>
+                    <li>✅ Defer non-critical JavaScript (<code>defer</code> or <code>async</code>)</li>
+                    <li>✅ Avoid inline styles/scripts (use external files for caching)</li>
+                    <li>✅ Validate your HTML (clean code = fewer browser quirks)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 41: Your First Page (Recap) -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-6xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Let's Build Your First Page! (Recap)</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Complete Code:</h3>
+                    <div class="code-block">
+<span class="tag"><!DOCTYPE html></span>
+<span class="tag"><html</span> <span class="attr">lang</span>=<span class="string">"en"</span><span class="tag">></span>
+<span class="tag"><head></span>
+    <span class="tag"><meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span><span class="tag">></span>
+    <span class="tag"><meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span><span class="tag">></span>
+    <span class="tag"><title></span>My First Website<span class="tag"></title></span>
+<span class="tag"></head></span>
+<span class="tag"><body></span>
+    <span class="tag"><header></span>
+        <span class="tag"><h1></span>Welcome!<span class="tag"></h1></span>
+    <span class="tag"></header></span>
+    <span class="tag"><main></span>
+        <span class="tag"><p></span>I'm learning HTML!<span class="tag"></p></span>
+        <span class="tag"><ul></span>
+            <span class="tag"><li></span>Reading<span class="tag"></li></span>
+        <span class="tag"></ul></span>
+    <span class="tag"></main></span>
+    <span class="tag"><footer></span>
+        <span class="tag"><address></span>Email: me@example.com<span class="tag"></address></span>
+    <span class="tag"></footer></span>
+<span class="tag"></body></span>
+<span class="tag"></html></span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Best Practices Used:</h3>
+                    <ul class="space-y-2 text-lg">
+                        <li>✅ Semantic HTML (<code><header></code>, <code><main></code>, <code><footer></code>)</li>
+                        <li>✅ Proper document structure</li>
+                        <li>✅ Accessibility (<code><address></code>)</li>
+                        <li>✅ Mobile-friendly viewport</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 42: Semantic HTML Deep Dive -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Semantic HTML Deep Dive</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="code-block text-sm">
+<!DOCTYPE html>
+<html lang="en">
+<head>...</head>
+<body>
+  <header>
+    <h1>Site Title</h1>
+    <nav>...</nav>
+  </header>
+  
+  <main>
+    <article>
+      <h2>Blog Post</h2>
+      <section>
+        <h3>Section 1</h3>
+        <p>Content...</p>
+      </section>
+    </article>
+    
+    <aside>
+      <h3>Related Posts</h3>
+    </aside>
+  </main>
+  
+  <footer>
+    <p>© 2025</p>
+  </footer>
+</body>
+</html>
+                </div>
+                <div class="mt-4 p-3 bg-green-50 rounded border border-green-200 text-sm">
+                    🌐 This structure is accessible, SEO-friendly, and easy to maintain!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 43: Form Deep Dive -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Form Deep Dive</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="code-block text-xs">
+<form method="post" action="/submit" novalidate>
+  <fieldset>
+    <legend>Contact Information</legend>
+    
+    <label for="name">Name (required)</label>
+    <input type="text" id="name" name="name" required 
+           aria-describedby="name-error">
+    <div id="name-error" class="error" hidden>Please enter your name</div>
+    
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" 
+           aria-describedby="email-error">
+    <div id="email-error" class="error" hidden>Invalid email</div>
+  </fieldset>
+  
+  <button type="submit">Submit</button>
+</form>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Includes fieldset/legend, ARIA attributes, and custom validation support.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 44: Media Deep Dive -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Media Deep Dive</h2>
+            <div class="slide-grid">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2">Responsive Video</h3>
+                    <div class="code-block text-xs mt-2">
+<video controls width="100%" poster="thumb.jpg">
+  <source src="video.mp4" type="video/mp4">
+  <track kind="captions" src="captions.vtt" srclang="en">
+</video>
+                    </div>
+                    <p class="tag-desc">Always include captions for accessibility.</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2">Audio with Fallback</h3>
+                    <div class="code-block text-xs mt-2">
+<audio controls>
+  <source src="song.mp3" type="audio/mpeg">
+  <source src="song.ogg" type="audio/ogg">
+  Your browser does not support audio.
+</audio>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h3 class="font-semibold text-purple-600 mb-2">Picture Element</h3>
+                    <div class="code-block text-xs mt-2">
+<picture>
+  <source media="(min-width: 1024px)" srcset="desktop.jpg">
+  <source media="(min-width: 768px)" srcset="tablet.jpg">
+  <img src="mobile.jpg" alt="Description">
+</picture>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 45: Tables Deep Dive -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Tables Deep Dive</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="demo-box">
+                    <table class="w-full text-sm">
+                        <caption class="caption-top mb-2 font-semibold">Monthly Sales Report</caption>
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th scope="col" class="border p-2">Month</th>
+                                <th scope="col" class="border p-2">Sales</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td headers="month" class="border p-2">January</td>
+                                <td headers="sales" class="border p-2">$5,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="code-block text-xs mt-4">
+<table>
+  <caption>Monthly Sales Report</caption>
+  <thead>
+    <tr>
+      <th scope="col">Month</th>
+      <th scope="col">Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td headers="month">January</td>
+      <td headers="sales">$5,000</td>
+    </tr>
+  </tbody>
+</table>
+                </div>
+                <p class="tag-desc mt-3 text-sm">Use <code><caption></code>, <code>scope</code>, and <code>headers</code> for accessibility.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 46: Accessibility Checklist -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">HTML Accessibility Checklist</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <ul class="text-lg space-y-3">
+                    <li>✅ <strong>Images</strong>: All have meaningful <code>alt</code> text (or <code>alt=""</code> if decorative)</li>
+                    <li>✅ <strong>Forms</strong>: Every input has a <code><label for="id"></code></li>
+                    <li>✅ <strong>Headings</strong>: Logical hierarchy (h1 → h2 → h3, no skipping)</li>
+                    <li>✅ <strong>Semantic HTML</strong>: Use <code><nav></code>, <code><main></code>, <code><button></code>, etc.</li>
+                    <li>✅ <strong>Color Contrast</strong>: Text meets WCAG 2.1 AA standards (4.5:1)</li>
+                    <li>✅ <strong>Keyboard Navigation</strong>: All interactive elements focusable with Tab</li>
+                    <li>✅ <strong>ARIA</strong>: Used only when native semantics aren’t sufficient</li>
+                </ul>
+                <div class="mt-4 p-3 bg-blue-50 rounded border border-blue-200 text-sm">
+                    🌐 Test with tools: WAVE, axe DevTools, or Lighthouse in Chrome DevTools.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 47: HTML Validation -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">HTML Validation</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <h3 class="font-semibold text-red-600 mb-3">Why Validate?</h3>
+                <ul class="text-lg space-y-2 mb-4">
+                    <li>✅ Ensures cross-browser compatibility</li>
+                    <li>✅ Improves accessibility and SEO</li>
+                    <li>✅ Catches syntax errors early</li>
+                </ul>
+                <h3 class="font-semibold text-red-600 mb-3">How to Validate</h3>
+                <div class="flex items-center space-x-4 mb-4">
+                    <a href="https://validator.w3.org/" target="_blank" class="text-blue-600 underline">W3C HTML Validator</a>
+                    <span>or</span>
+                    <a href="https://validator.w3.org/nu/" target="_blank" class="text-blue-600 underline">Nu Validator</a>
+                </div>
+                <h3 class="font-semibold text-red-600 mb-3">Common Errors</h3>
+                <ul class="text-sm space-y-1">
+                    <li>• Unclosed tags</li>
+                    <li>• Missing required attributes (e.g., <code>alt</code> on <code><img></code>)</li>
+                    <li>• Invalid nesting (e.g., <code><p><div></div></p></code>)</li>
+                    <li>• Duplicate IDs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 48: Best Practices -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge intermediate mb-4">🟡 Intermediate</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">HTML Best Practices</h2>
+            <div class="bg-white p-6 rounded-lg shadow-sm border">
+                <ul class="text-lg space-y-3">
+                    <li>✅ Always declare <code><!DOCTYPE html></code></li>
+                    <li>✅ Use lowercase for tags and attributes</li>
+                    <li>✅ Always quote attribute values (<code>class="header"</code>, not <code>class=header</code>)</li>
+                    <li>✅ Close all tags properly (even self-closing like <code><img></code>)</li>
+                    <li>✅ Use UTF-8 encoding (<code><meta charset="UTF-8"></code>)</li>
+                    <li>✅ Include viewport meta tag for mobile</li>
+                    <li>✅ Keep your code indented and readable</li>
+                    <li>✅ Prefer semantic tags over <code><div></code> soup</li>
+                    <li>✅ Validate your HTML regularly</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 49: Common Mistakes -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Common HTML Mistakes</h2>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-red-600 mb-2">❌ Bad Practices</h3>
+                        <ul class="text-sm space-y-2">
+                            <li>• Skipping heading levels (<code>h1 → h3</code>)</li>
+                            <li>• Using <code><div></code> for everything</li>
+                            <li>• Missing <code>alt</code> on images</li>
+                            <li>• Not using <code><label></code> with form inputs</li>
+                            <li>• Inline styles instead of CSS</li>
+                            <li>• Duplicate <code>id</code> attributes</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-green-600 mb-2">✅ Better Alternatives</h3>
+                        <ul class="text-sm space-y-2">
+                            <li>• Use proper heading hierarchy</li>
+                            <li>• Use semantic tags (<code><nav></code>, <code><article></code>)</li>
+                            <li>• Always include <code>alt</code></li>
+                            <li>• Always pair <code><label for="id"></code></li>
+                            <li>• Use external CSS</li>
+                            <li>• Use unique <code>id</code>, reusable <code>class</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 50: Final Quiz -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl">
+            <div class="difficulty-badge beginner mb-4">🟢 Beginner</div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">🧠 Final HTML Mastery Quiz!</h2>
+            <div id="quizContainer">
+                <div class="quiz-question mb-8">
+                    <h3 class="text-2xl font-semibold mb-6">Which attribute is required for accessibility on <img>?</h3>
+                    <div class="space-y-3">
+                        <div class="quiz-option" onclick="selectAnswer(this, false)">
+                            A) src
+                        </div>
+                        <div class="quiz-option" onclick="selectAnswer(this, true)">
+                            B) alt
+                        </div>
+                        <div class="quiz-option" onclick="selectAnswer(this, false)">
+                            C) title
+                        </div>
+                        <div class="quiz-option" onclick="selectAnswer(this, false)">
+                            D) class
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="quizResult" class="hidden mt-6 p-4 rounded-lg text-center">
+                <p class="text-lg font-semibold"></p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

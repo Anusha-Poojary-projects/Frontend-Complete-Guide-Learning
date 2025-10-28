@@ -1,0 +1,3893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate MongoDB Complete Reference Guide with Real-World Examples</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4DB33E;
+            --primary-dark: #3a8a2f;
+            --secondary: #2c3e50;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --purple: #6f42c1;
+            --orange: #fd7e14;
+            --pink: #e83e8c;
+            --teal: #20c997;
+            --indigo: #6610f2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fafafa;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--secondary), #1a2530);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="70" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .mongodb-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+        }
+        
+        .nav-links li {
+            margin: 0;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        main {
+            max-width: 1800px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .section h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section h2 i {
+            color: var(--primary);
+        }
+        
+        .section h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .section h4 {
+            color: var(--purple);
+            margin: 1rem 0 0.5rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .feature-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .comparison {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison th {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .comparison td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .comparison tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+        
+        .code-comment {
+            color: #75715e;
+        }
+        
+        .code-keyword {
+            color: #f92672;
+        }
+        
+        .code-string {
+            color: #e6db74;
+        }
+        
+        .code-function {
+            color: #66d9ef;
+        }
+        
+        .code-operator {
+            color: #ae81ff;
+        }
+        
+        .terminal {
+            background: #000;
+            color: #0f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .terminal-prompt {
+            color: #0f0;
+            font-weight: bold;
+        }
+        
+        .terminal-command {
+            color: #fff;
+        }
+        
+        .install-steps {
+            counter-reset: step-counter;
+            margin: 1.5rem 0;
+        }
+        
+        .install-step {
+            counter-increment: step-counter;
+            margin-bottom: 1rem;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+        
+        .install-step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .best-practices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .practice-item {
+            background: linear-gradient(135deg, var(--light), #e8f5e8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--success);
+        }
+        
+        .practice-item h4 {
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        footer {
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .resources {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .resource-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .resource-link:hover {
+            color: #66d966;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .mongodb-logo {
+                font-size: 3rem;
+            }
+            
+            .nav-links a {
+                padding: 1rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(77, 179, 62, 0.2), transparent);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .note {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 4px solid var(--info);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        
+        .note h4 {
+            color: var(--info);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        
+        .warning h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .operators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .operator-card {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--orange);
+        }
+        
+        .operator-card .operator-name {
+            font-weight: bold;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+        
+        .aggregation-pipeline {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .pipeline-stage {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+        }
+        
+        .stage-arrow {
+            color: var(--primary);
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            background: var(--light-gray);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            margin-right: 0.5rem;
+        }
+        
+        .tab.active {
+            background: white;
+            border-bottom: 2px solid var(--primary);
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .index-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .index-card {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--purple);
+        }
+        
+        .index-card h5 {
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+        }
+        
+        .mongodb-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tool-card {
+            background: linear-gradient(135deg, #fdf6f0, #ffe8cc);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--pink);
+        }
+        
+        .tool-card h4 {
+            color: var(--pink);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .security-card {
+            background: linear-gradient(135deg, #f8f0ff, #e8ccff);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--teal);
+        }
+        
+        .security-card h4 {
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .data-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .data-type-card {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--info);
+        }
+        
+        .data-type-card h5 {
+            color: var(--info);
+            margin-bottom: 0.5rem;
+        }
+        
+        .error-handling {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--danger);
+        }
+        
+        .error-handling h4 {
+            color: var(--danger);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .real-world-example {
+            background: linear-gradient(135deg, #f0f7ff, #e6f3ff);
+            border-left: 4px solid var(--indigo);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        
+        .real-world-example h4 {
+            color: var(--indigo);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .use-case {
+            background: linear-gradient(135deg, #fff0f8, #ffe6f6);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--pink);
+        }
+        
+        .use-case h4 {
+            color: var(--pink);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .scenario {
+            background: linear-gradient(135deg, #f0fff4, #e6ffe6);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--success);
+        }
+        
+        .scenario h4 {
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .industry-example {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .industry-card {
+            background: linear-gradient(135deg, #fdf6f0, #fff8e1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--orange);
+        }
+        
+        .industry-card h4 {
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="mongodb-logo">
+                <i class="fab fa-mongodb"></i>
+            </div>
+            <h1>Ultimate MongoDB Complete Reference Guide with Real-World Examples</h1>
+            <p class="subtitle">Every MongoDB concept explained with practical, real-world scenarios from e-commerce, social media, IoT, and more</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#introduction" class="active">Introduction</a></li>
+                <li><a href="#features">Key Features</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#basics">Basic Concepts</a></li>
+                <li><a href="#crud">CRUD Operations</a></li>
+                <li><a href="#query-operators">Query Operators</a></li>
+                <li><a href="#aggregation">Aggregation Pipeline</a></li>
+                <li><a href="#indexing">Indexing</a></li>
+                <li><a href="#transactions">Transactions</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#tools">MongoDB Tools</a></li>
+                <li><a href="#monitoring">Monitoring</a></li>
+                <li><a href="#backup">Backup & Recovery</a></li>
+                <li><a href="#real-world">Real-World Examples</a></li>
+                <li><a href="#best-practices">Best Practices</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="introduction" class="section">
+            <h2><i class="fas fa-rocket"></i> Introduction to MongoDB</h2>
+            <p><span class="highlight">MongoDB</span> is a popular open-source, document-oriented NoSQL database that uses JSON-like documents with optional schemas. It's designed for ease of development and scaling, making it perfect for modern applications.</p>
+            
+            <div class="note">
+                <h4><i class="fas fa-lightbulb"></i> Why Choose MongoDB?</h4>
+                <p>MongoDB is ideal for applications that require flexible schemas, high performance, and horizontal scalability. It's widely used in web applications, mobile apps, IoT, real-time analytics, content management systems, catalogs, user profiles, and more.</p>
+            </div>
+            
+            <h3>Real-World MongoDB Adoption</h3>
+            <p>MongoDB powers some of the world's most demanding applications:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Adobe:</strong> Uses MongoDB for their Creative Cloud platform serving millions of users</li>
+                <li><strong>eBay:</strong> Powers their product catalog and user activity tracking</li>
+                <li><strong>MetLife:</strong> Handles customer data for their insurance platform</li>
+                <li><strong>Expedia:</strong> Manages hotel inventory and booking data</li>
+                <li><strong>Uber:</strong> Used for driver and rider location tracking</li>
+                <li><strong>Twitter:</strong> Powers parts of their analytics infrastructure</li>
+            </ul>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-store"></i> E-commerce Example: Product Catalog</h4>
+                <p>In a traditional SQL database, you'd need separate tables for products, categories, variants, and reviews with complex joins. In MongoDB, you can store everything in a single, flexible document:</p>
+                <div class="code-block">
+{
+  "_id": "PROD-12345",
+  "name": "Wireless Bluetooth Headphones",
+  "description": "High-quality wireless headphones with noise cancellation",
+  "price": 199.99,
+  "category": "Electronics",
+  "brand": "SoundMax",
+  "variants": [
+    { "color": "Black", "sku": "WH-BLK-001", "stock": 50 },
+    { "color": "White", "sku": "WH-WHT-001", "stock": 30 }
+  ],
+  "specifications": {
+    "batteryLife": "20 hours",
+    "connectivity": "Bluetooth 5.0",
+    "weight": "250g"
+  },
+  "reviews": [
+    {
+      "userId": "USER-789",
+      "rating": 5,
+      "comment": "Excellent sound quality!",
+      "date": ISODate("2024-01-10")
+    }
+  ],
+  "tags": ["wireless", "headphones", "bluetooth", "noise-cancellation"],
+  "createdAt": ISODate("2023-12-01"),
+  "updatedAt": ISODate("2024-01-15")
+}
+                </div>
+                <p>This single document contains all the information needed to display a product page, eliminating complex joins and improving performance.</p>
+            </div>
+        </section>
+        
+        <section id="features" class="section">
+            <h2><i class="fas fa-star"></i> Key Features of MongoDB</h2>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h4><i class="fas fa-database"></i> Document-Oriented Storage</h4>
+                    <p>Store data in flexible, JSON-like documents that can have varying structures, making it easy to represent hierarchical relationships and other complex data structures.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-tachometer-alt"></i> High Performance</h4>
+                    <p>Built-in support for indexing, replication, and sharding ensures high performance even with large datasets and high throughput applications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-expand-arrows-alt"></i> Horizontal Scalability</h4>
+                    <p>MongoDB supports sharding, which distributes data across multiple machines, allowing you to scale horizontally as your data grows.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-shield-alt"></i> High Availability</h4>
+                    <p>Automatic failover and data redundancy through replica sets ensure your data is always available and protected against hardware failures.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-chart-line"></i> Rich Query Language</h4>
+                    <p>Support for ad-hoc queries, indexing, and real-time aggregation provides powerful ways to access and analyze your data.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-sync-alt"></i> ACID Transactions</h4>
+                    <p>Multi-document ACID transactions ensure data consistency across multiple operations and documents.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-bolt"></i> Change Streams</h4>
+                    <p>Real-time data change notifications without polling, enabling reactive applications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-file-alt"></i> GridFS</h4>
+                    <p>Built-in support for storing and retrieving files larger than the 16MB BSON document size limit.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-globe"></i> Geospatial Queries</h4>
+                    <p>Native support for geospatial data types and queries for location-based applications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-search"></i> Full-Text Search</h4>
+                    <p>Built-in text search capabilities with stemming, ranking, and phrase matching.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-lock"></i> Enterprise Security</h4>
+                    <p>Comprehensive security features including authentication, authorization, encryption, and auditing.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-cloud"></i> Cloud Integration</h4>
+                    <p>Seamless integration with MongoDB Atlas, the fully managed cloud database service.</p>
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-mobile-alt"></i> Mobile App Example: User Profile</h4>
+                <p>Mobile applications often need to store complex user profiles with varying data structures. MongoDB's flexible schema allows you to easily add new features without database migrations:</p>
+                <div class="code-block">
+{
+  "_id": ObjectId("507f1f77bcf86cd799439011"),
+  "username": "johndoe",
+  "email": "john@example.com",
+  "profile": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "avatar": "https://example.com/avatars/john.jpg",
+    "bio": "Software developer and coffee enthusiast",
+    "location": {
+      "city": "San Francisco",
+      "country": "USA",
+      "coordinates": {
+        "type": "Point",
+        "coordinates": [-122.4194, 37.7749]
+      }
+    }
+  },
+  "preferences": {
+    "theme": "dark",
+    "language": "en",
+    "notifications": {
+      "email": true,
+      "push": true,
+      "sms": false
+    },
+    "privacy": {
+      "profileVisibility": "public",
+      "showOnlineStatus": true
+    }
+  },
+  "social": {
+    "followers": 1250,
+    "following": 890,
+    "posts": 342
+  },
+  "devices": [
+    {
+      "deviceId": "device-123",
+      "type": "iPhone",
+      "os": "iOS 17.2",
+      "lastSeen": ISODate("2024-01-15T14:30:00Z")
+    },
+    {
+      "deviceId": "device-456",
+      "type": "MacBook",
+      "os": "macOS 14.2",
+      "lastSeen": ISODate("2024-01-15T10:15:00Z")
+    }
+  ],
+  "subscription": {
+    "plan": "premium",
+    "startDate": ISODate("2023-06-01"),
+    "nextBillingDate": ISODate("2024-02-01"),
+    "features": ["unlimited_storage", "priority_support", "advanced_analytics"]
+  },
+  "createdAt": ISODate("2022-03-15"),
+  "lastLogin": ISODate("2024-01-15T14:30:00Z")
+}
+                </div>
+                <p>As your app evolves, you can add new fields like <span class="highlight">twoFactorAuth</span>, <span class="highlight">paymentMethods</span>, or <span class="highlight">accessibilitySettings</span> without affecting existing users or requiring database schema changes.</p>
+            </div>
+        </section>
+        
+        <section id="installation" class="section">
+            <h2><i class="fas fa-download"></i> Installation Guide</h2>
+            <p>Follow these steps to install MongoDB on your system:</p>
+            
+            <div class="install-steps">
+                <div class="install-step">
+                    <strong>Download MongoDB Community Edition</strong><br>
+                    Visit the <a href="https://www.mongodb.com/try/download/community" target="_blank" class="resource-link">official MongoDB download page</a> and select your operating system.
+                </div>
+                
+                <div class="install-step">
+                    <strong>Install MongoDB</strong><br>
+                    Follow the installation instructions for your OS:
+                    <div class="code-block">
+                        <!-- Windows -->
+                        <div class="code-comment"># Windows: Run the MSI installer</div>
+                        <!-- macOS -->
+                        <div class="code-comment"># macOS: Use Homebrew</div>
+                        brew tap mongodb/brew<br>
+                        brew install mongodb-community@7.0<br>
+                        <!-- Linux Ubuntu -->
+                        <div class="code-comment"># Ubuntu 22.04 LTS</div>
+                        wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -<br>
+                        echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list<br>
+                        sudo apt-get update<br>
+                        sudo apt-get install -y mongodb-org<br>
+                        <!-- Docker -->
+                        <div class="code-comment"># Docker (Alternative)</div>
+                        docker run --name mongodb -d -p 27017:27017 mongo:7.0
+                    </div>
+                </div>
+                
+                <div class="install-step">
+                    <strong>Start MongoDB Service</strong><br>
+                    After installation, start the MongoDB service:
+                    <div class="terminal">
+                        <span class="terminal-prompt">$ </span><span class="terminal-command">sudo systemctl start mongod</span><br>
+                        <span class="terminal-prompt">$ </span><span class="terminal-command">sudo systemctl enable mongod</span><br>
+                        <span class="terminal-prompt">$ </span><span class="terminal-command">sudo systemctl status mongod</span>
+                    </div>
+                </div>
+                
+                <div class="install-step">
+                    <strong>Connect to MongoDB</strong><br>
+                    Open a terminal and connect using the MongoDB shell:
+                    <div class="terminal">
+                        <span class="terminal-prompt">$ </span><span class="terminal-command">mongosh</span><br>
+                        <span class="terminal-prompt">test&gt; </span><span class="terminal-command">db.version()</span><br>
+                        <span class="terminal-prompt">test&gt; </span><span class="terminal-command">show dbs</span><br>
+                        <span class="terminal-prompt">test&gt; </span><span class="terminal-command">use myDatabase</span><br>
+                        <span class="terminal-prompt">myDatabase&gt; </span><span class="terminal-command">db.createCollection("users")</span>
+                    </div>
+                </div>
+                
+                <div class="install-step">
+                    <strong>Enable Authentication (Production)</strong><br>
+                    Create an admin user and enable authentication:
+                    <div class="code-block">
+<span class="code-comment">// Create admin user</span><br>
+use admin<br>
+db.createUser({<br>
+&nbsp;&nbsp;user: "admin",<br>
+&nbsp;&nbsp;pwd: "securePassword123",<br>
+&nbsp;&nbsp;roles: [ { role: "root", db: "admin" } ]<br>
+})<br><br>
+
+<span class="code-comment">// Enable authentication in mongod.conf</span><br>
+security:<br>
+&nbsp;&nbsp;authorization: enabled
+                    </div>
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-laptop-code"></i> Development Environment Setup</h4>
+                <p>For development, you might want to set up a local MongoDB instance with sample data. Here's a complete setup script for an e-commerce application:</p>
+                <div class="code-block">
+<span class="code-comment">// 1. Connect to MongoDB</span><br>
+mongosh<br><br>
+
+<span class="code-comment">// 2. Create database and collections</span><br>
+use ecommerce<br>
+db.createCollection("products")<br>
+db.createCollection("users")<br>
+db.createCollection("orders")<br><br>
+
+<span class="code-comment">// 3. Insert sample products</span><br>
+db.products.insertMany([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name: "Laptop",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;price: 1299.99,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;category: "Electronics",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stock: 50,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;specifications: { brand: "TechCorp", ram: "16GB", storage: "512GB SSD" }<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name: "Coffee Mug",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;price: 12.99,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;category: "Home",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stock: 200,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;specifications: { material: "Ceramic", capacity: "12oz" }<br>
+&nbsp;&nbsp;}<br>
+])<br><br>
+
+<span class="code-comment">// 4. Create indexes for performance</span><br>
+db.products.createIndex({ category: 1, price: 1 })<br>
+db.products.createIndex({ name: "text" })<br><br>
+
+<span class="code-comment">// 5. Test queries</span><br>
+db.products.find({ category: "Electronics" })<br>
+db.products.find({ $text: { $search: "laptop" } })
+                </div>
+                <p>This setup gives you a working e-commerce database ready for development and testing.</p>
+            </div>
+            
+            <div class="warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> Security Warning</h4>
+                <p>For production environments, always secure your MongoDB installation by enabling authentication, configuring proper access controls, binding to specific IP addresses instead of 0.0.0.0, and using TLS/SSL encryption.</p>
+            </div>
+        </section>
+        
+        <section id="basics" class="section">
+            <h2><i class="fas fa-book"></i> Basic MongoDB Concepts</h2>
+            
+            <h3>Core Terminology</h3>
+            <div class="features">
+                <div class="feature-card">
+                    <h4><i class="fas fa-folder"></i> Database</h4>
+                    <p>A container for collections. Each database gets its own set of files on the file system.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-file-alt"></i> Collection</h4>
+                    <p>Equivalent to a table in relational databases. Contains multiple documents.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-file-code"></i> Document</h4>
+                    <p>A single record in MongoDB, stored as BSON (Binary JSON). Similar to a row in SQL.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-key"></i> Field</h4>
+                    <p>A name-value pair in a document. Equivalent to a column in SQL.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-hashtag"></i> ObjectId</h4>
+                    <p>A 12-byte unique identifier that includes timestamp, machine identifier, process id, and counter.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-project-diagram"></i> Replica Set</h4>
+                    <p>A group of MongoDB instances that maintain the same data set for redundancy and high availability.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-cube"></i> Shard</h4>
+                    <p>A single MongoDB instance that holds a subset of sharded data in a sharded cluster.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-route"></i> Config Server</h4>
+                    <p>Stores metadata and configuration settings for a sharded cluster.</p>
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-graduation-cap"></i> Educational Platform Example: Course Management</h4>
+                <p>An online learning platform needs to store courses, lessons, students, and progress tracking. Here's how MongoDB handles this complex relationship:</p>
+                <div class="code-block">
+<span class="code-comment">// Course document</span><br>
+{<br>
+&nbsp;&nbsp;"_id": "COURSE-001",<br>
+&nbsp;&nbsp;"title": "MongoDB Complete Guide",<br>
+&nbsp;&nbsp;"description": "Learn MongoDB from beginner to advanced",<br>
+&nbsp;&nbsp;"instructor": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "Jane Smith",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"bio": "MongoDB Certified Developer",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"rating": 4.9<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;"modules": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "Introduction to MongoDB",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lessons": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "What is MongoDB?",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"duration": 15,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"videoUrl": "https://example.com/video1"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "Installation and Setup",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"duration": 20,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"videoUrl": "https://example.com/video2"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "CRUD Operations",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lessons": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "Create Operations",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"duration": 25,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"videoUrl": "https://example.com/video3"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;"prerequisites": ["Basic JavaScript", "Database Concepts"],<br>
+&nbsp;&nbsp;"level": "Beginner",<br>
+&nbsp;&nbsp;"duration": 120,<br>
+&nbsp;&nbsp;"enrolledStudents": 1250,<br>
+&nbsp;&nbsp;"rating": 4.8,<br>
+&nbsp;&nbsp;"reviews": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"studentId": "STUDENT-123",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"rating": 5,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"comment": "Excellent course!",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"date": ISODate("2024-01-10")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;"createdAt": ISODate("2023-09-01"),<br>
+&nbsp;&nbsp;"updatedAt": ISODate("2024-01-15")<br>
+}
+                </div>
+                <p>This single document contains all course information, eliminating the need for multiple tables and complex joins. When a student enrolls, you can simply add their ID to an enrollment collection or update a student's enrolled courses array.</p>
+            </div>
+            
+            <h3>BSON Data Types</h3>
+            <p>MongoDB supports various BSON data types:</p>
+            <div class="data-types-grid">
+                <div class="data-type-card">
+                    <h5>String</h5>
+                    <p>UTF-8 strings</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">"Hello World"</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Integer</h5>
+                    <p>32-bit and 64-bit integers</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">42, NumberLong("9223372036854775807")</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Double</h5>
+                    <p>Floating point values</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">3.14159</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Boolean</h5>
+                    <p>true/false values</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">true, false</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Date</h5>
+                    <p>ISODate objects</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">ISODate("2024-01-15T10:30:00Z")</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>ObjectId</h5>
+                    <p>12-byte unique identifiers</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">ObjectId("507f1f77bcf86cd799439011")</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Array</h5>
+                    <p>Lists of values</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">["apple", "banana", "cherry"]</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Embedded Document</h5>
+                    <p>Nested objects</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">{ "name": "John", "age": 30 }</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Binary Data</h5>
+                    <p>Binary data storage</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">BinData(0, "SGVsbG8gd29ybGQ=")</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Null</h5>
+                    <p>Null values</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">null</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Regular Expression</h5>
+                    <p>Regex patterns</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">/pattern/i</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>JavaScript</h5>
+                    <p>JavaScript code</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">Code("function() { return 1; }")</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Decimal128</h5>
+                    <p>High-precision decimal values</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">NumberDecimal("1234.56")</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Timestamp</h5>
+                    <p>Internal timestamp type</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">Timestamp(1642242600, 1)</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>MinKey/MaxKey</h5>
+                    <p>Internal comparison types</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">MinKey, MaxKey</div>
+                </div>
+                <div class="data-type-card">
+                    <h5>Symbol</h5>
+                    <p>Deprecated string type</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">Symbol("symbol")</div>
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-calculator"></i> Financial Application Example: Precise Calculations</h4>
+                <p>Financial applications require precise decimal arithmetic to avoid rounding errors. Here's how to handle monetary values correctly:</p>
+                <div class="code-block">
+<span class="code-comment">// WRONG: Using double for money (causes rounding errors)</span><br>
+{<br>
+&nbsp;&nbsp;"productId": "PROD-001",<br>
+&nbsp;&nbsp;"price": 19.99, <span class="code-comment">// This is a double - avoid for money!</span><br>
+&nbsp;&nbsp;"quantity": 3,<br>
+&nbsp;&nbsp;"total": 59.97<br>
+}<br><br>
+
+<span class="code-comment">// CORRECT: Using Decimal128 for precise decimal arithmetic</span><br>
+{<br>
+&nbsp;&nbsp;"productId": "PROD-001",<br>
+&nbsp;&nbsp;"price": NumberDecimal("19.99"),<br>
+&nbsp;&nbsp;"quantity": 3,<br>
+&nbsp;&nbsp;"total": NumberDecimal("59.97"),<br>
+&nbsp;&nbsp;"tax": NumberDecimal("4.80"),<br>
+&nbsp;&nbsp;"grandTotal": NumberDecimal("64.77")<br>
+}<br><br>
+
+<span class="code-comment">// Aggregation pipeline for precise calculations</span><br>
+db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addFields: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subtotal: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$multiply: ["$price", "$quantity"]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addFields: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tax: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$multiply: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"$subtotal",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberDecimal("0.08") <span class="code-comment">// 8% tax</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addFields: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grandTotal: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$add: ["$subtotal", "$tax"]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+])
+                </div>
+                <p>Using <span class="highlight">Decimal128</span> ensures that financial calculations are precise and free from floating-point rounding errors that can accumulate over time.</p>
+            </div>
+        </section>
+        
+        <section id="crud" class="section">
+            <h2><i class="fas fa-edit"></i> Comprehensive CRUD Operations with Real-World Examples</h2>
+            <p>CRUD stands for Create, Read, Update, and Delete - the four basic operations you'll perform on your data.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-shopping-cart"></i> E-commerce Shopping Cart Example</h4>
+                <p>Let's build a complete shopping cart system using MongoDB CRUD operations:</p>
+                
+                <h5>1. Create - Adding Items to Cart</h5>
+                <div class="code-block">
+<span class="code-comment">// Create a new cart for user</span><br>
+db.carts.insertOne({<br>
+&nbsp;&nbsp;userId: "USER-123",<br>
+&nbsp;&nbsp;items: [],<br>
+&nbsp;&nbsp;createdAt: new Date(),<br>
+&nbsp;&nbsp;updatedAt: new Date()<br>
+})<br><br>
+
+<span class="code-comment">// Add item to existing cart</span><br>
+db.carts.updateOne(<br>
+&nbsp;&nbsp;{ userId: "USER-123" },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$push: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productId: "PROD-456",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: "Wireless Mouse",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;price: NumberDecimal("29.99"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quantity: 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addedAt: new Date()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{ upsert: true }<br>
+)
+                </div>
+                
+                <h5>2. Read - Retrieving Cart Contents</h5>
+                <div class="code-block">
+<span class="code-comment">// Get user's cart with item details</span><br>
+db.carts.findOne({ userId: "USER-123" })<br><br>
+
+<span class="code-comment">// Calculate cart total using aggregation</span><br>
+db.carts.aggregate([<br>
+&nbsp;&nbsp;{ $match: { userId: "USER-123" } },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addFields: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$reduce: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input: "$items",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initialValue: NumberDecimal("0"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$add: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"$$value",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $multiply: ["$$this.price", "$$this.quantity"] }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+])
+                </div>
+                
+                <h5>3. Update - Modifying Cart Items</h5>
+                <div class="code-block">
+<span class="code-comment">// Update item quantity</span><br>
+db.carts.updateOne(<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;userId: "USER-123",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"items.productId": "PROD-456"<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$set: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"items.$.quantity": 2,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updatedAt: new Date()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+)<br><br>
+
+<span class="code-comment">// Remove item from cart</span><br>
+db.carts.updateOne(<br>
+&nbsp;&nbsp;{ userId: "USER-123" },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$pull: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items: { productId: "PROD-456" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+)
+                </div>
+                
+                <h5>4. Delete - Clearing Cart</h5>
+                <div class="code-block">
+<span class="code-comment">// Clear all items from cart</span><br>
+db.carts.updateOne(<br>
+&nbsp;&nbsp;{ userId: "USER-123" },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$set: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items: [],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updatedAt: new Date()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+)<br><br>
+
+<span class="code-comment">// Delete cart entirely (after checkout)</span><br>
+db.carts.deleteOne({ userId: "USER-123" })
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-comments"></i> Social Media Comment System Example</h4>
+                <p>Building a nested comment system with replies and likes:</p>
+                
+                <h5>Document Structure</h5>
+                <div class="code-block">
+{<br>
+&nbsp;&nbsp;"_id": ObjectId("..."),<br>
+&nbsp;&nbsp;"postId": "POST-123",<br>
+&nbsp;&nbsp;"author": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"userId": "USER-456",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"username": "johndoe",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"avatar": "https://example.com/avatar.jpg"<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;"content": "Great post! This is really helpful.",<br>
+&nbsp;&nbsp;"likes": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "userId": "USER-789", "likedAt": ISODate("2024-01-15T10:30:00Z") }<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;"replies": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"_id": ObjectId("..."),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"author": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"userId": "USER-123",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "janedoe",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"avatar": "https://example.com/avatar2.jpg"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "Thanks for the feedback!",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"likes": [],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"createdAt": ISODate("2024-01-15T11:00:00Z")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;"createdAt": ISODate("2024-01-15T10:00:00Z"),<br>
+&nbsp;&nbsp;"updatedAt": ISODate("2024-01-15T10:30:00Z")<br>
+}
+                </div>
+                
+                <h5>CRUD Operations</h5>
+                <div class="code-block">
+<span class="code-comment">// Add a top-level comment</span><br>
+db.comments.insertOne({<br>
+&nbsp;&nbsp;postId: "POST-123",<br>
+&nbsp;&nbsp;author: { userId: "USER-456", username: "johndoe", avatar: "..." },<br>
+&nbsp;&nbsp;content: "Great post!",<br>
+&nbsp;&nbsp;likes: [],<br>
+&nbsp;&nbsp;replies: [],<br>
+&nbsp;&nbsp;createdAt: new Date(),<br>
+&nbsp;&nbsp;updatedAt: new Date()<br>
+})<br><br>
+
+<span class="code-comment">// Add a reply to a comment</span><br>
+db.comments.updateOne(<br>
+&nbsp;&nbsp;{ _id: ObjectId("comment-id") },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$push: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replies: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_id: new ObjectId(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;author: { userId: "USER-123", username: "janedoe", avatar: "..." },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content: "Thanks!",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;likes: [],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;createdAt: new Date()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+)<br><br>
+
+<span class="code-comment">// Like a comment</span><br>
+db.comments.updateOne(<br>
+&nbsp;&nbsp;{ _id: ObjectId("comment-id") },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addToSet: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;likes: { userId: "USER-789", likedAt: new Date() }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+)<br><br>
+
+<span class="code-comment">// Get comments with pagination</span><br>
+db.comments.find({ postId: "POST-123" })<br>
+&nbsp;&nbsp;.sort({ createdAt: -1 })<br>
+&nbsp;&nbsp;.skip(0)<br>
+&nbsp;&nbsp;.limit(10)
+                </div>
+            </div>
+            
+            <h3>1. Create (Insert Operations)</h3>
+            <div class="code-block">
+<span class="code-comment">// Insert a single document</span><br>
+db.users.insertOne({<br>
+&nbsp;&nbsp;name: "Alice Smith",<br>
+&nbsp;&nbsp;email: "alice@example.com",<br>
+&nbsp;&nbsp;age: 25,<br>
+&nbsp;&nbsp;createdAt: new Date()<br>
+})<br><br>
+
+<span class="code-comment">// Insert multiple documents</span><br>
+db.users.insertMany([<br>
+&nbsp;&nbsp;{ name: "Bob Johnson", email: "bob@example.com", age: 35, createdAt: new Date() },<br>
+&nbsp;&nbsp;{ name: "Carol Davis", email: "carol@example.com", age: 28, createdAt: new Date() }<br>
+], { ordered: false })<br><br>
+
+<span class="code-comment">// Insert with custom _id</span><br>
+db.products.insertOne({<br>
+&nbsp;&nbsp;_id: "PROD-001",<br>
+&nbsp;&nbsp;name: "Laptop",<br>
+&nbsp;&nbsp;price: 999.99<br>
+})<br><br>
+
+<span class="code-comment">// Insert only if document doesn't exist (upsert pattern)</span><br>
+db.users.updateOne(<br>
+&nbsp;&nbsp;{ email: "newuser@example.com" },<br>
+&nbsp;&nbsp;{ $setOnInsert: { name: "New User", createdAt: new Date() } },<br>
+&nbsp;&nbsp;{ upsert: true }<br>
+)<br><br>
+
+<span class="code-comment">// Bulk insert operations</span><br>
+const bulk = db.users.initializeUnorderedBulkOp();<br>
+bulk.insert({ name: "User1", email: "user1@example.com" });<br>
+bulk.insert({ name: "User2", email: "user2@example.com" });<br>
+bulk.execute();
+            </div>
+            
+            <h3>2. Read (Find Operations)</h3>
+            <div class="code-block">
+<span class="code-comment">// Find all documents</span><br>
+db.users.find()<br><br>
+
+<span class="code-comment">// Find with pretty printing</span><br>
+db.users.find().pretty()<br><br>
+
+<span class="code-comment">// Find documents with specific criteria</span><br>
+db.users.find({ age: { $gt: 30 } })<br><br>
+
+<span class="code-comment">// Find one document</span><br>
+db.users.findOne({ name: "Alice Smith" })<br><br>
+
+<span class="code-comment">// Project specific fields (1 = include, 0 = exclude)</span><br>
+db.users.find({}, { name: 1, email: 1, _id: 0 })<br><br>
+
+<span class="code-comment">// Find with multiple conditions (AND)</span><br>
+db.users.find({ age: { $gte: 25 }, isActive: true })<br><br>
+
+<span class="code-comment">// Find with OR conditions</span><br>
+db.users.find({ $or: [{ age: { $lt: 20 } }, { age: { $gt: 60 } }] })<br><br>
+
+<span class="code-comment">// Find in embedded documents</span><br>
+db.users.find({ "address.city": "New York" })<br><br>
+
+<span class="code-comment">// Find in arrays</span><br>
+db.users.find({ hobbies: "coding" })<br>
+db.users.find({ hobbies: { $all: ["reading", "swimming"] } })<br>
+db.users.find({ hobbies: { $size: 3 } })<br>
+db.users.find({ hobbies: { $elemMatch: { $regex: /^c/ } } })<br><br>
+
+<span class="code-comment">// Limit, skip, and sort results</span><br>
+db.users.find().limit(10).skip(20).sort({ age: -1 })<br><br>
+
+<span class="code-comment">// Count documents</span><br>
+db.users.countDocuments({ age: { $gt: 30 } })<br>
+db.users.estimatedDocumentCount()<br><br>
+
+<span class="code-comment">// Distinct values</span><br>
+db.users.distinct("city")<br><br>
+
+<span class="code-comment">// Cursor operations</span><br>
+const cursor = db.users.find({ age: { $gt: 25 } });<br>
+while (cursor.hasNext()) {<br>
+&nbsp;&nbsp;printjson(cursor.next());<br>
+}<br><br>
+
+<span class="code-comment">// Explain query execution</span><br>
+db.users.find({ email: "test@example.com" }).explain("executionStats")
+            </div>
+            
+            <h3>3. Update Operations</h3>
+            <div class="code-block">
+<span class="code-comment">// Update one document</span><br>
+db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Smith" },<br>
+&nbsp;&nbsp;{ $set: { age: 26, lastUpdated: new Date() } }<br>
+)<br><br>
+
+<span class="code-comment">// Update multiple documents</span><br>
+db.users.updateMany(<br>
+&nbsp;&nbsp;{ age: { $lt: 30 } },<br>
+&nbsp;&nbsp;{ $set: { category: "young" } }<br>
+)<br><br>
+
+<span class="code-comment">// Update with upsert (insert if not exists)</span><br>
+db.users.updateOne(<br>
+&nbsp;&nbsp;{ email: "newuser@example.com" },<br>
+&nbsp;&nbsp;{ $set: { name: "New User", age: 22 } },<br>
+&nbsp;&nbsp;{ upsert: true }<br>
+)<br><br>
+
+<span class="code-comment">// Increment field</span><br>
+db.products.updateOne(<br>
+&nbsp;&nbsp;{ _id: "PROD-001" },<br>
+&nbsp;&nbsp;{ $inc: { stock: -1 } }<br>
+)<br><br>
+
+<span class="code-comment">// Add to array</span><br>
+db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Smith" },<br>
+&nbsp;&nbsp;{ $push: { hobbies: "photography" } }<br>
+)<br>
+db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Smith" },<br>
+&nbsp;&nbsp;{ $push: { hobbies: { $each: ["hiking", "cooking"], $position: 0 } } }<br>
+)<br><br>
+
+<span class="code-comment">// Remove from array</span><br>
+db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Smith" },<br>
+&nbsp;&nbsp;{ $pull: { hobbies: "swimming" } }<br>
+)<br>
+db.users.updateOne(<br>
+&nbsp;&nbsp;{ name: "Alice Smith" },<br>
+&nbsp;&nbsp;{ $pullAll: { hobbies: ["reading", "swimming"] } }<br>
+)<br><br>
+
+<span class="code-comment">// Replace entire document</span><br>
+db.users.replaceOne(<br>
+&nbsp;&nbsp;{ name: "Alice Smith" },<br>
+&nbsp;&nbsp;{ name: "Alice Johnson", email: "alice.johnson@example.com", age: 26 }<br>
+)<br><br>
+
+<span class="code-comment">// Array field operators</span><br>
+{ $addToSet: { tags: "premium" } }<br>
+{ $pop: { hobbies: 1 } }<br>
+{ $bit: { flags: { and: 10 } } }
+            </div>
+            
+            <h3>4. Delete Operations</h3>
+            <div class="code-block">
+<span class="code-comment">// Delete one document</span><br>
+db.users.deleteOne({ name: "Bob Johnson" })<br><br>
+
+<span class="code-comment">// Delete multiple documents</span><br>
+db.users.deleteMany({ age: { $lt: 25 } })<br><br>
+
+<span class="code-comment">// Delete all documents (be careful!)</span><br>
+db.users.deleteMany({})<br><br>
+
+<span class="code-comment">// Drop entire collection</span><br>
+db.users.drop()<br><br>
+
+<span class="code-comment">// Drop entire database</span><br>
+db.dropDatabase()<br><br>
+
+<span class="code-comment">// Bulk delete operations</span><br>
+const bulk = db.users.initializeUnorderedBulkOp();<br>
+bulk.find({ status: "inactive" }).remove();<br>
+bulk.find({ age: { $lt: 18 } }).remove();<br>
+bulk.execute();
+            </div>
+        </section>
+        
+        <section id="query-operators" class="section">
+            <h2><i class="fas fa-search"></i> MongoDB Query Operators - Complete Reference with Real Examples</h2>
+            <p>MongoDB provides a rich set of query operators for filtering, updating, and manipulating data.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-filter"></i> E-commerce Product Filtering Example</h4>
+                <p>Building a sophisticated product search and filtering system:</p>
+                <div class="code-block">
+<span class="code-comment">// Find products in price range with specific features</span><br>
+db.products.find({<br>
+&nbsp;&nbsp;price: { $gte: 100, $lte: 500 },<br>
+&nbsp;&nbsp;category: "Electronics",<br>
+&nbsp;&nbsp;$or: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "specifications.brand": { $in: ["Apple", "Samsung", "Google"] } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ rating: { $gte: 4.5 } }<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;inStock: true,<br>
+&nbsp;&nbsp;tags: { $all: ["wireless", "bluetooth"] }<br>
+})<br><br>
+
+<span class="code-comment">// Find products with text search</span><br>
+db.products.find({<br>
+&nbsp;&nbsp;$text: { $search: "wireless headphones noise cancellation" },<br>
+&nbsp;&nbsp;price: { $lte: 200 }<br>
+})<br><br>
+
+<span class="code-comment">// Find products by location (geospatial)</span><br>
+db.stores.find({<br>
+&nbsp;&nbsp;location: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$near: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$geometry: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: "Point",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coordinates: [-74.0060, 40.7128] <span class="code-comment">// NYC</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$maxDistance: 5000 <span class="code-comment">// 5km radius</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+})
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-user-clock"></i> User Activity Tracking Example</h4>
+                <p>Tracking and analyzing user activity patterns:</p>
+                <div class="code-block">
+<span class="code-comment">// Find active users in the last 30 days</span><br>
+db.users.find({<br>
+&nbsp;&nbsp;lastLogin: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)<br>
+&nbsp;&nbsp;}<br>
+})<br><br>
+
+<span class="code-comment">// Find users with specific activity patterns</span><br>
+db.userActivity.find({<br>
+&nbsp;&nbsp;$and: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "actions.type": "purchase" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "actions.timestamp": { $gte: new Date("2024-01-01") } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "actions.value": { $gte: 100 } }<br>
+&nbsp;&nbsp;]<br>
+})<br><br>
+
+<span class="code-comment">// Find users who haven't completed onboarding</span><br>
+db.users.find({<br>
+&nbsp;&nbsp;$or: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ profileCompleted: { $ne: true } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ emailVerified: { $ne: true } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "onboardingSteps": { $not: { $size: 5 } } }<br>
+&nbsp;&nbsp;]<br>
+})
+                </div>
+            </div>
+            
+            <h3>Comparison Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$eq</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $eq: 25 } }</div>
+                    <p>Matches values that are equal to a specified value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$ne</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $ne: 25 } }</div>
+                    <p>Matches all values that are not equal to a specified value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$gt</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $gt: 25 } }</div>
+                    <p>Matches values that are greater than a specified value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$gte</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $gte: 25 } }</div>
+                    <p>Matches values that are greater than or equal to a specified value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$lt</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $lt: 25 } }</div>
+                    <p>Matches values that are less than a specified value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$lte</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $lte: 25 } }</div>
+                    <p>Matches values that are less than or equal to a specified value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$in</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ status: { $in: ["active", "pending"] } }</div>
+                    <p>Matches any of the values specified in an array.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$nin</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ status: { $nin: ["inactive", "deleted"] } }</div>
+                    <p>Matches none of the values specified in an array.</p>
+                </div>
+            </div>
+            
+            <h3>Logical Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$and</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ $and: [{ age: { $gte: 18 } }, { status: "active" }] }</div>
+                    <p>Joins query clauses with a logical AND.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$or</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ $or: [{ age: { $lt: 18 } }, { age: { $gt: 65 } }] }</div>
+                    <p>Joins query clauses with a logical OR.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$not</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $not: { $gt: 30 } } }</div>
+                    <p>Inverts the effect of a query expression.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$nor</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ $nor: [{ age: { $lt: 18 } }, { status: "inactive" }] }</div>
+                    <p>Joins query clauses with a logical NOR.</p>
+                </div>
+            </div>
+            
+            <h3>Element Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$exists</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ phone: { $exists: true } }</div>
+                    <p>Matches documents that have the specified field.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$type</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ age: { $type: "int" } }</div>
+                    <p>Selects documents where the value of the field is of the specified BSON type.</p>
+                </div>
+            </div>
+            
+            <h3>Array Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$all</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ tags: { $all: ["mongodb", "database"] } }</div>
+                    <p>Matches arrays that contain all elements specified in the query.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$elemMatch</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ scores: { $elemMatch: { $gt: 80, $lt: 85 } } }</div>
+                    <p>Matches documents that contain an array field with at least one element that matches all the specified query criteria.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$size</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ tags: { $size: 3 } }</div>
+                    <p>Selects documents where the array field has the specified number of elements.</p>
+                </div>
+            </div>
+            
+            <h3>Evaluation Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$regex</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ name: { $regex: /^John/, $options: "i" } }</div>
+                    <p>Provides regular expression capabilities for pattern matching strings.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$text</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ $text: { $search: "mongodb tutorial" } }</div>
+                    <p>Performs text search on fields indexed with a text index.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$where</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ $where: "this.age > this.experience" }</div>
+                    <p>Matches documents that satisfy a JavaScript expression.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$jsonSchema</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem; font-size: 0.8rem;">{ $jsonSchema: {<br>&nbsp;&nbsp;bsonType: "object",<br>&nbsp;&nbsp;required: ["name", "email"]<br>} }</div>
+                    <p>Validates documents against a JSON Schema.</p>
+                </div>
+            </div>
+            
+            <h3>Bitwise Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$bitsAllClear</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ flags: { $bitsAllClear: [1, 5] } }</div>
+                    <p>Matches values where all specified bits are clear (0).</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$bitsAllSet</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ flags: { $bitsAllSet: [1, 5] } }</div>
+                    <p>Matches values where all specified bits are set (1).</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$bitsAnyClear</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ flags: { $bitsAnyClear: [1, 5] } }</div>
+                    <p>Matches values where any of the specified bits are clear (0).</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$bitsAnySet</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ flags: { $bitsAnySet: [1, 5] } }</div>
+                    <p>Matches values where any of the specified bits are set (1).</p>
+                </div>
+            </div>
+            
+            <h3>Geospatial Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$geoWithin</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ location: { $geoWithin: { $box: [...] } } }</div>
+                    <p>Selects geometries within a bounding geometry.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$geoIntersects</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ location: { $geoIntersects: { $geometry: ... } } }</div>
+                    <p>Selects geometries that intersect with a GeoJSON geometry.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$near</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ location: { $near: { $geometry: ..., $maxDistance: 1000 } } }</div>
+                    <p>Returns geospatial objects in proximity to a point.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$nearSphere</div>
+                    <div class="code-block" style="margin: 0; padding: 0.5rem;">{ location: { $nearSphere: { $geometry: ..., $maxDistance: 1000 } } }</div>
+                    <p>Returns geospatial objects in proximity to a point on a sphere.</p>
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-map-marker-alt"></i> Location-Based Services Example</h4>
+                <p>Building a ride-sharing or delivery service with geospatial queries:</p>
+                <div class="code-block">
+<span class="code-comment">// Driver location document</span><br>
+{<br>
+&nbsp;&nbsp;"_id": "DRIVER-123",<br>
+&nbsp;&nbsp;"name": "John Driver",<br>
+&nbsp;&nbsp;"vehicle": "Toyota Camry",<br>
+&nbsp;&nbsp;"location": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"type": "Point",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"coordinates": [-74.0060, 40.7128] <span class="code-comment">// [longitude, latitude]</span><br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;"available": true,<br>
+&nbsp;&nbsp;"rating": 4.8,<br>
+&nbsp;&nbsp;"lastUpdated": ISODate("2024-01-15T14:30:00Z")<br>
+}<br><br>
+
+<span class="code-comment">// Find available drivers within 5km</span><br>
+db.drivers.find({<br>
+&nbsp;&nbsp;available: true,<br>
+&nbsp;&nbsp;location: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$nearSphere: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$geometry: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: "Point",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coordinates: [-74.0060, 40.7128] <span class="code-comment">// User's location</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$maxDistance: 5000 <span class="code-comment">// 5 kilometers</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}).sort({ rating: -1 })<br><br>
+
+<span class="code-comment">// Create 2dsphere index for geospatial queries</span><br>
+db.drivers.createIndex({ "location": "2dsphere" })
+                </div>
+            </div>
+            
+            <div class="warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> Performance Note</h4>
+                <p>Avoid using <span class="highlight">$where</span> and complex regex patterns without proper indexing, as they can significantly impact query performance. Always use indexes with geospatial queries.</p>
+            </div>
+        </section>
+        
+        <section id="aggregation" class="section">
+            <h2><i class="fas fa-project-diagram"></i> Aggregation Pipeline - Complete Guide with Real Examples</h2>
+            <p>The aggregation pipeline is a framework for data aggregation modeled on the concept of data processing pipelines. Documents enter a multi-stage pipeline that transforms the documents into an aggregated result.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-chart-bar"></i> E-commerce Analytics Dashboard Example</h4>
+                <p>Building a comprehensive analytics dashboard for an online store:</p>
+                <div class="code-block">
+<span class="code-comment">// Monthly sales report by category</span><br>
+db.orders.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$match: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderDate: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$gte: ISODate("2024-01-01"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$lt: ISODate("2024-02-01")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$unwind: "$items"<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$lookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "products",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localField: "items.productId",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreignField: "_id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "product"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$unwind: "$product"<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$group: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_id: "$product.category",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalRevenue: { $sum: "$items.totalPrice" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalOrders: { $sum: 1 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageOrderValue: { $avg: "$items.totalPrice" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uniqueCustomers: { $addToSet: "$customerId" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addFields: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uniqueCustomerCount: { $size: "$uniqueCustomers" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$project: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category: "$_id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalRevenue: 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalOrders: 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageOrderValue: { $round: ["$averageOrderValue", 2] },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uniqueCustomerCount: 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_id: 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$sort: { totalRevenue: -1 }<br>
+&nbsp;&nbsp;}<br>
+])
+                </div>
+                <p>This pipeline provides a complete monthly sales report showing revenue, orders, and customer metrics by product category.</p>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-users"></i> User Engagement Analytics Example</h4>
+                <p>Analyzing user engagement and retention for a mobile app:</p>
+                <div class="code-block">
+<span class="code-comment">// User retention analysis</span><br>
+db.userSessions.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$match: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sessionStart: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$gte: ISODate("2024-01-01"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$lt: ISODate("2024-02-01")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$group: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_id: "$userId",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;firstSession: { $min: "$sessionStart" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalSessions: { $sum: 1 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalDuration: { $sum: "$duration" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastSession: { $max: "$sessionStart" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addFields: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;daysActive: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$dateDiff: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startDate: "$firstSession",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endDate: "$lastSession",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unit: "day"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$bucket: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groupBy: "$totalSessions",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boundaries: [1, 5, 10, 20, 50],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default: "50+",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count: { $sum: 1 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;avgDuration: { $avg: "$totalDuration" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$sort: { _id: 1 }<br>
+&nbsp;&nbsp;}<br>
+])
+                </div>
+                <p>This analysis categorizes users by engagement level and provides insights into user behavior patterns.</p>
+            </div>
+            
+            <h3>Basic Aggregation Structure</h3>
+            <div class="code-block">
+db.collection.aggregate([<br>
+&nbsp;&nbsp;{ $stage1: { ... } },<br>
+&nbsp;&nbsp;{ $stage2: { ... } },<br>
+&nbsp;&nbsp;{ $stage3: { ... } }<br>
+], {<br>
+&nbsp;&nbsp;allowDiskUse: true,<br>
+&nbsp;&nbsp;maxTimeMS: 60000<br>
+})
+            </div>
+            
+            <h3>Complete Aggregation Stages Reference</h3>
+            
+            <div class="aggregation-pipeline">
+                <div class="pipeline-stage">
+                    <strong>$match</strong> → Filters documents to pass only those that match the specified condition(s)
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $match: { status: "active", age: { $gte: 18 } } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$group</strong> → Groups documents by a specified identifier and applies accumulator expressions
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $group: { _id: "$category", total: { $sum: "$price" }, count: { $sum: 1 } } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$sort</strong> → Sorts all input documents and returns them in sorted order
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $sort: { total: -1 } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$limit</strong> → Passes the first n documents unmodified to the pipeline
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $limit: 10 }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$skip</strong> → Skips the first n documents where n is the specified skip number
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $skip: 20 }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$project</strong> → Reshapes each document in the stream
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $project: { name: 1, totalSpent: { $sum: "$orders.amount" }, _id: 0 } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$lookup</strong> → Performs a left outer join to another collection
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $lookup: { from: "products", localField: "productId", foreignField: "_id", as: "productDetails" } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$unwind</strong> → Deconstructs an array field from the input documents
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $unwind: "$tags" }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$addFields</strong> → Adds new fields to documents
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $addFields: { fullName: { $concat: ["$firstName", " ", "$lastName"] } } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$bucket</strong> → Categorizes incoming documents into groups (buckets)
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $bucket: { groupBy: "$price", boundaries: [0, 100, 500, 1000], default: "Other" } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$bucketAuto</strong> → Automatically determines bucket boundaries
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $bucketAuto: { groupBy: "$price", buckets: 4 } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$count</strong> → Returns a count of the number of documents
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $count: "totalUsers" }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$facet</strong> → Processes multiple aggregation pipelines within a single stage
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+{ $facet: {<br>
+&nbsp;&nbsp;ageGroups: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ $bucket: { groupBy: "$age", boundaries: [0, 18, 35, 65, 100] } }<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;statusCounts: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ $group: { _id: "$status", count: { $sum: 1 } } }<br>
+&nbsp;&nbsp;]<br>
+} }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$graphLookup</strong> → Performs recursive search on a collection
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+{ $graphLookup: {<br>
+&nbsp;&nbsp;from: "employees",<br>
+&nbsp;&nbsp;startWith: "$reportsTo",<br>
+&nbsp;&nbsp;connectFromField: "reportsTo",<br>
+&nbsp;&nbsp;connectToField: "_id",<br>
+&nbsp;&nbsp;as: "managers"<br>
+} }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$out</strong> → Writes resulting documents to a collection
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $out: "monthlySalesReport" }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$merge</strong> → Writes resulting documents to a collection with merge options
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $merge: { into: "analytics", whenMatched: "replace" } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$replaceRoot</strong> → Replaces the input document with the specified embedded document
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $replaceRoot: { newRoot: "$productDetails" } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$replaceWith</strong> → Alias for $replaceRoot
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $replaceWith: "$productDetails" }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$sample</strong> → Randomly selects the specified number of documents
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $sample: { size: 100 } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$set</strong> → Alias for $addFields
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $set: { fullName: { $concat: ["$firstName", " ", "$lastName"] } } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$unset</strong> → Removes/excludes fields from documents
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $unset: ["password", "ssn"] }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$redact</strong> → Restricts the contents of the documents based on information stored in the documents themselves
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $redact: { $cond: { if: { $eq: ["$level", 5] }, then: "$$PRUNE", else: "$$DESCEND" } } }
+                    </div>
+                </div>
+                
+                <div class="pipeline-stage">
+                    <strong>$sortByCount</strong> → Groups incoming documents by a specified field and sorts by count
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem;">
+{ $sortByCount: "$category" }
+                    </div>
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-network-wired"></i> Social Network Friend Recommendations Example</h4>
+                <p>Building a friend recommendation system using graph-like operations:</p>
+                <div class="code-block">
+<span class="code-comment">// Find friends of friends who aren't already friends</span><br>
+db.users.aggregate([<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$match: { _id: "USER-123" } <span class="code-comment">// Target user</span><br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$graphLookup: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: "users",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startWith: "$friends",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connectFromField: "friends",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connectToField: "_id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;as: "friendsOfFriends",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxDepth: 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depthField: "distance"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$unwind: "$friendsOfFriends"<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$match: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"friendsOfFriends.distance": 1, <span class="code-comment">// Direct friends of friends</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"friendsOfFriends._id": { $nin: ["USER-123"] }, <span class="code-comment">// Not the user themselves</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"friendsOfFriends._id": { $nin: "$friends" } <span class="code-comment">// Not already friends</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$group: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_id: "$friendsOfFriends._id",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;commonFriends: { $addToSet: "$friendsOfFriends.friends" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user: { $first: "$friendsOfFriends" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$addFields: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;commonFriendCount: { $size: "$commonFriends" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$sort: { commonFriendCount: -1 }<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$limit: 10<br>
+&nbsp;&nbsp;}<br>
+])
+                </div>
+                <p>This pipeline finds potential friend recommendations based on mutual connections, a common feature in social networks.</p>
+            </div>
+            
+            <h3>Accumulator Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">$sum</div>
+                    <p>Calculates and returns the sum of numeric values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$avg</div>
+                    <p>Calculates and returns the average of numeric values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$min</div>
+                    <p>Returns the lowest value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$max</div>
+                    <p>Returns the highest value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$first</div>
+                    <p>Returns the first value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$last</div>
+                    <p>Returns the last value.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$push</div>
+                    <p>Returns an array of all values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$addToSet</div>
+                    <p>Returns an array of unique values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$stdDevPop</div>
+                    <p>Returns the population standard deviation.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$stdDevSamp</div>
+                    <p>Returns the sample standard deviation.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$mergeObjects</div>
+                    <p>Combines multiple documents into a single document.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$firstN</div>
+                    <p>Returns the first n values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$lastN</div>
+                    <p>Returns the last n values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$maxN</div>
+                    <p>Returns the n highest values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$minN</div>
+                    <p>Returns the n lowest values.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$top</div>
+                    <p>Returns the top element.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$bottom</div>
+                    <p>Returns the bottom element.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$topN</div>
+                    <p>Returns the top n elements.</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">$bottomN</div>
+                    <p>Returns the bottom n elements.</p>
+                </div>
+            </div>
+            
+            <h3>Expression Operators</h3>
+            <div class="operators-grid">
+                <div class="operator-card">
+                    <div class="operator-name">Arithmetic</div>
+                    <p>$add, $subtract, $multiply, $divide, $mod, $abs, $ceil, $exp, $floor, $ln, $log, $log10, $pow, $round, $sqrt, $trunc</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Array</div>
+                    <p>$arrayElemAt, $arrayToObject, $concatArrays, $filter, $first, $in, $indexOfArray, $isArray, $last, $map, $objectToArray, $range, $reduce, $reverseArray, $size, $slice, $zip</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Boolean</div>
+                    <p>$and, $or, $not</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Comparison</div>
+                    <p>$cmp, $eq, $gt, $gte, $lt, $lte, $ne</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Conditional</div>
+                    <p>$cond, $ifNull, $switch</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Custom Aggregation</div>
+                    <p>$accumulator, $function</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Date</div>
+                    <p>$dateAdd, $dateDiff, $dateFromParts, $dateFromString, $dateSubtract, $dateToParts, $dateToString, $dayOfMonth, $dayOfWeek, $dayOfYear, $hour, $isoDayOfWeek, $isoWeek, $isoWeekYear, $millisecond, $minute, $month, $second, $toDate, $week, $year</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Literal</div>
+                    <p>$literal</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Object</div>
+                    <p>$mergeObjects, $objectToArray, $arrayToObject, $setField, $unsetField, $getField, $setUnion</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Set</div>
+                    <p>$setEquals, $setIntersection, $setDifference, $setUnion, $setIsSubset, $anyElementTrue, $allElementsTrue</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">String</div>
+                    <p>$concat, $indexOfBytes, $indexOfCP, $ltrim, $rtrim, $trim, $split, $strLenBytes, $strLenCP, $strcasecmp, $substr, $substrBytes, $substrCP, $toLower, $toUpper</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Text</div>
+                    <p>$meta</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Type</div>
+                    <p>$convert, $toString, $toInt, $toLong, $toDecimal, $toDouble, $toDate, $toObjectId, $type, $isNumber, $isArray, $isObject, $isString, $isBoolean, $isNull, $isDate</p>
+                </div>
+                <div class="operator-card">
+                    <div class="operator-name">Variable</div>
+                    <p>$let</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="indexing" class="section">
+            <h2><i class="fas fa-bolt"></i> Indexing in MongoDB - Complete Guide with Real Examples</h2>
+            <p>Indexes support the efficient execution of queries in MongoDB. Without indexes, MongoDB must perform a collection scan to select documents that match the query statement.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-search"></i> Multi-Field Search Optimization Example</h4>
+                <p>Optimizing a complex e-commerce search with multiple filters:</p>
+                <div class="code-block">
+<span class="code-comment">// Common query pattern</span><br>
+db.products.find({<br>
+&nbsp;&nbsp;category: "Electronics",<br>
+&nbsp;&nbsp;price: { $gte: 100, $lte: 1000 },<br>
+&nbsp;&nbsp;rating: { $gte: 4 },<br>
+&nbsp;&nbsp;inStock: true<br>
+}).sort({ rating: -1, price: 1 })<br><br>
+
+<span class="code-comment">// Optimal compound index for this query</span><br>
+db.products.createIndex({<br>
+&nbsp;&nbsp;category: 1,<br>
+&nbsp;&nbsp;inStock: 1,<br>
+&nbsp;&nbsp;rating: -1,<br>
+&nbsp;&nbsp;price: 1<br>
+})<br><br>
+
+<span class="code-comment">// Why this order?</span><br>
+<span class="code-comment">// 1. Equality fields first (category, inStock)</span><br>
+<span class="code-comment">// 2. Sort fields next (rating, price)</span><br>
+<span class="code-comment">// 3. Range fields last (price is used for both range and sort)</span>
+                </div>
+                <p>This index supports the query efficiently by matching equality conditions first, then sorting, and finally applying range conditions.</p>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-clock"></i> Time-Series Data Indexing Example</h4>
+                <p>Optimizing time-series data for IoT sensor readings:</p>
+                <div class="code-block">
+<span class="code-comment">// Sensor reading document</span><br>
+{<br>
+&nbsp;&nbsp;"sensorId": "SENSOR-123",<br>
+&nbsp;&nbsp;"timestamp": ISODate("2024-01-15T14:30:00Z"),<br>
+&nbsp;&nbsp;"temperature": 23.5,<br>
+&nbsp;&nbsp;"humidity": 65,<br>
+&nbsp;&nbsp;"location": "Room A"<br>
+}<br><br>
+
+<span class="code-comment">// Common queries</span><br>
+<span class="code-comment">// 1. Get readings for a sensor in time range</span><br>
+db.readings.find({<br>
+&nbsp;&nbsp;sensorId: "SENSOR-123",<br>
+&nbsp;&nbsp;timestamp: { $gte: ISODate("2024-01-15"), $lt: ISODate("2024-01-16") }<br>
+})<br><br>
+
+<span class="code-comment">// 2. Get latest reading for each sensor</span><br>
+db.readings.aggregate([<br>
+&nbsp;&nbsp;{ $sort: { timestamp: -1 } },<br>
+&nbsp;&nbsp;{ $group: { _id: "$sensorId", latest: { $first: "$$ROOT" } } }<br>
+])<br><br>
+
+<span class="code-comment">// Optimal indexes</span><br>
+db.readings.createIndex({ sensorId: 1, timestamp: -1 }) <span class="code-comment">// For query 1</span><br>
+db.readings.createIndex({ timestamp: -1 }) <span class="code-comment">// For query 2</span><br><br>
+
+<span class="code-comment">// Time-series collection (MongoDB 5.0+)</span><br>
+db.createCollection("sensorReadings", {<br>
+&nbsp;&nbsp;timeseries: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;timeField: "timestamp",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;metaField: "sensorId",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;granularity: "minutes"<br>
+&nbsp;&nbsp;}<br>
+})
+                </div>
+                <p>Time-series collections automatically optimize storage and querying for time-based data, providing significant performance improvements.</p>
+            </div>
+            
+            <h3>Types of Indexes</h3>
+            <div class="index-types">
+                <div class="index-card">
+                    <h5>Single Field Index</h5>
+                    <p>Index on a single field. Can be ascending (1) or descending (-1).</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.users.createIndex({ email: 1 })
+                    </div>
+                </div>
+                
+                <div class="index-card">
+                    <h5>Compound Index</h5>
+                    <p>Index on multiple fields. Order matters for query performance.</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.users.createIndex({ status: 1, age: -1 })
+                    </div>
+                </div>
+                
+                <div class="index-card">
+                    <h5>Multikey Index</h5>
+                    <p>Automatically created for array fields. Indexes each element of the array.</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.users.createIndex({ tags: 1 })
+                    </div>
+                </div>
+                
+                <div class="index-card">
+                    <h5>Text Index</h5>
+                    <p>Supports searching for string content in a collection.</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.articles.createIndex({ title: "text", content: "text" })
+                    </div>
+                </div>
+                
+                <div class="index-card">
+                    <h5>Geospatial Index</h5>
+                    <p>Supports queries that calculate geometries on Earth.</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.places.createIndex({ location: "2dsphere" })
+                    </div>
+                </div>
+                
+                <div class="index-card">
+                    <h5>Hashed Index</h5>
+                    <p>Supports hash-based sharding by hashing the value of a field.</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.users.createIndex({ _id: "hashed" })
+                    </div>
+                </div>
+                
+                <div class="index-card">
+                    <h5>Wildcard Index</h5>
+                    <p>Indexes all fields in a document or specific subfields.</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.users.createIndex({ "userMetadata.$**": 1 })
+                    </div>
+                </div>
+                
+                <div class="index-card">
+                    <h5>Clustered Index</h5>
+                    <p>Stores documents in the order of the index key (MongoDB 5.3+).</p>
+                    <div class="code-block" style="margin: 0.5rem 0; padding: 0.5rem; font-size: 0.85rem;">
+db.createCollection("orders", {<br>
+&nbsp;&nbsp;clusteredIndex: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;key: { _id: 1 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;unique: true<br>
+&nbsp;&nbsp;}<br>
+})
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Index Properties and Options</h3>
+            <div class="code-block">
+<span class="code-comment">// Create index with options</span><br>
+db.users.createIndex(<br>
+&nbsp;&nbsp;{ email: 1 },<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;unique: true,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sparse: true,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;background: true,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name: "email_unique",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;partialFilterExpression: { isActive: true },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;collation: { locale: "en", strength: 2 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;expireAfterSeconds: 3600<br>
+&nbsp;&nbsp;}<br>
+)
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-shield-alt"></i> Partial Index for Active Users Example</h4>
+                <p>Creating efficient indexes for frequently accessed subsets of data:</p>
+                <div class="code-block">
+<span class="code-comment">// Most queries only need active users</span><br>
+db.users.find({<br>
+&nbsp;&nbsp;isActive: true,<br>
+&nbsp;&nbsp;email: "user@example.com"<br>
+})<br><br>
+
+<span class="code-comment">// Partial index - only indexes active users</span><br>
+db.users.createIndex(<br>
+&nbsp;&nbsp;{ email: 1 },<br>
+&nbsp;&nbsp;{ partialFilterExpression: { isActive: true } }<br>
+)<br><br>
+
+<span class="code-comment">// Benefits:</span><br>
+<span class="code-comment">// - Smaller index size</span><br>
+<span class="code-comment">// - Faster index updates</span><br>
+<span class="code-comment">// - Better query performance for active users</span><br>
+<span class="code-comment">// - No index maintenance for inactive users</span>
+                </div>
+            </div>
+            
+            <h3>Index Management Commands</h3>
+            <div class="code-block">
+<span class="code-comment">// Create index</span><br>
+db.collection.createIndex({ field: 1 })<br>
+db.collection.createIndexes([{ key: { field1: 1 } }, { key: { field2: -1 } }])<br><br>
+
+<span class="code-comment">// List all indexes</span><br>
+db.collection.getIndexes()<br>
+db.collection.getIndexKeys()<br><br>
+
+<span class="code-comment">// Drop index</span><br>
+db.collection.dropIndex("index_name")<br>
+db.collection.dropIndexes()<br><br>
+
+<span class="code-comment">// Rebuild indexes</span><br>
+db.collection.reIndex()<br><br>
+
+<span class="code-comment">// Explain query execution</span><br>
+db.users.find({ email: "test@example.com" }).explain("executionStats")<br>
+db.users.find({ email: "test@example.com" }).hint({ email: 1 })<br><br>
+
+<span class="code-comment">// Index statistics</span><br>
+db.collection.stats()<br>
+db.collection.totalIndexSize()<br><br>
+
+<span class="code-comment">// Plan cache operations</span><br>
+db.collection.getPlanCache().clear()<br>
+db.collection.getPlanCache().listQueryShapes()
+            </div>
+            
+            <h3>Index Best Practices</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Create indexes for frequently queried fields</strong></li>
+                <li><strong>Use compound indexes for multi-field queries</strong></li>
+                <li><strong>Consider index selectivity</strong> - more selective indexes are more efficient</li>
+                <li><strong>Avoid over-indexing</strong> - each index adds overhead to write operations</li>
+                <li><strong>Use covered queries</strong> - queries that can be satisfied entirely using an index</li>
+                <li><strong>Monitor index usage</strong> with MongoDB's performance monitoring tools</li>
+                <li><strong>Use partial indexes</strong> for queries that only target a subset of documents</li>
+                <li><strong>Consider TTL indexes</strong> for automatically expiring data</li>
+                <li><strong>Use wildcard indexes sparingly</strong> as they can be resource-intensive</li>
+            </ul>
+            
+            <div class="note">
+                <h4><i class="fas fa-info-circle"></i> Covered Queries</h4>
+                <p>A covered query is one where all the fields in the query and projection are part of an index. MongoDB can satisfy the query using only the index without examining documents.</p>
+                <div class="code-block" style="margin-top: 0.5rem;">
+db.users.find({ email: "test@example.com" }, { email: 1, _id: 0 })
+                </div>
+                <p>If there's an index on <span class="highlight">email</span>, this query is covered.</p>
+            </div>
+            
+            <h3>Index Limitations</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Index key limit:</strong> 1024 bytes per index entry</li>
+                <li><strong>Number of indexes:</strong> Maximum 64 indexes per collection</li>
+                <li><strong>Namespace length:</strong> Index names must be under 128 characters</li>
+                <li><strong>Memory usage:</strong> Indexes consume RAM and can impact performance if too large</li>
+                <li><strong>Write performance:</strong> Each index adds overhead to insert, update, and delete operations</li>
+            </ul>
+        </section>
+        
+        <section id="transactions" class="section">
+            <h2><i class="fas fa-exchange-alt"></i> MongoDB Transactions - Complete Guide with Real Examples</h2>
+            <p>MongoDB supports multi-document ACID transactions since version 4.0, providing the same data integrity guarantees as traditional relational databases.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-shopping-cart"></i> E-commerce Order Processing Example</h4>
+                <p>Processing a complete order with inventory updates, payment processing, and order creation:</p>
+                <div class="code-block">
+<span class="code-comment">// Transaction for complete order processing</span><br>
+async function processOrder(userId, cartItems, paymentInfo) {<br>
+&nbsp;&nbsp;const session = db.getMongo().startSession();<br>
+&nbsp;&nbsp;session.startTransaction();<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// 1. Check inventory availability</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;for (const item of cartItems) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const product = db.products.findOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ _id: item.productId, stock: { $gte: item.quantity } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!product) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error(`Insufficient stock for product ${item.productId}`);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// 2. Update inventory</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;for (const item of cartItems) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.products.updateOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ _id: item.productId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $inc: { stock: -item.quantity } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// 3. Process payment (external service call)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const paymentResult = await processPayment(paymentInfo);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (!paymentResult.success) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error("Payment processing failed");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// 4. Create order</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const order = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;userId: userId,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items: cartItems,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total: calculateTotal(cartItems),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paymentId: paymentResult.id,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status: "confirmed",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;createdAt: new Date()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const orderResult = db.orders.insertOne(order, { session: session });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// 5. Update user's order history</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.users.updateOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ _id: userId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $push: { orders: orderResult.insertedId } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// 6. Clear user's cart</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.carts.deleteOne({ userId: userId }, { session: session });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Commit transaction</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;await session.commitTransaction();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log("Order processed successfully");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return orderResult;<br>
+&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Abort transaction on any error</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;await session.abortTransaction();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.error("Transaction aborted:", error.message);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;throw error;<br>
+&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;session.endSession();<br>
+&nbsp;&nbsp;}<br>
+}
+                </div>
+                <p>This transaction ensures that either all operations succeed (inventory updated, payment processed, order created) or none of them do, maintaining data consistency.</p>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-university"></i> Banking Transfer Example</h4>
+                <p>Implementing a secure bank transfer between accounts:</p>
+                <div class="code-block">
+<span class="code-comment">// Bank transfer transaction</span><br>
+function transferFunds(fromAccountId, toAccountId, amount) {<br>
+&nbsp;&nbsp;const session = db.getMongo().startSession();<br>
+&nbsp;&nbsp;session.startTransaction({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;readConcern: { level: "snapshot" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;writeConcern: { w: "majority" }<br>
+&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Check if source account has sufficient funds</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const fromAccount = db.accounts.findOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ _id: fromAccountId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (fromAccount.balance &lt; amount) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error("Insufficient funds");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Deduct from source account</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.accounts.updateOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ _id: fromAccountId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $inc: { balance: -amount } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Add to destination account</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.accounts.updateOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ _id: toAccountId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $inc: { balance: amount } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Record the transaction</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.transactions.insertOne({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from: fromAccountId,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: toAccountId,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;amount: amount,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timestamp: new Date(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status: "completed"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}, { session: session });<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;session.commitTransaction();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(`Transferred $${amount} from ${fromAccountId} to ${toAccountId}`);<br>
+&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;session.abortTransaction();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.error("Transfer failed:", error.message);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;throw error;<br>
+&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;session.endSession();<br>
+&nbsp;&nbsp;}<br>
+}
+                </div>
+                <p>This transaction ensures that money is never lost or duplicated during transfers, maintaining the fundamental banking principle that the total money supply remains constant.</p>
+            </div>
+            
+            <h3>Transaction Requirements</h3>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>MongoDB 4.0+</strong> for replica sets, <strong>4.2+</strong> for sharded clusters</li>
+                <li><strong>WiredTiger storage engine</strong> (default since MongoDB 3.2)</li>
+                <li><strong>Replica set or sharded cluster</strong> (transactions don't work on standalone instances)</li>
+                <li><strong>Feature compatibility version</strong> must be set appropriately</li>
+            </ul>
+            
+            <h3>Transaction Operations</h3>
+            <div class="code-block">
+<span class="code-comment">// Start a session</span><br>
+const session = db.getMongo().startSession();<br><br>
+
+<span class="code-comment">// Start transaction</span><br>
+session.startTransaction({<br>
+&nbsp;&nbsp;readConcern: { level: "snapshot" },<br>
+&nbsp;&nbsp;writeConcern: { w: "majority" }<br>
+});<br><br>
+
+try {<br>
+&nbsp;&nbsp;<span class="code-comment">// Perform operations within the transaction</span><br>
+&nbsp;&nbsp;db.users.updateOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ _id: userId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ $inc: { balance: -amount } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;db.accounts.updateOne(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ _id: accountId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ $inc: { balance: amount } },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ session: session }<br>
+&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;db.transactions.insertOne({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from: userId,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;to: accountId,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;amount: amount,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;timestamp: new Date()<br>
+&nbsp;&nbsp;}, { session: session });<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;<span class="code-comment">// Commit transaction</span><br>
+&nbsp;&nbsp;session.commitTransaction();<br>
+&nbsp;&nbsp;print("Transaction committed successfully");<br>
+} catch (error) {<br>
+&nbsp;&nbsp;<span class="code-comment">// Abort transaction on error</span><br>
+&nbsp;&nbsp;session.abortTransaction();<br>
+&nbsp;&nbsp;print("Transaction aborted due to error:", error);<br>
+&nbsp;&nbsp;throw error;<br>
+} finally {<br>
+&nbsp;&nbsp;session.endSession();<br>
+}
+            </div>
+            
+            <h3>Transaction Options</h3>
+            <div class="code-block">
+<span class="code-comment">// Read Concern Levels</span><br>
+{ readConcern: { level: "local" } }<br>
+{ readConcern: { level: "majority" } }<br>
+{ readConcern: { level: "linearizable" } }<br>
+{ readConcern: { level: "snapshot" } }<br><br>
+
+<span class="code-comment">// Write Concern Levels</span><br>
+{ writeConcern: { w: 1 } }<br>
+{ writeConcern: { w: "majority" } }<br>
+{ writeConcern: { w: 3, wtimeout: 5000 } }<br><br>
+
+<span class="code-comment">// Transaction Options</span><br>
+{<br>
+&nbsp;&nbsp;readConcern: { level: "snapshot" },<br>
+&nbsp;&nbsp;writeConcern: { w: "majority" },<br>
+&nbsp;&nbsp;readPreference: "primary"<br>
+}
+            </div>
+            
+            <h3>Transaction Limitations</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>60-second timeout:</strong> Transactions automatically abort after 60 seconds</li>
+                <li><strong>16MB size limit:</strong> Total size of all operations in a transaction cannot exceed 16MB</li>
+                <li><strong>No DDL operations:</strong> Cannot create/drop collections or indexes within transactions</li>
+                <li><strong>No read/write to system collections:</strong> Cannot access system collections</li>
+                <li><strong>Sharded collections:</strong> All operations must target the same shard (MongoDB 4.2+ allows cross-shard)</li>
+                <li><strong>Performance impact:</strong> Transactions have higher overhead than non-transactional operations</li>
+            </ul>
+            
+            <h3>Retry Logic for Transactions</h3>
+            <div class="code-block">
+function runTransactionWithRetry(txnFunc, session) {<br>
+&nbsp;&nbsp;while (true) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txnFunc(session);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (error.hasErrorLabel("TransientTransactionError")) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("TransientTransactionError, retrying transaction...");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw error;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}<br><br>
+
+function commitWithRetry(session) {<br>
+&nbsp;&nbsp;while (true) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session.commitTransaction();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Transaction committed.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (error.hasErrorLabel("UnknownTransactionCommitResult")) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("UnknownTransactionCommitResult, retrying commit...");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (error.hasErrorLabel("TransientTransactionError")) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("TransientTransactionError during commit, aborting...");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw error;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Error during commit:", error);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw error;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+            </div>
+        </section>
+        
+        <section id="security" class="section">
+            <h2><i class="fas fa-lock"></i> MongoDB Security - Complete Guide with Real Examples</h2>
+            <p>MongoDB provides comprehensive security features to protect your data at every level.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-user-shield"></i> Multi-Tenant SaaS Application Security Example</h4>
+                <p>Implementing security for a multi-tenant application where each customer's data must be isolated:</p>
+                <div class="code-block">
+<span class="code-comment">// 1. Database-per-tenant approach (recommended for strong isolation)</span><br>
+<span class="code-comment">// Each tenant gets their own database with unique credentials</span><br>
+<span class="code-comment">// Connection string: mongodb://tenant1_user:password@localhost:27017/tenant1_db</span><br><br>
+
+<span class="code-comment">// 2. Collection-per-tenant with field-level security</span><br>
+<span class="code-comment">// Single database, but each document has tenantId field</span><br>
+{<br>
+&nbsp;&nbsp;"_id": ObjectId("..."),<br>
+&nbsp;&nbsp;"tenantId": "TENANT-123",<br>
+&nbsp;&nbsp;"data": "tenant specific data",<br>
+&nbsp;&nbsp;"createdAt": ISODate("2024-01-15")<br>
+}<br><br>
+
+<span class="code-comment">// 3. Application-level query enforcement</span><br>
+<span class="code-comment">// Always include tenantId in queries</span><br>
+db.documents.find({<br>
+&nbsp;&nbsp;tenantId: currentUser.tenantId,<br>
+&nbsp;&nbsp;status: "active"<br>
+})<br><br>
+
+<span class="code-comment">// 4. Database user roles per tenant</span><br>
+db.createUser({<br>
+&nbsp;&nbsp;user: "tenant1_app",<br>
+&nbsp;&nbsp;pwd: "secure_password",<br>
+&nbsp;&nbsp;roles: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;role: "readWrite",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db: "saas_app",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collection: "documents",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;actions: ["find", "insert", "update", "remove"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db: "saas_app",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collection: "documents",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filter: { tenantId: "TENANT-123" }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;]<br>
+})
+                </div>
+                <p>This approach ensures that even if application logic fails, database-level security prevents cross-tenant data access.</p>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-credit-card"></i> PCI-DSS Compliant Payment Data Handling Example</h4>
+                <p>Handling sensitive payment data in compliance with PCI-DSS requirements:</p>
+                <div class="code-block">
+<span class="code-comment">// 1. NEVER store full credit card numbers in MongoDB</span><br>
+<span class="code-comment">// 2. Store only tokenized references and last 4 digits</span><br>
+{<br>
+&nbsp;&nbsp;"_id": ObjectId("..."),<br>
+&nbsp;&nbsp;"userId": "USER-123",<br>
+&nbsp;&nbsp;"paymentMethod": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"type": "credit_card",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"last4": "1234",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"brand": "Visa",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"expiryMonth": 12,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"expiryYear": 2025,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"token": "tok_visa_123456789", <span class="code-comment">// Token from payment processor</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;"billingAddress": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "John Doe",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address": "123 Main St",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"city": "New York",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"state": "NY",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"zip": "10001",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"country": "US"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;"createdAt": ISODate("2024-01-15")<br>
+}<br><br>
+
+<span class="code-comment">// 3. Field-level encryption for sensitive data</span><br>
+<span class="code-comment">// Encrypt billing address fields</span><br>
+const autoEncryption = {<br>
+&nbsp;&nbsp;keyVaultNamespace: "encryption.__keyVault",<br>
+&nbsp;&nbsp;kmsProviders: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;local: { key: masterKey }<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;schemaMap: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"mydb.paymentMethods": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bsonType: "object",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;properties: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;billingAddress: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;encrypt: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keyId: [keyId],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+};
+                </div>
+                <p>This approach ensures compliance with PCI-DSS by never storing sensitive card data and using encryption for other sensitive information.</p>
+            </div>
+            
+            <h3>Authentication Methods</h3>
+            <div class="security-features">
+                <div class="security-card">
+                    <h4><i class="fas fa-user"></i> SCRAM (Default)</h4>
+                    <p>Salted Challenge Response Authentication Mechanism - the default authentication method.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+db.createUser({<br>
+&nbsp;&nbsp;user: "appUser",<br>
+&nbsp;&nbsp;pwd: "securePassword",<br>
+&nbsp;&nbsp;roles: ["readWrite", "dbAdmin"]<br>
+})
+                    </div>
+                </div>
+                
+                <div class="security-card">
+                    <h4><i class="fas fa-key"></i> x.509 Certificate</h4>
+                    <p>Certificate-based authentication using SSL/TLS certificates.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+db.getSiblingDB("$external").runCommand({<br>
+&nbsp;&nbsp;createUser: "CN=client,OU=MyOrgUnit,O=MyOrg,L=MyCity,ST=MyState,C=US",<br>
+&nbsp;&nbsp;roles: [{ role: "readWrite", db: "mydb" }]<br>
+})
+                    </div>
+                </div>
+                
+                <div class="security-card">
+                    <h4><i class="fab fa-microsoft"></i> LDAP</h4>
+                    <p>Enterprise feature for LDAP authentication integration.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+security:<br>
+&nbsp;&nbsp;ldap:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;servers: "ldap.example.com"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bind:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method: "simple"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryUser: "cn=admin,dc=example,dc=com"
+                    </div>
+                </div>
+                
+                <div class="security-card">
+                    <h4><i class="fab fa-windows"></i> Kerberos</h4>
+                    <p>Enterprise feature for Kerberos authentication.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+security:<br>
+&nbsp;&nbsp;kerberos:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;serviceName: "mongodb"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;keytab: "/etc/mongodb.keytab"
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Authorization and Roles</h3>
+            <div class="code-block">
+<span class="code-comment">// Built-in Database User Roles</span><br>
+read, readWrite, dbAdmin, dbOwner, userAdmin<br><br>
+
+<span class="code-comment">// Built-in Database Administration Roles</span><br>
+readAnyDatabase, readWriteAnyDatabase, userAdminAnyDatabase, dbAdminAnyDatabase<br><br>
+
+<span class="code-comment">// Built-in Cluster Administration Roles</span><br>
+clusterAdmin, clusterManager, clusterMonitor, hostManager<br><br>
+
+<span class="code-comment">// Built-in Backup and Restoration Roles</span><br>
+backup, restore<br><br>
+
+<span class="code-comment">// Built-in Superuser Roles</span><br>
+root<br><br>
+
+<span class="code-comment">// Custom Role Example</span><br>
+db.createRole({<br>
+&nbsp;&nbsp;role: "appUserRole",<br>
+&nbsp;&nbsp;privileges: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource: { db: "myapp", collection: "users" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;actions: ["find", "update", "insert"]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource: { db: "myapp", collection: "logs" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;actions: ["insert"]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;roles: []<br>
+})
+            </div>
+            
+            <h3>Encryption</h3>
+            <div class="security-features">
+                <div class="security-card">
+                    <h4><i class="fas fa-file-contract"></i> TLS/SSL Encryption</h4>
+                    <p>Encrypt data in transit between clients and servers.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+net:<br>
+&nbsp;&nbsp;ssl:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mode: requireSSL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;PEMKeyFile: /path/to/mongodb.pem
+                    </div>
+                </div>
+                
+                <div class="security-card">
+                    <h4><i class="fas fa-lock"></i> Encryption at Rest</h4>
+                    <p>Enterprise feature to encrypt data on disk.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+security:<br>
+&nbsp;&nbsp;enableEncryption: true<br>
+&nbsp;&nbsp;encryptionCipherMode: AES256-CBC<br>
+&nbsp;&nbsp;encryptionKeyFile: /etc/mongodb/keyfile
+                    </div>
+                </div>
+                
+                <div class="security-card">
+                    <h4><i class="fas fa-key"></i> Client-Side Field Level Encryption</h4>
+                    <p>Encrypt specific fields before they leave the application.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+const autoEncryption = {<br>
+&nbsp;&nbsp;keyVaultNamespace: "encryption.__keyVault",<br>
+&nbsp;&nbsp;kmsProviders: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;local: { key: masterKey }<br>
+&nbsp;&nbsp;}<br>
+};
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Auditing</h3>
+            <p>Enterprise feature to track system activity for security and compliance.</p>
+            <div class="code-block">
+auditLog:<br>
+&nbsp;&nbsp;destination: file<br>
+&nbsp;&nbsp;format: BSON<br>
+&nbsp;&nbsp;path: /var/log/mongodb/audit.log<br>
+&nbsp;&nbsp;filter: '{ atype: { $in: [ "authenticate", "dropDatabase", "dropCollection" ] } }'
+            </div>
+            
+            <h3>Network Security</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Bind IP:</strong> Configure mongod to bind only to specific IP addresses</li>
+                <li><strong>Firewall Rules:</strong> Use system firewalls to restrict access</li>
+                <li><strong>VPN/Private Networks:</strong> Deploy MongoDB in private networks</li>
+                <li><strong>IP Whitelisting:</strong> Use MongoDB Atlas IP whitelisting or cloud provider security groups</li>
+            </ul>
+            
+            <div class="warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> Security Best Practices</h4>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>Always enable authentication in production</li>
+                    <li>Use the principle of least privilege for user roles</li>
+                    <li>Regularly rotate passwords and certificates</li>
+                    <li>Keep MongoDB updated with security patches</li>
+                    <li>Enable TLS/SSL for all connections</li>
+                    <li>Use encryption at rest for sensitive data</li>
+                    <li>Implement proper network segmentation</li>
+                    <li>Regularly review and audit access logs</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="tools" class="section">
+            <h2><i class="fas fa-tools"></i> MongoDB Tools and Ecosystem</h2>
+            <p>MongoDB provides a rich ecosystem of tools for development, administration, and monitoring.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-laptop-code"></i> Development Workflow Example</h4>
+                <p>Setting up a complete development workflow with MongoDB tools:</p>
+                <div class="code-block">
+<span class="code-comment">// 1. Import sample data for development</span><br>
+mongoimport --db=ecommerce --collection=products --file=products.json --jsonArray<br><br>
+
+<span class="code-comment">// 2. Create indexes for development</span><br>
+mongosh --eval "db.products.createIndex({ category: 1, price: 1 })" ecommerce<br><br>
+
+<span class="code-comment">// 3. Export production data for testing (anonymized)</span><br>
+mongoexport --db=ecommerce --collection=users --query='{"isActive":true}' --fields=name,email,createdAt --out=users_anon.json<br><br>
+
+<span class="code-comment">// 4. Monitor development database performance</span><br>
+mongostat --host=localhost:27017 --rowcount=10<br><br>
+
+<span class="code-comment">// 5. Backup development database</span><br>
+mongodump --db=ecommerce --gzip --archive=ecommerce_dev_$(date +%Y%m%d).gz<br><br>
+
+<span class="code-comment">// 6. Restore backup for testing</span><br>
+mongorestore --gzip --archive=ecommerce_dev_20240115.gz --drop
+                </div>
+                <p>This workflow ensures consistent development environments and efficient data management during the development cycle.</p>
+            </div>
+            
+            <h3>Official MongoDB Tools</h3>
+            <div class="mongodb-tools">
+                <div class="tool-card">
+                    <h4><i class="fas fa-terminal"></i> MongoDB Shell (mongosh)</h4>
+                    <p>Interactive JavaScript shell for MongoDB operations and administration.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongosh "mongodb://localhost:27017/mydb"<br>
+--eval "db.users.countDocuments()"
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-database"></i> MongoDB Compass</h4>
+                    <p>Graphical user interface for MongoDB with visual query building and performance insights.</p>
+                    <p>Features: Schema visualization, index management, query optimization, document validation.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-file-export"></i> mongodump</h4>
+                    <p>Utility for creating binary exports of MongoDB collections.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongodump --db=mydb --collection=users --out=/backup<br>
+mongodump --host=replicaSet/localhost:27017
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-file-import"></i> mongorestore</h4>
+                    <p>Utility for restoring MongoDB data from binary backups created by mongodump.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongorestore --db=mydb /backup/mydb<br>
+mongorestore --drop /backup
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-file-csv"></i> mongoimport</h4>
+                    <p>Utility for importing data from JSON, CSV, or TSV files into MongoDB.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongoimport --db=mydb --collection=users --file=users.json<br>
+mongoimport --type=csv --headerline --file=data.csv
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-file-export"></i> mongoexport</h4>
+                    <p>Utility for exporting data from MongoDB to JSON or CSV format.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongoexport --db=mydb --collection=users --out=users.json<br>
+mongoexport --type=csv --fields=name,email,age
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-sync"></i> mongostat</h4>
+                    <p>Real-time monitoring tool that displays MongoDB instance statistics.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongostat --host=localhost:27017<br>
+mongostat --rowcount=10
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-chart-line"></i> mongotop</h4>
+                    <p>Tool that tracks MongoDB's read and write activity on a per-collection basis.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongotop --host=localhost:27017<br>
+mongotop 5
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Cloud and Enterprise Tools</h3>
+            <div class="mongodb-tools">
+                <div class="tool-card">
+                    <h4><i class="fas fa-cloud"></i> MongoDB Atlas</h4>
+                    <p>Fully managed cloud database service with automated scaling, backups, and monitoring.</p>
+                    <p>Features: Global clusters, serverless instances, data lakes, search, charts, and more.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-search"></i> MongoDB Atlas Search</h4>
+                    <p>Fully managed search powered by Apache Lucene with relevance scoring and faceting.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+db.products.aggregate([<br>
+&nbsp;&nbsp;{ $search: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text: { query: "laptop", path: "name" }<br>
+&nbsp;&nbsp;} }<br>
+])
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-chart-pie"></i> MongoDB Charts</h4>
+                    <p>Business intelligence tool for creating dashboards and visualizations from MongoDB data.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-server"></i> MongoDB Ops Manager</h4>
+                    <p>Enterprise platform for managing MongoDB deployments with backup, monitoring, and automation.</p>
+                </div>
+            </div>
+            
+            <h3>Third-Party Tools</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Studio 3T:</strong> Professional MongoDB IDE with visual query builder</li>
+                <li><strong>NoSQLBooster:</strong> Feature-rich GUI with SQL query support</li>
+                <li><strong>Robo 3T:</strong> Free lightweight GUI (formerly Robomongo)</li>
+                <li><strong>MongoDB VS Code Extension:</strong> Official extension for Visual Studio Code</li>
+                <li><strong>PyMongo:</strong> Official Python driver</li>
+                <li><strong>Mongoose:</strong> Popular ODM for Node.js</li>
+                <li><strong>MongoDB Java Driver:</strong> Official Java driver</li>
+                <li><strong>MongoDB .NET Driver:</strong> Official .NET driver</li>
+            </ul>
+        </section>
+        
+        <section id="monitoring" class="section">
+            <h2><i class="fas fa-chart-line"></i> MongoDB Monitoring and Performance</h2>
+            <p>Effective monitoring is crucial for maintaining MongoDB performance and availability.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-heartbeat"></i> Production Monitoring Dashboard Example</h4>
+                <p>Setting up comprehensive monitoring for a production e-commerce application:</p>
+                <div class="code-block">
+<span class="code-comment">// 1. Key metrics to monitor</span><br>
+<span class="code-comment">// - Query performance (slow queries)</span><br>
+<span class="code-comment">// - Connection count and pool usage</span><br>
+<span class="code-comment">// - Memory usage and page faults</span><br>
+<span class="code-comment">// - Disk I/O and storage capacity</span><br>
+<span class="code-comment">// - Replication lag (for replica sets)</span><br>
+<span class="code-comment">// - Error rates and assertion counts</span><br><br>
+
+<span class="code-comment">// 2. Enable database profiler for slow queries</span><br>
+db.setProfilingLevel(1, { slowms: 100 }) <span class="code-comment">// Log queries slower than 100ms</span><br><br>
+
+<span class="code-comment">// 3. Create alerts for critical metrics</span><br>
+<span class="code-comment">// - Connection count > 80% of max connections</span><br>
+<span class="code-comment">// - Memory usage > 90%</span><br>
+<span class="code-comment">// - Replication lag > 30 seconds</span><br>
+<span class="code-comment">// - Error rate > 1% of total operations</span><br><br>
+
+<span class="code-comment">// 4. Regular performance analysis</span><br>
+db.currentOp({ "secs_running": { "$gt": 5 } }) <span class="code-comment">// Long-running operations</span><br>
+db.serverStatus().metrics.commands <span class="code-comment">// Command statistics</span><br>
+db.stats().avgObjSize <span class="code-comment">// Average document size</span>
+                </div>
+                <p>This monitoring setup helps identify performance bottlenecks and prevent outages before they impact users.</p>
+            </div>
+            
+            <h3>Built-in Monitoring Commands</h3>
+            <div class="code-block">
+<span class="code-comment">// Database statistics</span><br>
+db.stats()<br>
+db.collection.stats()<br><br>
+
+<span class="code-comment">// Server status</span><br>
+db.serverStatus()<br>
+db.serverStatus({ locks: 0, metrics: 0 })<br><br>
+
+<span class="code-comment">// Current operations</span><br>
+db.currentOp()<br>
+db.currentOp({ "active": true, "secs_running": { "$gt": 5 } })<br><br>
+
+<span class="code-comment">// Kill operation</span><br>
+db.killOp(opId)<br><br>
+
+<span class="code-comment">// Profiler</span><br>
+db.setProfilingLevel(2) <span class="code-comment">// Log all operations</span><br>
+db.setProfilingLevel(1, { slowms: 100 }) <span class="code-comment">// Log slow operations</span><br>
+db.system.profile.find().sort({ $natural: -1 }).limit(5)<br><br>
+
+<span class="code-comment">// Explain query execution</span><br>
+db.collection.find(query).explain("executionStats")<br>
+db.collection.find(query).explain("allPlansExecution")
+            </div>
+            
+            <h3>Performance Metrics to Monitor</h3>
+            <div class="features">
+                <div class="feature-card">
+                    <h4><i class="fas fa-tachometer-alt"></i> Query Performance</h4>
+                    <p>Query execution time, index usage, document examination vs return ratio.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-memory"></i> Memory Usage</h4>
+                    <p>WiredTiger cache usage, page faults, resident memory vs virtual memory.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-hdd"></i> Disk I/O</h4>
+                    <p>Read/write operations, disk queue length, IOPS utilization.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-network-wired"></i> Network</h4>
+                    <p>Bytes in/out, connection count, network errors.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Errors and Warnings</h4>
+                    <p>Assertion errors, replication lag, connection failures.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-project-diagram"></i> Replication Status</h4>
+                    <p>Replication lag, oplog window, member health status.</p>
+                </div>
+            </div>
+            
+            <h3>Monitoring Tools</h3>
+            <div class="mongodb-tools">
+                <div class="tool-card">
+                    <h4><i class="fas fa-chart-bar"></i> MongoDB Cloud Manager</h4>
+                    <p>Hosted monitoring, backup, and automation service for MongoDB deployments.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-server"></i> MongoDB Ops Manager</h4>
+                    <p>On-premises version of Cloud Manager with the same monitoring capabilities.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-heartbeat"></i> Prometheus + Grafana</h4>
+                    <p>Open-source monitoring stack with MongoDB exporters for custom dashboards.</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h4><i class="fas fa-bell"></i> Alerting Systems</h4>
+                    <p>Configure alerts for critical metrics like high CPU, low disk space, or replication lag.</p>
+                </div>
+            </div>
+            
+            <h3>Performance Optimization Checklist</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Index Strategy:</strong> Ensure proper indexes exist for all queries</li>
+                <li><strong>Query Optimization:</strong> Use explain() to analyze query performance</li>
+                <li><strong>Schema Design:</strong> Design documents based on access patterns</li>
+                <li><strong>Connection Pooling:</strong> Use appropriate connection pool sizes</li>
+                <li><strong>Hardware Resources:</strong> Ensure sufficient RAM, CPU, and fast storage</li>
+                <li><strong>WiredTiger Cache:</strong> Configure cache size appropriately (50% of RAM by default)</li>
+                <li><strong>Profiling:</strong> Enable profiling to identify slow queries</li>
+                <li><strong>Regular Maintenance:</strong> Compact collections, rebuild indexes when necessary</li>
+            </ul>
+        </section>
+        
+        <section id="backup" class="section">
+            <h2><i class="fas fa-save"></i> MongoDB Backup and Recovery</h2>
+            <p>Implementing a robust backup and recovery strategy is essential for protecting your data.</p>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-shield-alt"></i> Enterprise Backup Strategy Example</h4>
+                <p>Implementing a comprehensive backup strategy for a financial services application:</p>
+                <div class="code-block">
+<span class="code-comment">// 1. Daily full backups with compression</span><br>
+0 2 * * * mongodump --db=financial --gzip --archive=/backups/financial_$(date +\%Y\%m\%d).gz<br><br>
+
+<span class="code-comment">// 2. Hourly incremental backups using oplog</span><br>
+0 * * * * mongodump --db=local --collection=oplog.rs --query='{"ts":{"$gt":{$timestamp:{t:$(date -d "1 hour" +%s),i:0}}}}' --out=/backups/oplog_$(date +\%Y\%m\%d_\%H)<br><br>
+
+<span class="code-comment">// 3. Weekly backup verification</span><br>
+0 3 * * 0 mongorestore --dryRun --gzip --archive=/backups/financial_$(date -d "7 days" +\%Y\%m\%d).gz<br><br>
+
+<span class="code-comment">// 4. Offsite backup replication</span><br>
+0 4 * * * aws s3 sync /backups s3://mycompany-mongodb-backups/<br><br>
+
+<span class="code-comment">// 5. Point-in-time recovery script</span><br>
+<span class="code-comment">#!/bin/bash</span><br>
+<span class="code-comment"># Restore to specific point in time</span><br>
+BASE_BACKUP="financial_20240115.gz"<br>
+OPLOG_FILES="oplog_20240115_10 oplog_20240115_11"<br>
+<br>
+mongorestore --gzip --archive=$BASE_BACKUP --oplogReplay<br>
+for oplog in $OPLOG_FILES; do<br>
+&nbsp;&nbsp;mongorestore --dir=/backups/$oplog --oplogReplay<br>
+done
+                </div>
+                <p>This strategy ensures that data can be recovered to any point in time within the last week, with regular verification to ensure backup integrity.</p>
+            </div>
+            
+            <h3>Backup Methods</h3>
+            <div class="features">
+                <div class="feature-card">
+                    <h4><i class="fas fa-file-export"></i> mongodump</h4>
+                    <p>Logical backup tool that creates BSON exports of collections. Works with any MongoDB deployment.</p>
+                    <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+mongodump --db=mydb --gzip --archive=mydb.archive
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-copy"></i> File System Snapshots</h4>
+                    <p>Physical backup using LVM snapshots, EBS snapshots, or other file system snapshot tools.</p>
+                    <p>Requires stopping writes or using fsyncLock() for consistency.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-cloud"></i> Cloud Provider Snapshots</h4>
+                    <p>Automated snapshots provided by MongoDB Atlas, AWS, Azure, or Google Cloud.</p>
+                    <p>Point-in-time recovery available with oplog replay.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h4><i class="fas fa-server"></i> Ops Manager Backup</h4>
+                    <p>Enterprise continuous backup with point-in-time recovery and automated restores.</p>
+                </div>
+            </div>
+            
+            <h3>mongodump/mongorestore Examples</h3>
+            <div class="code-block">
+<span class="code-comment">// Full database backup</span><br>
+mongodump --host=localhost:27017 --db=mydb --out=/backups/mydb-$(date +%Y%m%d)<br><br>
+
+<span class="code-comment">// Collection backup with query</span><br>
+mongodump --db=mydb --collection=users --query='{"status":"active"}' --out=/backups<br><br>
+
+<span class="code-comment">// Compressed backup</span><br>
+mongodump --db=mydb --gzip --archive=mydb-$(date +%Y%m%d).gz<br><br>
+
+<span class="code-comment">// Restore full database</span><br>
+mongorestore --db=mydb /backups/mydb-20240115<br><br>
+
+<span class="code-comment">// Restore from compressed archive</span><br>
+mongorestore --gzip --archive=mydb-20240115.gz<br><br>
+
+<span class="code-comment">// Restore with drop (replace existing data)</span><br>
+mongorestore --drop /backups/mydb-20240115
+            </div>
+            
+            <h3>Point-in-Time Recovery</h3>
+            <p>For replica sets, you can achieve point-in-time recovery using oplog replay:</p>
+            <div class="code-block">
+<span class="code-comment">// 1. Take a backup at time T1</span><br>
+mongodump --oplog --out=/backup/t1<br><br>
+
+<span class="code-comment">// 2. Extract oplog entries from T1 to T2</span><br>
+mongodump --db=local --collection=oplog.rs --query='{"ts":{"$gt":Timestamp(1642242600,1)}}' --out=/backup/oplog-t2<br><br>
+
+<span class="code-comment">// 3. Restore base backup</span><br>
+mongorestore --oplogReplay /backup/t1<br><br>
+
+<span class="code-comment">// 4. Replay oplog to reach T2</span><br>
+mongorestore --oplogReplay /backup/oplog-t2
+            </div>
+            
+            <h3>Backup Best Practices</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Regular Schedule:</strong> Implement automated, regular backup schedules</li>
+                <li><strong>Multiple Copies:</strong> Store backups in multiple locations</li>
+                <li><strong>Test Restores:</strong> Regularly test backup restoration procedures</li>
+                <li><strong>Retention Policy:</strong> Implement appropriate backup retention policies</li>
+                <li><strong>Encryption:</strong> Encrypt backup files containing sensitive data</li>
+                <li><strong>Monitoring:</strong> Monitor backup success/failure and alert on failures</li>
+                <li><strong>Documentation:</strong> Document recovery procedures and keep them updated</li>
+            </ul>
+            
+            <div class="warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> Critical Recovery Considerations</h4>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>Always test your backup and recovery procedures before relying on them</li>
+                    <li>Consider the Recovery Point Objective (RPO) and Recovery Time Objective (RTO)</li>
+                    <li>For production systems, use enterprise backup solutions with point-in-time recovery</li>
+                    <li>Ensure backups are stored securely and access is restricted</li>
+                    <li>Monitor backup storage capacity to prevent failures due to disk space</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="real-world" class="section">
+            <h2><i class="fas fa-industry"></i> Real-World Industry Examples</h2>
+            <p>How different industries leverage MongoDB for their specific use cases.</p>
+            
+            <div class="industry-example">
+                <div class="industry-card">
+                    <h4><i class="fas fa-shopping-cart"></i> E-commerce</h4>
+                    <p><strong>Use Case:</strong> Product catalog, shopping cart, order management</p>
+                    <p><strong>Why MongoDB:</strong> Flexible schema for varying product attributes, high write throughput for orders, geospatial for store locator</p>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="code-comment">// Product with varying attributes</span><br>
+{<br>
+&nbsp;&nbsp;name: "iPhone 15",<br>
+&nbsp;&nbsp;category: "Electronics",<br>
+&nbsp;&nbsp;attributes: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;color: "Blue",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;storage: "256GB",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;camera: "48MP"<br>
+&nbsp;&nbsp;}<br>
+}
+                    </div>
+                </div>
+                
+                <div class="industry-card">
+                    <h4><i class="fas fa-comments"></i> Social Media</h4>
+                    <p><strong>Use Case:</strong> User profiles, posts, comments, real-time feeds</p>
+                    <p><strong>Why MongoDB:</strong> Embedded documents for comments/replies, change streams for real-time updates, horizontal scaling for massive user base</p>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="code-comment">// Post with embedded comments</span><br>
+{<br>
+&nbsp;&nbsp;author: "user123",<br>
+&nbsp;&nbsp;content: "Hello World!",<br>
+&nbsp;&nbsp;comments: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ author: "user456", content: "Nice post!" }<br>
+&nbsp;&nbsp;]<br>
+}
+                    </div>
+                </div>
+                
+                <div class="industry-card">
+                    <h4><i class="fas fa-heartbeat"></i> Healthcare</h4>
+                    <p><strong>Use Case:</strong> Patient records, medical imaging metadata, IoT device data</p>
+                    <p><strong>Why MongoDB:</strong> HIPAA compliance features, GridFS for large medical images, time-series for patient monitoring</p>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="code-comment">// Patient monitoring data</span><br>
+{<br>
+&nbsp;&nbsp;patientId: "PAT-123",<br>
+&nbsp;&nbsp;timestamp: ISODate("2024-01-15T14:30:00Z"),<br>
+&nbsp;&nbsp;vitals: { heartRate: 72, bloodPressure: "120/80" }<br>
+}
+                    </div>
+                </div>
+                
+                <div class="industry-card">
+                    <h4><i class="fas fa-car"></i> Automotive/IoT</h4>
+                    <p><strong>Use Case:</strong> Vehicle telemetry, fleet management, predictive maintenance</p>
+                    <p><strong>Why MongoDB:</strong> Time-series collections for sensor data, geospatial for vehicle tracking, aggregation for analytics</p>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="code-comment">// Vehicle telemetry</span><br>
+{<br>
+&nbsp;&nbsp;vehicleId: "CAR-456",<br>
+&nbsp;&nbsp;timestamp: ISODate("2024-01-15T14:30:00Z"),<br>
+&nbsp;&nbsp;location: { type: "Point", coordinates: [-74, 40] },<br>
+&nbsp;&nbsp;speed: 65,<br>
+&nbsp;&nbsp;fuelLevel: 78<br>
+}
+                    </div>
+                </div>
+                
+                <div class="industry-card">
+                    <h4><i class="fas fa-graduation-cap"></i> Education</h4>
+                    <p><strong>Use Case:</strong> Learning management systems, student records, course content</p>
+                    <p><strong>Why MongoDB:</strong> Flexible schema for course structures, embedded documents for lessons/modules, text search for content discovery</p>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="code-comment">// Course with embedded modules</span><br>
+{<br>
+&nbsp;&nbsp;title: "MongoDB Course",<br>
+&nbsp;&nbsp;modules: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ title: "Basics", lessons: [...] }<br>
+&nbsp;&nbsp;]<br>
+}
+                    </div>
+                </div>
+                
+                <div class="industry-card">
+                    <h4><i class="fas fa-chart-line"></i> Financial Services</h4>
+                    <p><strong>Use Case:</strong> Trading platforms, risk analysis, customer 360 views</p>
+                    <p><strong>Why MongoDB:</strong> ACID transactions for financial operations, Decimal128 for precise calculations, aggregation for risk analysis</p>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="code-comment">// Financial transaction</span><br>
+{<br>
+&nbsp;&nbsp;amount: NumberDecimal("1234.56"),<br>
+&nbsp;&nbsp;currency: "USD",<br>
+&nbsp;&nbsp;type: "transfer"<br>
+}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h4><i class="fas fa-rocket"></i> Startup MVP Development Scenario</h4>
+                <p>A startup building a mobile fitness app needs to quickly develop and iterate on their product:</p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li><strong>Week 1:</strong> Launch with basic user profiles and workout tracking using simple document structure</li>
+                    <li><strong>Week 2:</strong> Add social features (friends, challenges) by embedding friend lists and challenge data</li>
+                    <li><strong>Week 3:</strong> Implement real-time leaderboards using aggregation pipeline</li>
+                    <li><strong>Week 4:</strong> Add geospatial features for local challenges using 2dsphere indexes</li>
+                    <li><strong>Month 2:</strong> Scale to handle 10,000 users by adding replica sets</li>
+                    <li><strong>Month 3:</strong> Implement advanced analytics using Atlas Charts</li>
+                </ul>
+                <p>MongoDB's flexible schema allows the startup to iterate rapidly without database migrations, while its scalability handles growth seamlessly.</p>
+            </div>
+            
+            <div class="use-case">
+                <h4><i class="fas fa-mobile-alt"></i> Mobile App Offline-First Use Case</h4>
+                <p>Building a mobile app that works offline and syncs when online:</p>
+                <div class="code-block">
+<span class="code-comment">// Local device database structure</span><br>
+{<br>
+&nbsp;&nbsp;"_id": "local-123",<br>
+&nbsp;&nbsp;"syncStatus": "pending",<br>
+&nbsp;&nbsp;"createdAt": ISODate("2024-01-15T10:00:00Z"),<br>
+&nbsp;&nbsp;"data": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"type": "workout",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"duration": 30,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"calories": 250<br>
+&nbsp;&nbsp;}<br>
+}<br><br>
+
+<span class="code-comment">// Sync process</span><br>
+<span class="code-comment">// 1. Upload pending records to cloud</span><br>
+<span class="code-comment">// 2. Mark as synced locally</span><br>
+<span class="code-comment">// 3. Download new data from cloud</span><br>
+<span class="code-comment">// 4. Handle conflicts with last-write-wins or custom logic</span>
+                </div>
+                <p>MongoDB's document model works perfectly for offline-first applications, where each record can contain all necessary metadata for synchronization.</p>
+            </div>
+        </section>
+        
+        <section id="best-practices" class="section">
+            <h2><i class="fas fa-check-circle"></i> MongoDB Best Practices and Anti-Patterns</h2>
+            
+            <div class="best-practices">
+                <div class="practice-item">
+                    <h4><i class="fas fa-project-diagram"></i> Schema Design</h4>
+                    <p>Design your schema based on your application's query patterns. Embed related data when you'll frequently access it together, and reference when data is accessed separately.</p>
+                </div>
+                
+                <div class="practice-item">
+                    <h4><i class="fas fa-bolt"></i> Strategic Indexing</h4>
+                    <p>Create indexes on fields you frequently query, but be mindful of write performance impact. Use compound indexes for multi-field queries and consider index selectivity.</p>
+                </div>
+                
+                <div class="practice-item">
+                    <h4><i class="fas fa-shield-alt"></i> Security First</h4>
+                    <p>Always enable authentication in production, use role-based access control, encrypt data at rest and in transit, and keep your MongoDB version updated.</p>
+                </div>
+                
+                <div class="practice-item">
+                    <h4><i class="fas fa-chart-line"></i> Performance Monitoring</h4>
+                    <p>Use MongoDB's built-in monitoring tools like <span class="highlight">explain()</span>, database profiler, and consider third-party solutions to track performance and identify bottlenecks.</p>
+                </div>
+                
+                <div class="practice-item">
+                    <h4><i class="fas fa-database"></i> Backup Strategy</h4>
+                    <p>Implement regular backups using <span class="highlight">mongodump</span> or filesystem snapshots. Test your restore procedures regularly.</p>
+                </div>
+                
+                <div class="practice-item">
+                    <h4><i class="fas fa-code"></i> Use Official Drivers</h4>
+                    <p>Use official MongoDB drivers for your programming language instead of raw shell commands in applications.</p>
+                </div>
+                
+                <div class="practice-item">
+                    <h4><i class="fas fa-exchange-alt"></i> Connection Management</h4>
+                    <p>Use connection pooling in applications and properly close connections to prevent resource leaks.</p>
+                </div>
+                
+                <div class="practice-item">
+                    <h4><i class="fas fa-sync"></i> Replica Sets</h4>
+                    <p>Always deploy MongoDB in replica sets for production, even if you don't need high availability initially.</p>
+                </div>
+            </div>
+            
+            <h3>Common Anti-Patterns to Avoid</h3>
+            <div class="warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> Anti-Patterns</h4>
+                <ul style="margin-left: 2rem; margin-top: 1rem;">
+                    <li><strong>Over-normalizing:</strong> Don't try to force relational patterns into MongoDB</li>
+                    <li><strong>Ignoring indexes:</strong> Queries without proper indexes can be extremely slow</li>
+                    <li><strong>Storing large arrays:</strong> Very large arrays can impact performance and hit document size limits</li>
+                    <li><strong>No backup strategy:</strong> Always have a backup and recovery plan</li>
+                    <li><strong>Using $where excessively:</strong> JavaScript evaluation is slow and can't use indexes</li>
+                    <li><strong>Not using connection pooling:</strong> In applications, always use connection pooling</li>
+                    <li><strong>Storing sensitive data unencrypted:</strong> Always encrypt sensitive information</li>
+                    <li><strong>Running on standalone instances in production:</strong> Always use replica sets</li>
+                    <li><strong>Ignoring the 16MB document limit:</strong> Design schemas to avoid hitting this limit</li>
+                    <li><strong>Using unbounded arrays:</strong> Arrays that grow indefinitely can cause performance issues</li>
+                </ul>
+            </div>
+            
+            <h3>Performance Optimization Tips</h3>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Use projection:</strong> Only retrieve the fields you need</li>
+                <li><strong>Paginate results:</strong> Use <span class="highlight">limit()</span> and <span class="highlight">skip()</span> for large result sets</li>
+                <li><strong>Batch operations:</strong> Use <span class="highlight">insertMany()</span>, <span class="highlight">updateMany()</span> when possible</li>
+                <li><strong>Monitor slow queries:</strong> Enable the database profiler to identify slow operations</li>
+                <li><strong>Use appropriate data types:</strong> Choose the right BSON type for your data</li>
+                <li><strong>Consider document growth:</strong> Design documents to minimize padding factor</li>
+                <li><strong>Leverage aggregation pipeline:</strong> Use aggregation for complex data transformations</li>
+                <li><strong>Use change streams:</strong> For real-time applications, use change streams instead of polling</li>
+                <li><strong>Implement proper error handling:</strong> Handle MongoDB errors appropriately in applications</li>
+                <li><strong>Use transactions wisely:</strong> Only use transactions when you need ACID guarantees</li>
+            </ul>
+            
+            <h3>Error Handling Patterns</h3>
+            <div class="error-handling">
+                <h4><i class="fas fa-exclamation-circle"></i> Common MongoDB Errors and Solutions</h4>
+                <div class="code-block">
+<span class="code-comment">// Duplicate key error (E11000)</span><br>
+try {<br>
+&nbsp;&nbsp;await db.collection.insertOne({ email: "user@example.com" });<br>
+} catch (error) {<br>
+&nbsp;&nbsp;if (error.code === 11000) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log("Email already exists");<br>
+&nbsp;&nbsp;}<br>
+}<br><br>
+
+<span class="code-comment">// Document not found</span><br>
+const result = await db.collection.updateOne({ _id: id }, { $set: { name: "John" } });<br>
+if (result.matchedCount === 0) {<br>
+&nbsp;&nbsp;throw new Error("Document not found");<br>
+}<br><br>
+
+<span class="code-comment">// Write concern error</span><br>
+try {<br>
+&nbsp;&nbsp;await db.collection.insertOne(doc, { writeConcern: { w: "majority", wtimeout: 5000 } });<br>
+} catch (error) {<br>
+&nbsp;&nbsp;if (error.writeConcernError) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log("Write concern error:", error.writeConcernError);<br>
+&nbsp;&nbsp;}<br>
+}
+                </div>
+            </div>
+            
+            <div class="real-world-example">
+                <h4><i class="fas fa-clipboard-check"></i> Production Readiness Checklist</h4>
+                <p>Before going live with your MongoDB application, ensure you've addressed these critical items:</p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li><strong>Security:</strong> Authentication enabled, TLS/SSL configured, proper user roles assigned</li>
+                    <li><strong>Backup:</strong> Automated backup strategy implemented and tested</li>
+                    <li><strong>Monitoring:</strong> Performance monitoring and alerting configured</li>
+                    <li><strong>Indexing:</strong> All critical queries have appropriate indexes</li>
+                    <li><strong>Scaling:</strong> Replica set deployed, sharding planned if needed</li>
+                    <li><strong>Error Handling:</strong> Comprehensive error handling in application code</li>
+                    <li><strong>Connection Management:</strong> Proper connection pooling configured</li>
+                    <li><strong>Testing:</strong> Load testing completed, performance benchmarks established</li>
+                    <li><strong>Documentation:</strong> Recovery procedures documented and tested</li>
+                    <li><strong>Compliance:</strong> Data retention and privacy requirements addressed</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <h3>Master MongoDB with Practice and Patience</h3>
+            <p>MongoDB is a powerful and flexible database that's perfect for modern applications. Start with the basics, practice regularly, explore advanced features, and always follow best practices for production systems.</p>
+            
+            <div class="resources">
+                <a href="https://www.mongodb.com/docs/" target="_blank" class="resource-link">Official Documentation</a>
+                <a href="https://university.mongodb.com/" target="_blank" class="resource-link">MongoDB University</a>
+                <a href="https://www.mongodb.com/community/forums" target="_blank" class="resource-link">Community Forums</a>
+                <a href="https://github.com/mongodb" target="_blank" class="resource-link">GitHub Repository</a>
+                <a href="https://www.mongodb.com/developer/" target="_blank" class="resource-link">Developer Hub</a>
+                <a href="https://www.mongodb.com/docs/manual/reference/" target="_blank" class="resource-link">Complete Reference</a>
+            </div>
+            
+            <p style="margin-top: 1.5rem; opacity: 0.8;">&copy; 2024 Ultimate MongoDB Complete Reference Guide with Real-World Examples | Every MongoDB concept with practical, industry-specific examples</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('nav a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // Update active nav link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

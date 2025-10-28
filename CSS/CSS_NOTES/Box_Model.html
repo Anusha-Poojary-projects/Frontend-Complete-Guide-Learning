@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Box Model</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .property-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .control-panel {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-panel button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .control-panel button:hover {
+            background: #c0392b;
+        }
+
+        .control-panel button.active {
+            background: #27ae60;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .interactive-demo {
+            border: 2px dashed #e74c3c;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ff758c22, #ff7eb322);
+        }
+
+        /* Box Model examples */
+        .box-model-demo {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(52, 152, 219, 0.7);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .padding-layer {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: rgba(46, 204, 113, 0.6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .border-layer {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: rgba(231, 76, 60, 0.6);
+            border: 3px solid #c0392b;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .margin-layer {
+            position: absolute;
+            top: -35px;
+            left: -35px;
+            right: -35px;
+            bottom: -35px;
+            background: rgba(155, 89, 182, 0.4);
+            border: 2px dashed #8e44ad;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .box-model-visual {
+            position: relative;
+            width: 250px;
+            height: 200px;
+            margin: 30px auto;
+        }
+
+        .box-layer {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 14px;
+        }
+
+        .content-box {
+            width: 120px;
+            height: 80px;
+            background: #3498db;
+            top: 60px;
+            left: 65px;
+        }
+
+        .padding-box {
+            width: 160px;
+            height: 120px;
+            background: #2ecc71;
+            top: 40px;
+            left: 45px;
+        }
+
+        .border-box {
+            width: 180px;
+            height: 140px;
+            background: #e74c3c;
+            top: 30px;
+            left: 35px;
+            border: 3px solid #c0392b;
+        }
+
+        .margin-box {
+            width: 220px;
+            height: 180px;
+            background: #9b59b6;
+            top: 10px;
+            left: 15px;
+            border: 2px dashed #8e44ad;
+        }
+
+        .box-sizing-demo {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .box-sizing-item {
+            width: 150px;
+            padding: 20px;
+            border: 5px solid #e74c3c;
+            background: #ecf0f1;
+            text-align: center;
+        }
+
+        .box-sizing-content {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+        }
+
+        .box-sizing-content-alt {
+            background: #2ecc71;
+            color: white;
+            padding: 10px;
+        }
+
+        .calculation-demo {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+
+        .width-calculation {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .height-calculation {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .box-model-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .toggle-button {
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-button.active {
+            background: #27ae60;
+        }
+
+        .toggle-button:hover:not(.active) {
+            background: #c0392b;
+        }
+
+        .element-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .element-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .element-size {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #e74c3c;
+        }
+
+        .element-visual {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+            background: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>CSS Box Model</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    Understanding How Elements Take Up Space
+                </div>
+                <div style="background: linear-gradient(45deg, #ff758c, #ff7eb3); width: 200px; height: 200px; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    BOX
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Master the foundation of CSS layout and sizing
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What is the Box Model? -->
+        <div class="slide">
+            <h2>What is the CSS Box Model?</h2>
+            <p>Every HTML element is essentially a rectangular box. The CSS Box Model describes how these boxes are rendered and how their dimensions are calculated.</p>
+            
+            <h3>Key Components:</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>Content</strong><br>
+                    The actual content (text, images, etc.)
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>Padding</strong><br>
+                    Space between content and border
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>Border</strong><br>
+                    Edge around the padding
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>Margin</strong><br>
+                    Space outside the border (between elements)
+                </div>
+            </div>
+            
+            <div class="code-block">
+/* Box Model Components */
+.element {
+    width: 200px;    /* Content width */
+    padding: 20px;   /* Inner spacing */
+    border: 5px solid #000; /* Border */
+    margin: 30px;    /* Outer spacing */
+}</div>
+        </div>
+
+        <!-- Slide 3: Box Model Visualization -->
+        <div class="slide">
+            <h2>Box Model Visualization</h2>
+            <p>See how the different layers of the box model work together:</p>
+            
+            <div class="box-model-visual">
+                <div class="box-layer margin-box">Margin</div>
+                <div class="box-layer border-box">Border</div>
+                <div class="box-layer padding-box">Padding</div>
+                <div class="box-layer content-box">Content</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Layer Breakdown:</h3>
+                <ul style="padding-left: 20px; margin: 15px 0;">
+                    <li><span class="highlight">Content</span>: The innermost area where your actual content lives</li>
+                    <li><span class="highlight">Padding</span>: Transparent space inside the border, part of the element's background</li>
+                    <li><span class="highlight">Border</span>: The edge around the padding, can have different styles and colors</li>
+                    <li><span class="highlight">Margin</span>: Transparent space outside the border, creates space between elements</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Width and Height Calculations -->
+        <div class="slide">
+            <h2>Width and Height Calculations</h2>
+            <p>Understanding how total element dimensions are calculated is crucial for layout.</p>
+            
+            <div class="demo-container">
+                <h3>Standard Box Model (content-box)</h3>
+                <p>By default, when you set <span class="highlight">width</span> or <span class="highlight">height</span>, you're only setting the content area size.</p>
+                
+                <div class="calculation-demo">
+                    <div class="width-calculation">
+                        Total Width = width + padding-left + padding-right + border-left + border-right + margin-left + margin-right
+                    </div>
+                    <div class="height-calculation">
+                        Total Height = height + padding-top + padding-bottom + border-top + border-bottom + margin-top + margin-bottom
+                    </div>
+                </div>
+                
+                <h3>Example:</h3>
+                <div class="code-block">
+.element {
+    width: 200px;
+    padding: 20px;
+    border: 5px solid black;
+    margin: 30px;
+}
+
+/* Total width = 200 + 20 + 20 + 5 + 5 + 30 + 30 = 310px */
+/* Total height = (content height) + 20 + 20 + 5 + 5 + 30 + 30 */</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Box-Sizing Property -->
+        <div class="slide">
+            <h2>Box-Sizing Property</h2>
+            <p>The <span class="highlight">box-sizing</span> property changes how width and height are calculated.</p>
+            
+            <div class="property-showcase">
+                <div>
+                    <h3>content-box (Default)</h3>
+                    <div class="box-sizing-demo">
+                        <div class="box-sizing-item">
+                            <div class="box-sizing-content">Content Area</div>
+                            <div style="margin-top: 10px; font-size: 0.9rem;">
+                                width: 150px<br>
+                                padding: 20px<br>
+                                border: 5px
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-block">box-sizing: content-box;</div>
+                    <p>Width/height applies only to content area. Padding and border are added to the total size.</p>
+                </div>
+                
+                <div>
+                    <h3>border-box</h3>
+                    <div class="box-sizing-demo">
+                        <div class="box-sizing-item" style="box-sizing: border-box;">
+                            <div class="box-sizing-content-alt">Content Area</div>
+                            <div style="margin-top: 10px; font-size: 0.9rem;">
+                                width: 150px<br>
+                                padding: 20px<br>
+                                border: 5px
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-block">box-sizing: border-box;</div>
+                    <p>Width/height includes content, padding, and border. Padding and border are subtracted from content area.</p>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Why Use border-box?</h3>
+                <p>It makes sizing more intuitive and predictable. Many developers apply it globally:</p>
+                <div class="code-block">
+*, *::before, *::after {
+    box-sizing: border-box;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Interactive Box Model Demo -->
+        <div class="slide">
+            <h2>Interactive Box Model Demo</h2>
+            <p>Adjust the box model properties and see how the element changes:</p>
+            
+            <div class="interactive-demo">
+                <div class="control-panel">
+                    <strong>Box Sizing:</strong>
+                    <button onclick="changeBoxSizing('content-box')" id="contentBtn" class="active">content-box</button>
+                    <button onclick="changeBoxSizing('border-box')" id="borderBtn">border-box</button>
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <div id="interactiveBox" class="box-model-demo" style="width: 200px; height: 150px; padding: 20px; border: 5px solid #c0392b; margin: 30px;">
+                        <div>Content</div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;">
+                    <div>
+                        <label>Width: <input type="range" id="widthControl" min="100" max="300" value="200" oninput="updateBox()"></label>
+                        <span id="widthValue">200px</span>
+                    </div>
+                    <div>
+                        <label>Height: <input type="range" id="heightControl" min="80" max="250" value="150" oninput="updateBox()"></label>
+                        <span id="heightValue">150px</span>
+                    </div>
+                    <div>
+                        <label>Padding: <input type="range" id="paddingControl" min="0" max="50" value="20" oninput="updateBox()"></label>
+                        <span id="paddingValue">20px</span>
+                    </div>
+                    <div>
+                        <label>Border: <input type="range" id="borderControl" min="0" max="20" value="5" oninput="updateBox()"></label>
+                        <span id="borderValue">5px</span>
+                    </div>
+                </div>
+                
+                <div class="code-block" id="boxCode">
+.element {
+    width: 200px;
+    height: 150px;
+    padding: 20px;
+    border: 5px solid #c0392b;
+    box-sizing: content-box;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Margin and Padding -->
+        <div class="slide">
+            <h2>Margin and Padding</h2>
+            <p>Understanding the differences and proper usage of margin and padding.</p>
+            
+            <div class="demo-container">
+                <h3>Margin vs Padding:</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div>
+                        <h4>Margin</h4>
+                        <ul style="padding-left: 20px;">
+                            <li>Space <strong>outside</strong> the border</li>
+                            <li>Transparent (doesn't get background)</li>
+                            <li>Can have negative values</li>
+                            <li>Collapses with adjacent margins</li>
+                            <li>Used for spacing between elements</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Padding</h4>
+                        <ul style="padding-left: 20px;">
+                            <li>Space <strong>inside</strong> the border</li>
+                            <li>Gets the element's background</li>
+                            <li>Cannot be negative</li>
+                            <li>No collapsing behavior</li>
+                            <li>Used for internal spacing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Shorthand Properties:</h3>
+                <div class="code-block">
+/* All sides */
+margin: 10px;
+padding: 15px;
+
+/* Vertical | Horizontal */
+margin: 10px 20px;
+padding: 15px 25px;
+
+/* Top | Horizontal | Bottom */
+margin: 10px 20px 30px;
+padding: 15px 25px 35px;
+
+/* Top | Right | Bottom | Left */
+margin: 10px 20px 30px 40px;
+padding: 15px 25px 35px 45px;</div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Practical Examples -->
+        <div class="slide">
+            <h2>Practical Examples</h2>
+            
+            <h3>1. Centering Elements</h3>
+            <div class="demo-container">
+                <div style="display: flex; justify-content: center; margin: 20px 0;">
+                    <div style="width: 200px; height: 100px; background: #3498db; color: white; display: flex; align-items: center; justify-content: center;">
+                        Centered Block
+                    </div>
+                </div>
+                <div class="code-block">
+/* Horizontal centering */
+.element {
+    width: 200px;
+    margin: 0 auto;
+}
+
+/* Flexbox centering */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}</div>
+            </div>
+            
+            <h3>2. Consistent Spacing</h3>
+            <div class="demo-container">
+                <div style="margin-bottom: 20px;">
+                    <div style="background: #e74c3c; color: white; padding: 15px; margin-bottom: 15px;">Card 1</div>
+                    <div style="background: #e74c3c; color: white; padding: 15px; margin-bottom: 15px;">Card 2</div>
+                    <div style="background: #e74c3c; color: white; padding: 15px;">Card 3</div>
+                </div>
+                <div class="code-block">
+.card {
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.card:last-child {
+    margin-bottom: 0;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide">
+            <h2>Box Model Cheat Sheet</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h3>Box Model Properties</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                        <div class="code-block" style="margin: 0; background: #2c3e50; font-size: 13px;">
+/* Dimensions */
+width: 200px;
+height: 150px;
+min-width: 100px;
+max-width: 500px;
+min-height: 100px;
+max-height: 300px;
+
+/* Spacing */
+padding: 20px;
+margin: 30px;
+
+/* Border */
+border: 2px solid #000;
+border-radius: 10px;</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Box-Sizing Values</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                        <div class="code-block" style="margin: 0; background: #2c3e50; font-size: 13px;">
+/* Default behavior */
+box-sizing: content-box;
+/* Width includes padding & border */
+box-sizing: border-box;
+
+/* Global reset (recommended) */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Shorthand for spacing */
+margin: 10px 20px 30px 40px;
+padding: 15px 25px 35px 45px;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #ff758c, #ff7eb3); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🎉 Congratulations!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">You now have the knowledge to master element sizing and spacing with the CSS Box Model!</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function changeBoxSizing(sizing) {
+            const box = document.getElementById('interactiveBox');
+            box.style.boxSizing = sizing;
+            
+            // Update active button
+            document.querySelectorAll('.control-panel button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const buttonMap = {
+                'content-box': 'contentBtn',
+                'border-box': 'borderBtn'
+            };
+            
+            if (buttonMap[sizing]) {
+                document.getElementById(buttonMap[sizing]).classList.add('active');
+            }
+            
+            updateCode();
+        }
+
+        function updateBox() {
+            const width = document.getElementById('widthControl').value;
+            const height = document.getElementById('heightControl').value;
+            const padding = document.getElementById('paddingControl').value;
+            const border = document.getElementById('borderControl').value;
+            
+            const box = document.getElementById('interactiveBox');
+            box.style.width = width + 'px';
+            box.style.height = height + 'px';
+            box.style.padding = padding + 'px';
+            box.style.border = border + 'px solid #c0392b';
+            
+            // Update value displays
+            document.getElementById('widthValue').textContent = width + 'px';
+            document.getElementById('heightValue').textContent = height + 'px';
+            document.getElementById('paddingValue').textContent = padding + 'px';
+            document.getElementById('borderValue').textContent = border + 'px';
+            
+            updateCode();
+        }
+
+        function updateCode() {
+            const width = document.getElementById('widthControl').value;
+            const height = document.getElementById('heightControl').value;
+            const padding = document.getElementById('paddingControl').value;
+            const border = document.getElementById('borderControl').value;
+            const boxSizing = document.getElementById('interactiveBox').style.boxSizing || 'content-box';
+            
+            const code = `.element {
+    width: ${width}px;
+    height: ${height}px;
+    padding: ${padding}px;
+    border: ${border}px solid #c0392b;
+    box-sizing: ${boxSizing};
+}`;
+            
+            document.getElementById('boxCode').textContent = code;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+        updateCode();
+    </script>
+</body>
+</html>

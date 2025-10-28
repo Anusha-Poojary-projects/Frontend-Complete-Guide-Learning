@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Images Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .bg-demo {
+            border: 3px solid #3498db;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 10px 0;
+            min-height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .property-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .control-panel {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-panel button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .control-panel button:hover {
+            background: #2980b9;
+        }
+
+        .control-panel button.active {
+            background: #e74c3c;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .interactive-demo {
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #667eea22, #764ba222);
+        }
+
+        /* Background examples */
+        .bg-cover { background-size: cover; }
+        .bg-contain { background-size: contain; }
+        .bg-repeat { background-repeat: repeat; }
+        .bg-no-repeat { background-repeat: no-repeat; }
+        .bg-center { background-position: center; }
+        .bg-top-left { background-position: top left; }
+        .bg-bottom-right { background-position: bottom right; }
+        .bg-fixed { background-attachment: fixed; }
+        .bg-scroll { background-attachment: scroll; }
+        .bg-linear { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); }
+        .bg-radial { background: radial-gradient(circle, #667eea, #764ba2); }
+
+        .bg-multiple {
+            background-image: 
+                linear-gradient(45deg, rgba(255,0,0,0.5), rgba(0,255,0,0.5)),
+                url('https://placehold.co/400x300/3498db/ffffff?text=Pattern');
+            background-size: cover, 50px 50px;
+            background-repeat: no-repeat, repeat;
+        }
+
+        .bg-clip-text {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Background Images</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    The Complete Guide to CSS Background Properties
+                </div>
+                <div style="background: url('https://placehold.co/200x200/667eea/ffffff?text=BG'); background-size: cover; width: 200px; height: 200px; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: bold; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                    BG
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Master the art of beautiful backgrounds with CSS
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Background Images? -->
+        <div class="slide">
+            <h2>What are Background Images?</h2>
+            <p>CSS Background properties allow you to add decorative images, gradients, and patterns to HTML elements without affecting the document structure. They provide powerful control over how backgrounds are displayed and positioned.</p>
+            
+            <h3>Key Benefits:</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>Non-Intrusive</strong><br>
+                    Doesn't affect HTML structure or SEO
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>Flexible Styling</strong><br>
+                    Full control over size, position, and repetition
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>Performance</strong><br>
+                    Can be optimized and cached separately
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>Creative Freedom</strong><br>
+                    Combine images, gradients, and patterns
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Basic Syntax -->
+        <div class="slide">
+            <h2>Background Properties</h2>
+            <p>CSS provides several properties to control background appearance:</p>
+            
+            <div class="demo-container">
+                <h3>Individual Properties</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #3498db;">
+                        <strong>background-image</strong><br>
+                        Sets the background image(s)
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #e74c3c;">
+                        <strong>background-size</strong><br>
+                        Controls image sizing
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #2ecc71;">
+                        <strong>background-position</strong><br>
+                        Sets image position
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #f39c12;">
+                        <strong>background-repeat</strong><br>
+                        Controls image repetition
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #9b59b6;">
+                        <strong>background-attachment</strong><br>
+                        Sets scroll behavior
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #1abc9c;">
+                        <strong>background-clip</strong><br>
+                        Defines painting area
+                    </div>
+                </div>
+
+                <h3>Shorthand Property</h3>
+                <div class="code-block">
+/* Shorthand syntax */
+background: [attachment] [position] / [size] [repeat] [origin] [clip] [image];
+
+/* Example */
+background: fixed center/cover no-repeat url('image.jpg');</div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Background Size -->
+        <div class="slide">
+            <h2>Background Size</h2>
+            <p>The <span class="highlight">background-size</span> property controls how background images are sized.</p>
+
+            <div class="property-showcase">
+                <div>
+                    <h3>cover</h3>
+                    <div class="bg-demo bg-cover" style="background-image: url('https://placehold.co/800x600/3498db/ffffff?text=Cover');">
+                        Cover - Fills container
+                    </div>
+                    <div class="code-block">background-size: cover;</div>
+                </div>
+
+                <div>
+                    <h3>contain</h3>
+                    <div class="bg-demo bg-contain" style="background-image: url('https://placehold.co/800x600/2ecc71/ffffff?text=Contain');">
+                        Contain - Fits entirely
+                    </div>
+                    <div class="code-block">background-size: contain;</div>
+                </div>
+
+                <div>
+                    <h3>100% 100%</h3>
+                    <div class="bg-demo" style="background-image: url('https://placehold.co/400x300/e74c3c/ffffff?text=Stretch'); background-size: 100% 100%;">
+                        Stretch - Distorts image
+                    </div>
+                    <div class="code-block">background-size: 100% 100%;</div>
+                </div>
+
+                <div>
+                    <h3>auto (default)</h3>
+                    <div class="bg-demo" style="background-image: url('https://placehold.co/200x150/9b59b6/ffffff?text=Auto'); background-size: auto;">
+                        Auto - Original size
+                    </div>
+                    <div class="code-block">background-size: auto;</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Background Position -->
+        <div class="slide">
+            <h2>Background Position</h2>
+            <p>The <span class="highlight">background-position</span> property controls where the background image is placed.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <h4>center (default)</h4>
+                    <div class="bg-demo bg-center" style="background-image: url('https://placehold.co/300x200/3498db/ffffff?text=Center'); background-repeat: no-repeat;">
+                        Centered
+                    </div>
+                </div>
+
+                <div>
+                    <h4>top left</h4>
+                    <div class="bg-demo bg-top-left" style="background-image: url('https://placehold.co/300x200/e74c3c/ffffff?text=Top+Left'); background-repeat: no-repeat;">
+                        Top Left
+                    </div>
+                </div>
+
+                <div>
+                    <h4>bottom right</h4>
+                    <div class="bg-demo bg-bottom-right" style="background-image: url('https://placehold.co/300x200/2ecc71/ffffff?text=Bottom+Right'); background-repeat: no-repeat;">
+                        Bottom Right
+                    </div>
+                </div>
+
+                <div>
+                    <h4>50% 25%</h4>
+                    <div class="bg-demo" style="background-image: url('https://placehold.co/300x200/9b59b6/ffffff?text=Custom'); background-position: 50% 25%; background-repeat: no-repeat;">
+                        Custom Position
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block" style="margin-top: 20px;">
+/* Keyword values */
+background-position: center;
+background-position: top left;
+background-position: bottom right;
+
+/* Percentage values */
+background-position: 50% 25%;
+
+/* Length values */
+background-position: 100px 50px;</div>
+        </div>
+
+        <!-- Slide 6: Background Repeat -->
+        <div class="slide">
+            <h2>Background Repeat</h2>
+            <p>The <span class="highlight">background-repeat</span> property controls how background images are repeated.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <h4>repeat (default)</h4>
+                    <div class="bg-demo bg-repeat" style="background-image: url('https://placehold.co/50x50/3498db/ffffff?text=+'); min-height: 150px;">
+                        Repeated
+                    </div>
+                </div>
+
+                <div>
+                    <h4>no-repeat</h4>
+                    <div class="bg-demo bg-no-repeat" style="background-image: url('https://placehold.co/100x80/e74c3c/ffffff?text=Single'); min-height: 150px;">
+                        Single Image
+                    </div>
+                </div>
+
+                <div>
+                    <h4>repeat-x</h4>
+                    <div class="bg-demo" style="background-image: url('https://placehold.co/80x30/2ecc71/ffffff?text=→'); background-repeat: repeat-x; min-height: 150px;">
+                        Horizontal Only
+                    </div>
+                </div>
+
+                <div>
+                    <h4>repeat-y</h4>
+                    <div class="bg-demo" style="background-image: url('https://placehold.co/30x80/9b59b6/ffffff?text=↓'); background-repeat: repeat-y; min-height: 150px;">
+                        Vertical Only
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block" style="margin-top: 20px;">
+background-repeat: repeat;     /* Default */
+background-repeat: no-repeat;  /* Single image */
+background-repeat: repeat-x;   /* Horizontal only */
+background-repeat: repeat-y;   /* Vertical only */
+background-repeat: space;      /* Spaced repetition */
+background-repeat: round;      /* Scaled repetition */</div>
+        </div>
+
+        <!-- Slide 7: Advanced Background Features -->
+        <div class="slide">
+            <h2>Advanced Background Features</h2>
+            <p>Modern CSS provides powerful advanced background capabilities.</p>
+
+            <h3>Multiple Backgrounds</h3>
+            <div class="demo-container">
+                <div class="bg-demo bg-multiple" style="min-height: 180px;">
+                    Multiple Backgrounds
+                </div>
+                <div class="code-block">
+background-image: 
+    linear-gradient(45deg, rgba(255,0,0,0.5), rgba(0,255,0,0.5)),
+    url('pattern.png');
+background-size: cover, 50px 50px;
+background-repeat: no-repeat, repeat;</div>
+            </div>
+
+            <h3>Background Attachment</h3>
+            <div class="demo-container">
+                <div class="bg-demo bg-fixed" style="background-image: url('https://placehold.co/800x600/667eea/ffffff?text=Fixed'); background-attachment: fixed; min-height: 150px;">
+                    Fixed Background (Parallax Effect)
+                </div>
+                <div class="code-block">
+background-attachment: fixed;  /* Parallax effect */
+background-attachment: scroll; /* Default behavior */</div>
+            </div>
+
+            <h3>Background Clip</h3>
+            <div class="demo-container">
+                <div class="bg-clip-text">
+                    Text with Background Clip
+                </div>
+                <div class="code-block">
+background: linear-gradient(45deg, #667eea, #764ba2);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;</div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Practical Examples -->
+        <div class="slide">
+            <h2>Practical Examples</h2>
+
+            <h3>1. Hero Section</h3>
+            <div class="demo-container">
+                <div class="bg-demo bg-cover" style="background-image: url('https://placehold.co/1200x500/3498db/ffffff?text=Hero+Image'); min-height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h2 style="color: white; font-size: 2.5rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Welcome to Our Website</h2>
+                    <p style="color: white; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">Beautiful background with perfect text overlay</p>
+                </div>
+                <div class="code-block">
+.hero {
+    background-image: url('hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}</div>
+            </div>
+
+            <h3>2. Gradient Backgrounds</h3>
+            <div class="demo-container">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="bg-demo bg-linear" style="min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                        Linear Gradient
+                    </div>
+                    <div class="bg-demo bg-radial" style="min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                        Radial Gradient
+                    </div>
+                </div>
+                <div class="code-block">
+.linear-bg {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+}
+
+.radial-bg {
+    background: radial-gradient(circle, #667eea, #764ba2);
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Best Practices & Summary -->
+        <div class="slide">
+            <h2>Background Images Best Practices</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>✅ Optimize Image Files</strong><br>
+                    Use appropriate formats (WebP, JPEG, PNG) and compress images
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>✅ Provide Fallbacks</strong><br>
+                    Always include solid background colors as fallbacks
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>✅ Consider Accessibility</strong><br>
+                    Ensure sufficient contrast for text over background images
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>✅ Use Modern Properties</strong><br>
+                    Leverage background-size: cover and object-fit for responsive images
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🎉 Congratulations!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">You now have the knowledge to create stunning, professional backgrounds with CSS!</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

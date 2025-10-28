@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Loops & Iteration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a235a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .loop-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .loop-component {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            margin: 0 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .loop-component h4 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3498db;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .loop-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, #3498db22, #2980b922);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .example-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #3498db, #2980b9);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .loop-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            color: white;
+            font-size: 3.5rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 5px solid white;
+        }
+
+        .iteration-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .method-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .method-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .method-desc {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .loop-comparison {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .loop-comparison th {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .loop-comparison td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .loop-comparison tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .loop-comparison tr:hover {
+            background-color: #e8f4f8;
+        }
+
+        .best-practices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .practice-card {
+            background: linear-gradient(135deg, #3498db22, #2980b922);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .practice-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .array-visualization {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .array-item {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .current-item {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>JavaScript Loops & Iteration</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div class="loop-logo">🔄</div>
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    Repeating Code Efficiently
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Mastering repetition in JavaScript
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Loops? -->
+        <div class="slide">
+            <h2>What are Loops?</h2>
+            <p>Loops are control structures that allow you to execute a block of code repeatedly until a specified condition is met.</p>
+            
+            <div class="loop-diagram">
+                <div class="loop-component">
+                    <h4>Initialize</h4>
+                    <p>Set starting point</p>
+                </div>
+                <div class="arrow" style="left: 25%;">→</div>
+                <div class="loop-component">
+                    <h4>Condition</h4>
+                    <p>Check if continue</p>
+                </div>
+                <div class="arrow" style="left: 50%;">→</div>
+                <div class="loop-component">
+                    <h4>Execute</h4>
+                    <p>Run code block</p>
+                </div>
+                <div class="arrow" style="left: 75%;">→</div>
+                <div class="loop-component">
+                    <h4>Update</h4>
+                    <p>Modify counter</p>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Why Use Loops?</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Automation:</strong> Perform repetitive tasks without writing duplicate code</li>
+                    <li><strong>Efficiency:</strong> Process large datasets with minimal code</li>
+                    <li><strong>Flexibility:</strong> Handle dynamic data sizes</li>
+                    <li><strong>Maintenance:</strong> Easier to update logic in one place</li>
+                    <li><strong>Performance:</strong> Optimized for iteration operations</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: for Loop -->
+        <div class="slide">
+            <h2>The for Loop</h2>
+            <p>The <span class="highlight">for</span> loop is the most common loop type, providing a concise way to write loops with initialization, condition, and final expression.</p>
+            
+            <div class="loop-examples">
+                <div class="example-card">
+                    <h4>Basic Syntax</h4>
+                    <div class="code-block">
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+// Output: 0, 1, 2, 3, 4</div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Counting Backwards</h4>
+                    <div class="code-block">
+for (let i = 10; i >= 0; i--) {
+  console.log(i);
+}
+// Output: 10, 9, 8, ..., 0</div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>Custom Step</h4>
+                    <div class="code-block">
+for (let i = 0; i <= 20; i += 2) {
+  console.log(i);
+}
+// Output: 0, 2, 4, ..., 20</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>for Loop Components</h3>
+                <div class="code-block">
+for (
+  [initialization];    // Executed once before loop starts
+  [condition];         // Checked before each iteration
+  [final-expression]   // Executed after each iteration
+) {
+  // Loop body
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 4: while and do...while Loops -->
+        <div class="slide">
+            <h2>while and do...while Loops</h2>
+            <p>These loops continue executing as long as a specified condition evaluates to true.</p>
+            
+            <div class="loop-examples">
+                <div class="example-card">
+                    <h4>while Loop</h4>
+                    <div class="code-block">
+let count = 0;
+while (count < 3) {
+  console.log(count);
+  count++;
+}
+// Output: 0, 1, 2</div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>do...while Loop</h4>
+                    <div class="code-block">
+let count = 0;
+do {
+  console.log(count);
+  count++;
+} while (count < 3);
+// Output: 0, 1, 2</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Key Differences</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>while:</strong> Condition checked before each iteration (may not run at all)</li>
+                    <li><strong>do...while:</strong> Condition checked after each iteration (runs at least once)</li>
+                </ul>
+                
+                <h3>When to Use Each</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>Use <span class="highlight">while</span> when you don't know how many iterations you need</li>
+                    <li>Use <span class="highlight">do...while</span> when you need to execute at least once</li>
+                    <li>Example: Menu systems, user input validation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: for...of and for...in Loops -->
+        <div class="slide">
+            <h2>for...of and for...in Loops</h2>
+            <p>These specialized loops are designed for iterating over iterable objects and object properties.</p>
+            
+            <div class="loop-examples">
+                <div class="example-card">
+                    <h4>for...of Loop</h4>
+                    <p>Iterates over iterable objects (arrays, strings, maps, etc.)</p>
+                    <div class="code-block">
+const fruits = ["apple", "banana", "orange"];
+for (const fruit of fruits) {
+  console.log(fruit);
+}
+// Output: apple, banana, orange</div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>for...in Loop</h4>
+                    <p>Iterates over enumerable properties of an object</p>
+                    <div class="code-block">
+const person = { name: "John", age: 30 };
+for (const key in person) {
+  console.log(key, person[key]);
+}
+// Output: name John, age 30</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Key Differences</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>for...of:</strong> Gets values directly, works with iterables</li>
+                    <li><strong>for...in:</strong> Gets property names/keys, works with objects</li>
+                    <li><strong>Arrays:</strong> Use for...of for values, for...in for indices (but avoid for...in with arrays)</li>
+                </ul>
+                
+                <div class="code-block">
+// Array iteration - prefer for...of
+const numbers = [1, 2, 3];
+for (const num of numbers) { // Good
+  console.log(num);
+}
+
+for (const index in numbers) { // Avoid with arrays
+  console.log(numbers[index]);
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Array Iteration Methods -->
+        <div class="slide">
+            <h2>Array Iteration Methods</h2>
+            <p>JavaScript arrays provide powerful built-in methods for iteration that are often more expressive than traditional loops.</p>
+            
+            <div class="iteration-methods">
+                <div class="method-card">
+                    <div class="method-name">forEach()</div>
+                    <div class="method-desc">Execute function for each element</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">map()</div>
+                    <div class="method-desc">Create new array by transforming elements</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">filter()</div>
+                    <div class="method-desc">Create new array with elements that pass test</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">reduce()</div>
+                    <div class="method-desc">Reduce array to single value</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">find()</div>
+                    <div class="method-desc">Return first element that matches condition</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">some()/every()</div>
+                    <div class="method-desc">Check if some/every element matches condition</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Examples</h3>
+                <div class="code-block">
+const numbers = [1, 2, 3, 4, 5];
+
+// forEach - side effects
+numbers.forEach(num => console.log(num));
+
+// map - transformation
+const doubled = numbers.map(num => num * 2);
+
+// filter - selection
+const evens = numbers.filter(num => num % 2 === 0);
+
+// reduce - accumulation
+const sum = numbers.reduce((acc, num) => acc + num, 0);</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Loop Control Statements -->
+        <div class="slide">
+            <h2>Loop Control Statements</h2>
+            <p>JavaScript provides statements to control the flow of loops, allowing you to skip iterations or exit early.</p>
+            
+            <div class="loop-examples">
+                <div class="example-card">
+                    <h4>break Statement</h4>
+                    <p>Exits the loop immediately</p>
+                    <div class="code-block">
+for (let i = 0; i < 10; i++) {
+  if (i === 5) break;
+  console.log(i);
+}
+// Output: 0, 1, 2, 3, 4</div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>continue Statement</h4>
+                    <p>Skips current iteration and continues with next</p>
+                    <div class="code-block">
+for (let i = 0; i < 5; i++) {
+  if (i === 2) continue;
+  console.log(i);
+}
+// Output: 0, 1, 3, 4</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Nested Loops</h3>
+                <p>break and continue affect only the innermost loop by default</p>
+                <div class="code-block">
+outer: for (let i = 0; i < 3; i++) {
+  for (let j = 0; j < 3; j++) {
+    if (i === 1 && j === 1) break outer;
+    console.log(i, j);
+  }
+}
+// Output: 0 0, 0 1, 0 2, 1 0</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Best Practices</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>Use <span class="highlight">break</span> to exit early when condition is met</li>
+                    <li>Use <span class="highlight">continue</span> to skip unwanted iterations</li>
+                    <li>Avoid deeply nested loops when possible</li>
+                    <li>Consider labeled statements for complex nested loop control</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Loop Comparison & Best Practices -->
+        <div class="slide">
+            <h2>Loop Comparison & Best Practices</h2>
+            <p>Choosing the right loop type and following best practices leads to cleaner, more efficient code.</p>
+            
+            <div class="demo-container">
+                <h3>When to Use Which Loop</h3>
+                <table class="loop-comparison">
+                    <thead>
+                        <tr>
+                            <th>Loop Type</th>
+                            <th>Best Use Case</th>
+                            <th>Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>for</code></td>
+                            <td>Known number of iterations, arrays with indices</td>
+                            <td>Fastest</td>
+                        </tr>
+                        <tr>
+                            <td><code>while</code></td>
+                            <td>Unknown iterations, condition-based looping</td>
+                            <td>Fast</td>
+                        </tr>
+                        <tr>
+                            <td><code>do...while</code></td>
+                            <td>Must execute at least once</td>
+                            <td>Fast</td>
+                        </tr>
+                        <tr>
+                            <td><code>for...of</code></td>
+                            <td>Iterating over iterable objects (arrays, strings)</td>
+                            <td>Good</td>
+                        </tr>
+                        <tr>
+                            <td><code>Array methods</code></td>
+                            <td>Functional programming, transformations, filtering</td>
+                            <td>Good (with optimizations)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="best-practices">
+                <div class="practice-card">
+                    <h4>Avoid Infinite Loops</h4>
+                    <p>Always ensure loop conditions will eventually become false</p>
+                    <div class="code-block">
+// Bad - infinite loop
+while (true) { ... }
+
+// Good - with exit condition
+let attempts = 0;
+while (attempts < maxAttempts) { ... }</div>
+                </div>
+                
+                <div class="practice-card">
+                    <h4>Prefer Array Methods</h4>
+                    <p>Use functional methods when possible for readability</p>
+                    <div class="code-block">
+// Instead of for loop
+const doubled = [];
+for (let i = 0; i < numbers.length; i++) {
+  doubled.push(numbers[i] * 2);
+}
+
+// Use map
+const doubled = numbers.map(n => n * 2);</div>
+                </div>
+                
+                <div class="practice-card">
+                    <h4>Cache Length</h4>
+                    <p>Cache array length in for loops for better performance</p>
+                    <div class="code-block">
+// Good
+for (let i = 0, len = arr.length; i < len; i++) { ... }
+
+// Avoid (in older engines)
+for (let i = 0; i < arr.length; i++) { ... }</div>
+                </div>
+                
+                <div class="practice-card">
+                    <h4>Meaningful Variables</h4>
+                    <p>Use descriptive variable names in loops</p>
+                    <div class="code-block">
+// Good
+for (const user of users) { ... }
+for (const product of products) { ... }
+
+// Avoid
+for (const x of y) { ... }</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide">
+            <h2>JavaScript Loops & Iteration: Key Takeaways</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3>Loop Types</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li><span class="highlight">for:</span> Traditional loop with counter</li>
+                            <li><span class="highlight">while/do...while:</span> Condition-based looping</li>
+                            <li><span class="highlight">for...of:</span> Iterate over iterable values</li>
+                            <li><span class="highlight">for...in:</span> Iterate over object properties</li>
+                            <li><span class="highlight">Array methods:</span> Functional iteration (map, filter, etc.)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Best Practices</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li>Choose the right loop for the job</li>
+                            <li>Prefer array methods for functional programming</li>
+                            <li>Use meaningful variable names</li>
+                            <li>Avoid infinite loops</li>
+                            <li>Cache array lengths in performance-critical code</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🔁 Master Loops, Master Repetition!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">Loops are essential for writing efficient, maintainable JavaScript code that can handle dynamic data and repetitive tasks.</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

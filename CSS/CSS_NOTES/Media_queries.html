@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Queries Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .responsive-demo {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: 3px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            min-height: 150px;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .responsive-item {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .property-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .control-panel {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-panel button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .control-panel button:hover {
+            background: #c0392b;
+        }
+
+        .control-panel button.active {
+            background: #3498db;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .interactive-demo {
+            border: 2px dashed #e74c3c;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ff9a9e22, #fad0c422);
+        }
+
+        .device-frame {
+            border: 3px solid #34495e;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .phone-view {
+            width: 320px;
+            margin: 0 auto;
+        }
+
+        .tablet-view {
+            width: 768px;
+            margin: 0 auto;
+        }
+
+        .desktop-view {
+            width: 1024px;
+            margin: 0 auto;
+        }
+
+        /* Media Query Examples */
+        .mobile-first {
+            background: #e74c3c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-first {
+                background: #3498db;
+                padding: 30px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-first {
+                background: #2ecc71;
+                padding: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .responsive-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .responsive-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .grid-item {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .breakpoint-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="breakpoint-indicator" id="breakpointIndicator"></div>
+    
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Media Queries</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    The Complete Guide to Responsive Web Design
+                </div>
+                <div style="background: linear-gradient(45deg, #ff9a9e, #fad0c4); width: 200px; height: 200px; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; font-weight: bold; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    MEDIA
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Create websites that look amazing on every device
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Media Queries? -->
+        <div class="slide">
+            <h2>What are Media Queries?</h2>
+            <p>Media Queries are CSS techniques that apply different styles based on device characteristics like screen width, height, orientation, and resolution. They are the foundation of responsive web design.</p>
+            
+            <h3>Key Benefits:</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>Device Agnostic</strong><br>
+                    One codebase works across all devices
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>Future-Proof</strong><br>
+                    Adapts to new screen sizes automatically
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>User Experience</strong><br>
+                    Optimized layouts for every viewport
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>Performance</strong><br>
+                    Load appropriate assets for each device
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Basic Syntax -->
+        <div class="slide">
+            <h2>Media Query Syntax</h2>
+            <p>Media Queries use a simple syntax to target specific conditions.</p>
+            
+            <div class="demo-container">
+                <h3>Basic Structure</h3>
+                <div class="code-block">
+/* Basic media query */
+@media (condition) {
+    /* CSS rules */
+}
+
+/* Common example */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+}</div>
+
+                <h3>Media Query Components</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #e74c3c;">
+                        <strong>Media Type</strong><br>
+                        screen, print, speech
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #3498db;">
+                        <strong>Media Feature</strong><br>
+                        width, height, orientation
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 3px solid #2ecc71;">
+                        <strong>Logical Operators</strong><br>
+                        and, or, not, only
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Common Breakpoints -->
+        <div class="slide">
+            <h2>Common Breakpoints</h2>
+            <p>Breakpoints are screen widths where your layout changes. Here are industry-standard breakpoints:</p>
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin: 20px 0;">
+                <div class="device-frame phone-view">
+                    <h4>📱 Mobile (Small Screens)</h4>
+                    <div class="code-block" style="margin: 10px 0; background: #2c3e50;">
+@media (max-width: 767px) {
+    /* Mobile styles */
+}</div>
+                    <p>Phones and small devices</p>
+                </div>
+
+                <div class="device-frame tablet-view">
+                    <h4>📱→💻 Tablet (Medium Screens)</h4>
+                    <div class="code-block" style="margin: 10px 0; background: #2c3e50;">
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Tablet styles */
+}</div>
+                    <p>Tablets and large phones</p>
+                </div>
+
+                <div class="device-frame desktop-view">
+                    <h4>💻 Desktop (Large Screens)</h4>
+                    <div class="code-block" style="margin: 10px 0; background: #2c3e50;">
+@media (min-width: 1024px) {
+    /* Desktop styles */
+}</div>
+                    <p>Desktops and laptops</p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="control-panel">
+                    <strong>Interactive Demo:</strong>
+                    <button onclick="simulateBreakpoint('mobile')" id="mobileBtn" class="active">Mobile (320px)</button>
+                    <button onclick="simulateBreakpoint('tablet')" id="tabletBtn">Tablet (768px)</button>
+                    <button onclick="simulateBreakpoint('desktop')" id="desktopBtn">Desktop (1024px)</button>
+                </div>
+                <div class="responsive-demo" id="breakpointDemo">
+                    <div class="responsive-item">Item 1</div>
+                    <div class="responsive-item">Item 2</div>
+                    <div class="responsive-item">Item 3</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Mobile-First Approach -->
+        <div class="slide">
+            <h2>Mobile-First Approach</h2>
+            <p>Mobile-first design starts with mobile styles and progressively enhances for larger screens using <span class="highlight">min-width</span> queries.</p>
+
+            <div class="demo-container">
+                <h3>Mobile-First Example</h3>
+                <div class="mobile-first" id="mobileFirstDemo">
+                    This layout adapts to screen size!
+                </div>
+
+                <div class="code-block">
+/* Base styles (mobile) */
+.container {
+    background: #e74c3c;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+    .container {
+        background: #3498db;
+        padding: 30px;
+    }
+}
+
+/* Desktop and up */
+@media (min-width: 1024px) {
+    .container {
+        background: #2ecc71;
+        padding: 40px;
+        font-size: 1.2rem;
+    }
+}</div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: #fff8e1; border-radius: 8px; border-left: 3px solid #f39c12;">
+                <strong>Why Mobile-First?</strong><br>
+                • Better performance on mobile devices<br>
+                • Forces content prioritization<br>
+                • Easier to scale up than scale down<br>
+                • Future-proof for new devices
+            </div>
+        </div>
+
+        <!-- Slide 6: Desktop-First Approach -->
+        <div class="slide">
+            <h2>Desktop-First Approach</h2>
+            <p>Desktop-first design starts with desktop styles and scales down for smaller screens using <span class="highlight">max-width</span> queries.</p>
+
+            <div class="demo-container">
+                <h3>Desktop-First Example</h3>
+                <div class="responsive-grid" id="desktopFirstDemo">
+                    <div class="grid-item">Column 1</div>
+                    <div class="grid-item">Column 2</div>
+                    <div class="grid-item">Column 3</div>
+                </div>
+
+                <div class="code-block">
+/* Base styles (desktop) */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+/* Tablet and down */
+@media (max-width: 1023px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Mobile and down */
+@media (max-width: 767px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}</div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: #e8f4f8; border-radius: 8px; border-left: 3px solid #3498db;">
+                <strong>When to Use Desktop-First?</strong><br>
+                • Legacy projects<br>
+                • Complex desktop applications<br>
+                • When mobile isn't a priority<br>
+                • Converting existing desktop sites
+            </div>
+        </div>
+
+        <!-- Slide 7: Advanced Media Features -->
+        <div class="slide">
+            <h2>Advanced Media Features</h2>
+            <p>Media Queries can target more than just screen width!</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                <div class="demo-container">
+                    <h4>Orientation</h4>
+                    <div class="code-block">
+@media (orientation: landscape) {
+    /* Landscape styles */
+}
+
+@media (orientation: portrait) {
+    /* Portrait styles */
+}</div>
+                </div>
+
+                <div class="demo-container">
+                    <h4>Resolution</h4>
+                    <div class="code-block">
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+    /* High DPI/Retina styles */
+}</div>
+                </div>
+
+                <div class="demo-container">
+                    <h4>Aspect Ratio</h4>
+                    <div class="code-block">
+@media (aspect-ratio: 16/9) {
+    /* 16:9 aspect ratio */
+}
+
+@media (min-aspect-ratio: 4/3) {
+    /* Wider than 4:3 */
+}</div>
+                </div>
+
+                <div class="demo-container">
+                    <h4>Hover Capability</h4>
+                    <div class="code-block">
+@media (hover: hover) {
+    /* Devices with hover capability */
+    button:hover {
+        background: #3498db;
+    }
+}
+
+@media (hover: none) {
+    /* Touch devices */
+    button {
+        padding: 15px;
+    }
+}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Practical Examples -->
+        <div class="slide">
+            <h2>Practical Examples</h2>
+
+            <h3>1. Responsive Navigation</h3>
+            <div class="demo-container">
+                <div style="background: #34495e; padding: 20px; border-radius: 10px; color: white;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 1.2rem; font-weight: bold;">Logo</div>
+                        <div style="display: flex; gap: 15px;">
+                            <div style="padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 5px;">Home</div>
+                            <div style="padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 5px;">About</div>
+                            <div style="padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 5px;">Contact</div>
+                        </div>
+                        <div style="display: none;" id="mobileMenu">☰</div>
+                    </div>
+                </div>
+                <div class="code-block">
+/* Desktop nav */
+.nav { display: flex; }
+
+/* Mobile nav */
+@media (max-width: 768px) {
+    .nav { flex-direction: column; }
+    .nav-menu { display: none; }
+    .mobile-menu-btn { display: block; }
+}</div>
+            </div>
+
+            <h3>2. Responsive Images</h3>
+            <div class="demo-container">
+                <div style="text-align: center;">
+                    <img src="https://placehold.co/600x300/3498db/ffffff?text=Responsive+Image" alt="Responsive Image" style="max-width: 100%; height: auto; border-radius: 10px;">
+                </div>
+                <div class="code-block">
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (min-width: 1200px) {
+    img {
+        max-width: 800px;
+    }
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Best Practices & Summary -->
+        <div class="slide">
+            <h2>Media Queries Best Practices</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>✅ Use Mobile-First When Possible</strong><br>
+                    Start small and enhance up for better performance
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>✅ Use Relative Units</strong><br>
+                    Use em, rem, % instead of px for better scalability
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>✅ Content-Based Breakpoints</strong><br>
+                    Break when content looks bad, not at arbitrary widths
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>✅ Test on Real Devices</strong><br>
+                    Browser dev tools aren't always accurate
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #ff9a9e, #fad0c4); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🎉 Congratulations!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">You now have the knowledge to create truly responsive websites that work beautifully on every device!</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function simulateBreakpoint(device) {
+            const demo = document.getElementById('breakpointDemo');
+            
+            // Update active button
+            document.querySelectorAll('.control-panel button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (device === 'mobile') {
+                demo.style.width = '320px';
+                demo.style.margin = '0 auto';
+                document.getElementById('mobileBtn').classList.add('active');
+            } else if (device === 'tablet') {
+                demo.style.width = '768px';
+                demo.style.margin = '0 auto';
+                document.getElementById('tabletBtn').classList.add('active');
+            } else if (device === 'desktop') {
+                demo.style.width = '1024px';
+                demo.style.margin = '0 auto';
+                document.getElementById('desktopBtn').classList.add('active');
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+
+        // Breakpoint indicator for live demo
+        function updateBreakpointIndicator() {
+            const width = window.innerWidth;
+            const indicator = document.getElementById('breakpointIndicator');
+            
+            if (width <= 767) {
+                indicator.textContent = '📱 Mobile: ' + width + 'px';
+                indicator.style.background = 'rgba(231, 76, 60, 0.9)';
+            } else if (width <= 1023) {
+                indicator.textContent = '📱→💻 Tablet: ' + width + 'px';
+                indicator.style.background = 'rgba(52, 152, 219, 0.9)';
+            } else {
+                indicator.textContent = '💻 Desktop: ' + width + 'px';
+                indicator.style.background = 'rgba(46, 204, 113, 0.9)';
+            }
+            
+            indicator.style.display = 'block';
+        }
+
+        // Update breakpoint indicator on resize (for live demo purposes)
+        window.addEventListener('resize', updateBreakpointIndicator);
+        updateBreakpointIndicator();
+    </script>
+</body>
+</html>

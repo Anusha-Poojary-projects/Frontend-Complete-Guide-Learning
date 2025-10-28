@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Conditional Statements</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a235a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #1abc9c, #16a085);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #1abc9c;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .conditional-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .condition-box {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 180px;
+            margin: 0 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .condition-box h4 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1abc9c;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .conditional-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, #1abc9c22, #16a08522);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #1abc9c;
+        }
+
+        .example-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #1abc9c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #16a085;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #1abc9c, #16a085);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .conditional-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            border-radius: 50%;
+            color: white;
+            font-size: 3.5rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 5px solid white;
+        }
+
+        .truth-table {
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        .truth-table th,
+        .truth-table td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .truth-table th {
+            background: #f8f9fa;
+        }
+
+        .falsy-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .falsy-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            background: #ffe8e8;
+        }
+
+        .falsy-value {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+
+        .switch-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .switch-case {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 3px solid #1abc9c;
+            width: 80%;
+            text-align: center;
+        }
+
+        .best-practices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .practice-card {
+            background: linear-gradient(135deg, #1abc9c22, #16a08522);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #1abc9c;
+        }
+
+        .practice-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>JavaScript Conditional Statements</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div class="conditional-logo">?</div>
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    Making Decisions in Your Code
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Control the flow of your JavaScript programs
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Conditional Statements? -->
+        <div class="slide">
+            <h2>What are Conditional Statements?</h2>
+            <p>Conditional statements allow your program to make decisions and execute different code blocks based on whether a condition is true or false.</p>
+            
+            <div class="conditional-diagram">
+                <div class="condition-box">
+                    <h4>Condition</h4>
+                    <p>Is it true?</p>
+                </div>
+                <div class="arrow" style="left: 30%;">→</div>
+                <div class="condition-box">
+                    <h4>True</h4>
+                    <p>Execute this code</p>
+                </div>
+                <div class="arrow" style="left: 70%;">→</div>
+                <div class="condition-box">
+                    <h4>False</h4>
+                    <p>Execute that code</p>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Why Use Conditionals?</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Decision Making:</strong> Execute different code paths based on conditions</li>
+                    <li><strong>Input Validation:</strong> Check if user input meets requirements</li>
+                    <li><strong>Error Handling:</strong> Handle different error scenarios</li>
+                    <li><strong>Feature Toggling:</strong> Enable/disable features based on conditions</li>
+                    <li><strong>Game Logic:</strong> Implement game rules and win/lose conditions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: The if Statement -->
+        <div class="slide">
+            <h2>The if Statement</h2>
+            <p>The <span class="highlight">if</span> statement executes a block of code if a specified condition is true.</p>
+            
+            <div class="conditional-examples">
+                <div class="example-card">
+                    <h4>Basic if</h4>
+                    <div class="code-block">
+if (age >= 18) {
+  console.log("You are an adult");
+}</div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>if...else</h4>
+                    <div class="code-block">
+if (temperature > 30) {
+  console.log("It's hot!");
+} else {
+  console.log("It's not hot.");
+}</div>
+                </div>
+                
+                <div class="example-card">
+                    <h4>if...else if...else</h4>
+                    <div class="code-block">
+if (score >= 90) {
+  grade = "A";
+} else if (score >= 80) {
+  grade = "B";
+} else if (score >= 70) {
+  grade = "C";
+} else {
+  grade = "F";
+}</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Syntax Rules</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>Conditions are enclosed in parentheses <code>()</code></li>
+                    <li>Code blocks are enclosed in curly braces <code>{}</code></li>
+                    <li>Curly braces can be omitted for single statements (but not recommended)</li>
+                    <li>Conditions are evaluated as boolean values</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Truthy and Falsy Values -->
+        <div class="slide">
+            <h2>Truthy and Falsy Values</h2>
+            <p>JavaScript automatically converts values to boolean when used in conditions. Understanding truthy and falsy values is crucial for writing correct conditionals.</p>
+            
+            <div class="demo-container">
+                <h3>Falsy Values (7 total)</h3>
+                <div class="falsy-values">
+                    <div class="falsy-item">
+                        <div class="falsy-value">false</div>
+                        <div>Boolean false</div>
+                    </div>
+                    <div class="falsy-item">
+                        <div class="falsy-value">0</div>
+                        <div>Number zero</div>
+                    </div>
+                    <div class="falsy-item">
+                        <div class="falsy-value">-0</div>
+                        <div>Negative zero</div>
+                    </div>
+                    <div class="falsy-item">
+                        <div class="falsy-value">""</div>
+                        <div>Empty string</div>
+                    </div>
+                    <div class="falsy-item">
+                        <div class="falsy-value">null</div>
+                        <div>Null value</div>
+                    </div>
+                    <div class="falsy-item">
+                        <div class="falsy-value">undefined</div>
+                        <div>Undefined value</div>
+                    </div>
+                    <div class="falsy-item">
+                        <div class="falsy-value">NaN</div>
+                        <div>Not-a-Number</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Truthy Values</h3>
+                <p>Everything that is not falsy is truthy, including:</p>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>All numbers except 0 and -0</li>
+                    <li>All strings except empty strings</li>
+                    <li>All objects (including arrays and functions)</li>
+                    <li>The boolean value <code>true</code></li>
+                </ul>
+                
+                <div class="code-block">
+// Examples
+if ("hello") console.log("Truthy!"); // Executes
+if ([1, 2, 3]) console.log("Truthy!"); // Executes
+if ({}) console.log("Truthy!"); // Executes
+if (42) console.log("Truthy!"); // Executes</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Logical Operators in Conditions -->
+        <div class="slide">
+            <h2>Logical Operators in Conditions</h2>
+            <p>Logical operators allow you to combine multiple conditions to create more complex decision logic.</p>
+            
+            <div class="demo-container">
+                <h3>Logical AND (&&)</h3>
+                <p>Returns true only if both conditions are true</p>
+                <div class="code-block">
+// User must be logged in AND have admin privileges
+if (isLoggedIn && isAdmin) {
+  showAdminPanel();
+}
+
+// Short-circuit evaluation
+let name = user && user.name; // Safe property access</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Logical OR (||)</h3>
+                <p>Returns true if at least one condition is true</p>
+                <div class="code-block">
+// User can access if they are admin OR have permission
+if (isAdmin || hasPermission) {
+  grantAccess();
+}
+
+// Default values
+let displayName = name || "Guest";</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Logical NOT (!)</h3>
+                <p>Negates a condition (true becomes false, false becomes true)</p>
+                <div class="code-block">
+// Check if user is NOT logged in
+if (!isLoggedIn) {
+  redirectToLogin();
+}
+
+// Double negation converts to boolean
+let isTruthy = !!value;</div>
+            </div>
+        </div>
+
+        <!-- Slide 6: The switch Statement -->
+        <div class="slide">
+            <h2>The switch Statement</h2>
+            <p>The <span class="highlight">switch</span> statement evaluates an expression and executes the code block that matches the expression's value.</p>
+            
+            <div class="switch-diagram">
+                <div class="switch-case">switch (expression)</div>
+                <div class="switch-case">case value1:</div>
+                <div class="switch-case">  // code block</div>
+                <div class="switch-case">  break;</div>
+                <div class="switch-case">case value2:</div>
+                <div class="switch-case">  // code block</div>
+                <div class="switch-case">  break;</div>
+                <div class="switch-case">default:</div>
+                <div class="switch-case">  // default code</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Example: Day of Week</h3>
+                <div class="code-block">
+switch (day) {
+  case 1:
+    console.log("Monday");
+    break;
+  case 2:
+    console.log("Tuesday");
+    break;
+  case 3:
+    console.log("Wednesday");
+    break;
+  // ... more cases
+  default:
+    console.log("Invalid day");
+}</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Important Notes</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>break statements:</strong> Prevent fall-through to the next case</li>
+                    <li><strong>default case:</strong> Executes when no cases match</li>
+                    <li><strong>Strict comparison:</strong> Uses === for comparison</li>
+                    <li><strong>Fall-through:</strong> Multiple cases can share the same code block</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: The Ternary Operator -->
+        <div class="slide">
+            <h2>The Ternary Operator</h2>
+            <p>The ternary operator is a concise way to write simple if...else statements in a single line.</p>
+            
+            <div class="conditional-diagram">
+                <div class="condition-box">
+                    <h4>Condition</h4>
+                    <p>?</p>
+                </div>
+                <div class="arrow" style="left: 30%;">→</div>
+                <div class="condition-box">
+                    <h4>True Value</h4>
+                    <p>:</p>
+                </div>
+                <div class="arrow" style="left: 70%;">→</div>
+                <div class="condition-box">
+                    <h4>False Value</h4>
+                    <p>Result</p>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Syntax</h3>
+                <div class="code-block">
+// Syntax: condition ? exprIfTrue : exprIfFalse
+let message = age >= 18 ? "Adult" : "Minor";
+let access = isAdmin ? "Granted" : "Denied";
+let color = isDarkMode ? "#000" : "#fff";</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>When to Use Ternary</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>Simple assignments based on conditions</li>
+                    <li>Returning values from functions</li>
+                    <li>Setting default values</li>
+                    <li>Conditional rendering in JSX (React)</li>
+                </ul>
+                
+                <h3>When to Avoid</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>Nested ternary operators (hard to read)</li>
+                    <li>Complex logic with multiple statements</li>
+                    <li>When side effects are involved</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Best Practices -->
+        <div class="slide">
+            <h2>Conditional Statements Best Practices</h2>
+            <p>Following best practices leads to cleaner, more maintainable, and bug-free code.</p>
+            
+            <div class="best-practices">
+                <div class="practice-card">
+                    <h4>Early Returns</h4>
+                    <p>Return early from functions to reduce nesting</p>
+                    <div class="code-block">
+// Good
+function processUser(user) {
+  if (!user) return;
+  if (!user.isActive) return;
+  // Process user...
+}</div>
+                </div>
+                
+                <div class="practice-card">
+                    <h4>Avoid Deep Nesting</h4>
+                    <p>Use guard clauses and early returns</p>
+                    <div class="code-block">
+// Avoid
+if (user) {
+  if (user.isActive) {
+    if (user.hasPermission) {
+      // ...
+    }
+  }
+}</div>
+                </div>
+                
+                <div class="practice-card">
+                    <h4>Meaningful Conditions</h4>
+                    <p>Use descriptive variable names</p>
+                    <div class="code-block">
+// Good
+const isUserEligible = user.age >= 18 && user.isVerified;
+if (isUserEligible) { ... }
+
+// Avoid
+if (user.age >= 18 && user.isVerified) { ... }</div>
+                </div>
+                
+                <div class="practice-card">
+                    <h4>Consistent Formatting</h4>
+                    <p>Always use curly braces</p>
+                    <div class="code-block">
+// Good
+if (condition) {
+  doSomething();
+}
+
+// Avoid
+if (condition)
+  doSomething();</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Performance Considerations</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>Place most likely conditions first in if...else chains</li>
+                    <li>Use switch for many equality comparisons</li>
+                    <li>Avoid expensive operations in conditions</li>
+                    <li>Cache computed values when used multiple times</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide">
+            <h2>JavaScript Conditional Statements: Key Takeaways</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <h3>Conditional Types</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li><span class="highlight">if/else:</span> For complex conditions and multiple statements</li>
+                            <li><span class="highlight">switch:</span> For multiple equality comparisons</li>
+                            <li><span class="highlight">Ternary:</span> For simple assignments and returns</li>
+                            <li><span class="highlight">Logical operators:</span> For combining conditions</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Core Concepts</h3>
+                    <div class="demo-container">
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li>Understanding truthy/falsy values</li>
+                            <li>Short-circuit evaluation with && and ||</li>
+                            <li>Strict comparison in switch statements</li>
+                            <li>Early returns to reduce complexity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #1abc9c, #16a085); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🎯 Master Conditionals, Master Control Flow!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">Conditional statements are fundamental to creating dynamic, responsive applications that can make intelligent decisions.</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        .box1{
+            display: inline;
+            background-color: lightblue;
+        }
+        .box2{
+            display: block;
+            background-color: lightgreen;
+        }
+        .box3{
+            display: inline-block;
+            background-color: lightpink;
+            width: 200px;
+        }
+        #flex1{
+            display: flex;
+            flex-direction: row;
+            /* justify-content: center; */
+            height: 250px;
+            align-items: stretch;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="box1">explaining display property <span style="background-color: lightcoral;">inline, block, inline-block, flex, grid</span></div>
+
+    <div class="box2">
+        <h2>Box Model Example</h2>
+    </div>
+    <div class="box3">
+        <h1> Example</h1>
+    </div>
+
+    <!--flex example-->
+    <div id="flex1" style="border: 2px solid black;" class="box4">
+        <div style="background-color: aqua;">div1</div>
+        <div style="background-color: coral;">div2</div>
+        <div style="background-color: darkorange;">div3</div>
+    </div>
+</body>
+</html>

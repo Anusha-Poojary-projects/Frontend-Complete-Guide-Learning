@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animations & Transformations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e91e63;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .property-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .control-panel {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-panel button {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .control-panel button:hover {
+            background: #ad1457;
+        }
+
+        .control-panel button.active {
+            background: #e74c3c;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #ad1457;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .interactive-demo {
+            border: 2px dashed #e91e63;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ff9a9e22, #fad0c422);
+        }
+
+        /* Animation and Transform examples */
+        .transform-demo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        .transform-demo.rotate {
+            transform: rotate(45deg);
+        }
+
+        .transform-demo.scale {
+            transform: scale(1.5);
+        }
+
+        .transform-demo.translate {
+            transform: translate(50px, 30px);
+        }
+
+        .transform-demo.skew {
+            transform: skew(20deg, 10deg);
+        }
+
+        .transform-demo.matrix {
+            transform: matrix(1, 0.5, -0.5, 1, 0, 0);
+        }
+
+        .animation-demo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .spin {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .slide-in {
+            animation: slideInDemo 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes slideInDemo {
+            0% {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .color-change {
+            animation: colorChange 4s infinite;
+        }
+
+        @keyframes colorChange {
+            0% { background: linear-gradient(45deg, #ff9a9e, #fad0c4); }
+            25% { background: linear-gradient(45deg, #a18cd1, #fbc2eb); }
+            50% { background: linear-gradient(45deg, #6a11cb, #2575fc); }
+            75% { background: linear-gradient(45deg, #43e97b, #38f9d7); }
+            100% { background: linear-gradient(45deg, #ff9a9e, #fad0c4); }
+        }
+
+        .transition-demo {
+            width: 150px;
+            height: 150px;
+            background: #e91e63;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .transition-demo:hover {
+            transform: rotate(360deg) scale(1.2);
+            background: #6a11cb;
+            border-radius: 10px;
+        }
+
+        .timeline-demo {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .timeline-demo::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e91e63;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border: 3px solid #e91e63;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #e91e63;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: scale(1.2);
+            background: #e91e63;
+            color: white;
+        }
+
+        .staggered-demo {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .staggered-item {
+            width: 50px;
+            height: 50px;
+            background: #e91e63;
+            border-radius: 5px;
+            animation: staggeredBounce 2s infinite;
+        }
+
+        .staggered-item:nth-child(1) { animation-delay: 0s; }
+        .staggered-item:nth-child(2) { animation-delay: 0.2s; }
+        .staggered-item:nth-child(3) { animation-delay: 0.4s; }
+        .staggered-item:nth-child(4) { animation-delay: 0.6s; }
+        .staggered-item:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes staggeredBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading-demo {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(233, 30, 99, 0.3);
+            border-top: 5px solid #e91e63;
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: spin 1s linear infinite;
+        }
+
+        .text-animation {
+            font-size: 2rem;
+            text-align: center;
+            margin: 30px 0;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card {
+            width: 200px;
+            height: 250px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            margin: 20px auto;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+        }
+
+        .card-front {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        }
+
+        .card-back {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>CSS Animations & Transformations</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    Bringing Web Pages to Life with Motion
+                </div>
+                <div style="background: linear-gradient(45deg, #ff9a9e, #fad0c4); width: 200px; height: 200px; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    ANIMATE
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Master the art of motion and transformation in CSS
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Transformations? -->
+        <div class="slide">
+            <h2>What are CSS Transformations?</h2>
+            <p>CSS Transformations allow you to rotate, scale, skew, or translate elements without affecting the normal document flow.</p>
+            
+            <h3>Key Benefits:</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>Visual Effects</strong><br>
+                    Create 2D and 3D visual effects
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>Performance</strong><br>
+                    Hardware-accelerated for smooth performance
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>Non-Disruptive</strong><br>
+                    Don't affect layout or other elements
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>Versatile</strong><br>
+                    Combine multiple transformations
+                </div>
+            </div>
+            
+            <div class="code-block">
+/* Syntax */
+transform: function(value);
+
+/* Example */
+.element {
+    transform: rotate(45deg) scale(1.2);
+}</div>
+        </div>
+
+        <!-- Slide 3: Transformation Types -->
+        <div class="slide">
+            <h2>Transformation Types</h2>
+            <p>Here are the main transformation functions:</p>
+            
+            <div class="property-showcase">
+                <div>
+                    <h3>Rotate</h3>
+                    <div class="transform-demo rotate">Rotate</div>
+                    <div class="code-block">transform: rotate(45deg);</div>
+                </div>
+                
+                <div>
+                    <h3>Scale</h3>
+                    <div class="transform-demo scale">Scale</div>
+                    <div class="code-block">transform: scale(1.5);</div>
+                </div>
+                
+                <div>
+                    <h3>Translate</h3>
+                    <div class="transform-demo translate">Translate</div>
+                    <div class="code-block">transform: translate(50px, 30px);</div>
+                </div>
+                
+                <div>
+                    <h3>Skew</h3>
+                    <div class="transform-demo skew">Skew</div>
+                    <div class="code-block">transform: skew(20deg, 10deg);</div>
+                </div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>3D Transformations</h3>
+                <p>Transformations can also be applied in 3D space using functions like <span class="highlight">rotateX()</span>, <span class="highlight">rotateY()</span>, <span class="highlight">rotateZ()</span>, and <span class="highlight">translate3d()</span>.</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: What are Animations? -->
+        <div class="slide">
+            <h2>What are CSS Animations?</h2>
+            <p>CSS Animations allow you to change property values smoothly over time, creating motion effects without JavaScript.</p>
+            
+            <h3>Key Components:</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>@keyframes</strong><br>
+                    Define the animation sequence
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>Animation Properties</strong><br>
+                    Control timing, duration, and behavior
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>Performance</strong><br>
+                    Optimized for smooth rendering
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>Versatility</strong><br>
+                    Animate any animatable CSS property
+                </div>
+            </div>
+            
+            <div class="code-block">
+/* Define animation */
+@keyframes slideIn {
+    from { transform: translateX(-100px); }
+    to { transform: translateX(0); }
+}
+
+/* Apply animation */
+.element {
+    animation: slideIn 1s ease-in-out;
+}</div>
+        </div>
+
+        <!-- Slide 5: Animation Properties -->
+        <div class="slide">
+            <h2>Animation Properties</h2>
+            <p>Control your animations with these properties:</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <h4>animation-name</h4>
+                    <p>Name of the @keyframes animation</p>
+                </div>
+                
+                <div>
+                    <h4>animation-duration</h4>
+                    <p>How long the animation takes to complete</p>
+                </div>
+                
+                <div>
+                    <h4>animation-timing-function</h4>
+                    <p>Speed curve of the animation (ease, linear, etc.)</p>
+                </div>
+                
+                <div>
+                    <h4>animation-delay</h4>
+                    <p>Delay before the animation starts</p>
+                </div>
+                
+                <div>
+                    <h4>animation-iteration-count</h4>
+                    <p>Number of times to repeat (infinite, 3, etc.)</p>
+                </div>
+                
+                <div>
+                    <h4>animation-direction</h4>
+                    <p>Direction of animation (normal, reverse, alternate)</p>
+                </div>
+                
+                <div>
+                    <h4>animation-fill-mode</h4>
+                    <p>Styles applied before/after animation (forwards, backwards)</p>
+                </div>
+                
+                <div>
+                    <h4>animation-play-state</h4>
+                    <p>Pause or run animation (paused, running)</p>
+                </div>
+            </div>
+            
+            <div class="code-block">
+/* Shorthand */
+animation: name duration timing-function delay 
+           iteration-count direction fill-mode;</div>
+        </div>
+
+        <!-- Slide 6: Interactive Animation Demo -->
+        <div class="slide">
+            <h2>Interactive Animation Demo</h2>
+            <p>See different animations in action:</p>
+            
+            <div class="interactive-demo">
+                <div class="control-panel">
+                    <strong>Select an animation:</strong>
+                    <button onclick="changeAnimation('bounce')" id="bounceBtn" class="active">Bounce</button>
+                    <button onclick="changeAnimation('pulse')" id="pulseBtn">Pulse</button>
+                    <button onclick="changeAnimation('spin')" id="spinBtn">Spin</button>
+                    <button onclick="changeAnimation('slide-in')" id="slideBtn">Slide In</button>
+                    <button onclick="changeAnimation('color-change')" id="colorBtn">Color Change</button>
+                </div>
+                <div class="animation-demo" id="animationDemo">Animate Me!</div>
+            </div>
+            
+            <div class="demo-container">
+                <h3>Staggered Animation</h3>
+                <div class="staggered-demo">
+                    <div class="staggered-item"></div>
+                    <div class="staggered-item"></div>
+                    <div class="staggered-item"></div>
+                    <div class="staggered-item"></div>
+                    <div class="staggered-item"></div>
+                </div>
+                <div class="code-block">
+.staggered-item {
+    animation: staggeredBounce 2s infinite;
+}
+.staggered-item:nth-child(2) { animation-delay: 0.2s; }
+.staggered-item:nth-child(3) { animation-delay: 0.4s; }
+/* ... and so on */</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Transitions vs Animations -->
+        <div class="slide">
+            <h2>Transitions vs Animations</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0;">
+                <div>
+                    <h3>Transitions</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                        <ul style="padding-left: 20px; margin: 15px 0;">
+                            <li>Define start and end states</li>
+                            <li>Triggered by state changes (hover, focus)</li>
+                            <li>Simple property changes</li>
+                            <li>Cannot loop or have complex timing</li>
+                            <li>Uses <span class="highlight">transition</span> property</li>
+                        </ul>
+                        <div class="transition-demo">Hover Me!</div>
+                        <div class="code-block" style="margin-top: 15px;">
+.element {
+    transition: all 0.5s ease;
+}
+.element:hover {
+    transform: rotate(360deg);
+}</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Animations</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                        <ul style="padding-left: 20px; margin: 15px 0;">
+                            <li>Define multiple keyframes</li>
+                            <li>Run automatically or on trigger</li>
+                            <li>Complex sequences possible</li>
+                            <li>Can loop, reverse, and pause</li>
+                            <li>Uses <span class="highlight">@keyframes</span> and <span class="highlight">animation</span></li>
+                        </ul>
+                        <div class="animation-demo bounce" style="margin-top: 15px;">Bouncing!</div>
+                        <div class="code-block" style="margin-top: 15px;">
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+}
+.element { animation: bounce 2s infinite; }</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Practical Examples -->
+        <div class="slide">
+            <h2>Practical Examples</h2>
+            
+            <h3>1. Loading Spinner</h3>
+            <div class="demo-container">
+                <div class="loading-demo"></div>
+                <div class="code-block">
+.loading {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(233, 30, 99, 0.3);
+    border-top: 5px solid #e91e63;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}</div>
+            </div>
+            
+            <h3>2. Animated Text</h3>
+            <div class="demo-container">
+                <div class="text-animation">Animated Gradient Text</div>
+                <div class="code-block">
+.text {
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a18cd1);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 4s ease infinite;
+}</div>
+            </div>
+            
+            <h3>3. Flip Card</h3>
+            <div class="demo-container">
+                <div class="card" id="flipCard">
+                    <div class="card-face card-front">
+                        <span>Front</span>
+                    </div>
+                    <div class="card-face card-back">
+                        <span>Back</span>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 10px;">Click the card to flip it!</p>
+                <div class="code-block">
+.card {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+.card.flipped {
+    transform: rotateY(180deg);
+}
+.card-face {
+    backface-visibility: hidden;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide">
+            <h2>Animations & Transformations Cheat Sheet</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h3>Transform Functions</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #e91e63;">
+                        <div class="code-block" style="margin: 0; background: #2c3e50; font-size: 13px;">
+/* 2D Transforms */
+transform: rotate(angle);
+transform: scale(x, y);
+transform: translate(x, y);
+transform: skew(x-angle, y-angle);
+transform: matrix(n,n,n,n,n,n);
+
+/* 3D Transforms */
+transform: rotateX(angle);
+transform: rotateY(angle);
+transform: rotateZ(angle);
+transform: translate3d(x, y, z);
+transform: scale3d(x, y, z);
+transform: perspective(n);</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Animation Properties</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                        <div class="code-block" style="margin: 0; background: #2c3e50; font-size: 13px;">
+/* Keyframes */
+@keyframes name {
+    from { /* styles */ }
+    to { /* styles */ }
+}
+
+/* Animation Properties */
+animation-name: name;
+animation-duration: 2s;
+animation-timing-function: ease;
+animation-delay: 0.5s;
+animation-iteration-count: infinite;
+animation-direction: alternate;
+animation-fill-mode: forwards;
+animation-play-state: running;
+
+/* Shorthand */
+animation: name 2s ease 0.5s infinite alternate forwards;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #ff9a9e, #fad0c4); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🎉 Congratulations!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">You now have the knowledge to create stunning animations and transformations with CSS!</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function changeAnimation(animationType) {
+            const demo = document.getElementById('animationDemo');
+            // Remove all animation classes
+            demo.className = 'animation-demo';
+            
+            // Add the selected animation class
+            if (animationType) {
+                demo.classList.add(animationType);
+            }
+            
+            // Update active button
+            document.querySelectorAll('.control-panel button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const buttonMap = {
+                'bounce': 'bounceBtn',
+                'pulse': 'pulseBtn',
+                'spin': 'spinBtn',
+                'slide-in': 'slideBtn',
+                'color-change': 'colorBtn'
+            };
+            
+            if (buttonMap[animationType]) {
+                document.getElementById(buttonMap[animationType]).classList.add('active');
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+        
+        // Flip card functionality
+        const flipCard = document.getElementById('flipCard');
+        if (flipCard) {
+            flipCard.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+        }
+    </script>
+</body>
+</html>

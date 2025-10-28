@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,5 +23,89 @@
             <p>This box is positioned based on the user's scroll position.</p>
         </div>
     </div>
+</body>
+</html>
+
+-->
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Positioning Example</title>
+    <style>
+        .relative-box {
+            position: relative;
+            border: 2px solid red;
+            margin: 10px;
+            padding: 20px;
+            height: 300px;
+            /* top: 50px;
+            left: 20px; */
+
+        }
+        .absolute-box {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            border: 2px solid green;
+            padding: 5px;
+            background-color: lightgreen;
+        }
+        .fixed-box {
+            position: fixed;
+            top: 30px;
+            right: 20px;
+            border: 2px solid purple;
+            padding: 5px;
+            background-color: lightblue;
+        }
+        .sticky-box {
+            position: sticky;
+            top: 20px;
+            border: 2px solid orange;
+            padding: 5px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body style="height: 2400px;">
+    <h2>CSS Positioning Example</h2>
+    <p>This example demonstrates different CSS positioning methods: static, relative, absolute, fixed, and sticky.</p>
+
+    <!-- Static Positioning (default) -->
+    <div style="border: 2px solid black; padding: 10px; margin-bottom: 20px;">
+        <h4>Static Positioning</h4>
+        <p>This box uses the default static positioning. It flows naturally with the document layout.</p>
+    </div>
+
+    <!-- Relative Positioning -->
+    <div class="relative-box">
+        <h4>Relative Positioning</h4>
+        <p>This box is positioned relative to its normal position. The top and left properties move it 50px down and 50px right from where it would normally be.</p>
+
+        <!-- Absolute Positioning -->
+        <div class="absolute-box">
+            <h4>Absolute Positioning</h4>
+            <p>This box is positioned absolutely within the relative box. It is taken out of the normal document flow and positioned at (20px, 20px) from the top-left corner of the relative box.</p>
+        </div>
+
+
+    </div>
+            <!-- Sticky Positioning -->
+        <div class="sticky-box">
+            <h4>Sticky Positioning</h4>
+            <p>This box will stick to the top of the viewport when you scroll past it, but only within the bounds of its parent container.</p>
+        </div>
+
+    <!-- Fixed Positioning -->
+    <div class="fixed-box">
+        <h4>Fixed Positioning</h4>
+        <p>This box is fixed to the viewport. It stays in the same position even when you scroll the page.</p>
+    </div>
+
+
+
+    
 </body>
 </html>

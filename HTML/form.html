@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Input Types Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 500px;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 5px rgba(74,144,226,0.5);
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-actions button {
+      background: #4a90e2;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .form-actions button:hover {
+      background: #357abd;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>User Information Form</h2>
+    <form>
+      <!-- Text input -->
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+      </div>
+
+      <!-- Email input -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+      </div>
+
+      <!-- Password input -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password">
+      </div>
+
+      <!-- Number input -->
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" min="1" max="100">
+      </div>
+
+      <!-- Date input -->
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob">
+      </div>
+
+      <!-- Time input -->
+      <div class="form-group">
+        <label for="time">Preferred Time</label>
+        <input type="time" id="time">
+      </div>
+
+      <!-- Color input -->
+      <div class="form-group">
+        <label for="color">Favorite Color</label>
+        <input type="color" id="color">
+      </div>
+
+      <!-- File input -->
+      <div class="form-group">
+        <label for="file">Upload File</label>
+        <input type="file" id="file">
+      </div>
+
+      <!-- Range input -->
+      <div class="form-group">
+        <label for="range">Satisfaction Level</label>
+        <input type="range" id="range" min="0" max="10">
+      </div>
+
+      <!-- Checkbox input -->
+      <div class="form-group">
+        <label>Hobbies</label>
+        <input type="checkbox" id="hobby1"> Reading
+        <input type="checkbox" id="hobby2"> Traveling
+        <input type="checkbox" id="hobby3"> Sports
+      </div>
+
+      <!-- Radio input -->
+      <div class="form-group">
+        <label>Gender</label>
+        <input type="radio" name="gender" id="male"> Male
+        <input type="radio" name="gender" id="female"> Female
+        <input type="radio" name="gender" id="other"> Other
+
+      </div>
+
+      <!-- Select Dropdown -->
+      <div class="form-group">
+        <label for="country">Country</label>
+        <select id="country">
+          <option value="">--Select--</option>
+          <option>India</option>
+          <option>USA</option>
+          <option>UK</option>
+          <option>Australia</option>
+        </select>
+      </div>
+
+      <!-- Textarea -->
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" rows="4" placeholder="Enter your address"></textarea>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+        <input type="submit">
+      </div>
+    </form>
+  </div>
+</body>
+</html>

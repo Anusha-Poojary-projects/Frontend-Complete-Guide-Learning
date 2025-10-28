@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Pseudo-Classes & Pseudo-Elements</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 90%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .demo-container {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .property-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .control-panel {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-panel button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .control-panel button:hover {
+            background: #2980b9;
+        }
+
+        .control-panel button.active {
+            background: #e74c3c;
+        }
+
+        .navigation {
+            background: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .interactive-demo {
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #667eea22, #764ba222);
+        }
+
+        /* Pseudo-class examples */
+        .link-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .link-item {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .link-item:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .link-item:active {
+            background: #1c6ea4;
+            transform: scale(0.95);
+        }
+
+        .link-item:focus {
+            outline: 3px solid #f1c40f;
+            outline-offset: 3px;
+        }
+
+        .list-demo {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .list-demo li {
+            padding: 12px;
+            margin: 8px 0;
+            background: #ecf0f1;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .list-demo li:first-child {
+            background: #3498db;
+            color: white;
+        }
+
+        .list-demo li:last-child {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .list-demo li:nth-child(odd) {
+            background: #d5dbdb;
+        }
+
+        .list-demo li:nth-child(even) {
+            background: #bdc3c7;
+        }
+
+        .form-demo {
+            margin: 20px 0;
+        }
+
+        .form-demo input {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #bdc3c7;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .form-demo input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        .form-demo input:valid {
+            border-color: #2ecc71;
+        }
+
+        .form-demo input:invalid {
+            border-color: #e74c3c;
+        }
+
+        .checkbox-demo {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .checkbox-demo input {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .checkbox-demo label {
+            font-size: 1.1rem;
+        }
+
+        .checkbox-demo input:checked + label {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        /* Pseudo-element examples */
+        .pseudo-element-demo {
+            position: relative;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .before-after-demo::before {
+            content: "★ ";
+            color: #f1c40f;
+        }
+
+        .before-after-demo::after {
+            content: " ★";
+            color: #f1c40f;
+        }
+
+        .first-line-demo::first-line {
+            font-weight: bold;
+            color: #e74c3c;
+            text-transform: uppercase;
+        }
+
+        .first-letter-demo::first-letter {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #3498db;
+            float: left;
+            line-height: 1;
+            margin-right: 10px;
+        }
+
+        .selection-demo::selection {
+            background: #f1c40f;
+            color: #2c3e50;
+        }
+
+        .placeholder-demo::placeholder {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .counter-demo {
+            counter-reset: section;
+            margin: 20px 0;
+        }
+
+        .counter-demo li {
+            list-style: none;
+            counter-increment: section;
+            margin: 10px 0;
+            padding: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+
+        .counter-demo li::before {
+            content: counter(section) ". ";
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .quote-demo {
+            font-style: italic;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            position: relative;
+        }
+
+        .quote-demo::before {
+            content: """;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            font-size: 4rem;
+            color: #3498db;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        .quote-demo::after {
+            content: """;
+            position: absolute;
+            bottom: -40px;
+            right: -10px;
+            font-size: 4rem;
+            color: #3498db;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>CSS Pseudo-Classes & Pseudo-Elements</h1>
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 1.5rem; color: #666; margin-bottom: 30px;">
+                    Mastering CSS Selectors for Advanced Styling
+                </div>
+                <div style="background: linear-gradient(45deg, #4b6cb7, #182848); width: 200px; height: 200px; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    PSEUDO
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.3rem; color: #555;">
+                    Unlock the power of CSS selectors for dynamic and sophisticated styling
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Pseudo-Classes? -->
+        <div class="slide">
+            <h2>What are Pseudo-Classes?</h2>
+            <p>Pseudo-classes are keywords added to selectors that specify a special state of the selected element.</p>
+            
+            <h3>Key Characteristics:</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>State-Based</strong><br>
+                    Apply styles based on user interaction or element state
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>Dynamic</strong><br>
+                    Styles change without modifying HTML
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>Positional</strong><br>
+                    Target elements based on their position in the document
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>Form Validation</strong><br>
+                    Style form elements based on validation state
+                </div>
+            </div>
+            
+            <div class="code-block">
+/* Syntax */
+selector:pseudo-class {
+    property: value;
+}
+
+/* Example */
+a:hover {
+    color: red;
+}</div>
+        </div>
+
+        <!-- Slide 3: Common Pseudo-Classes -->
+        <div class="slide">
+            <h2>Common Pseudo-Classes</h2>
+            <p>Here are some of the most frequently used pseudo-classes:</p>
+            
+            <div class="demo-container">
+                <h3>User Action Pseudo-Classes</h3>
+                <div class="link-demo">
+                    <a href="#" class="link-item">:hover</a>
+                    <a href="#" class="link-item">:active</a>
+                    <a href="#" class="link-item">:focus</a>
+                </div>
+                
+                <h3>Structural Pseudo-Classes</h3>
+                <ul class="list-demo">
+                    <li>:first-child</li>
+                    <li>:last-child</li>
+                    <li>:nth-child(odd)</li>
+                    <li>:nth-child(even)</li>
+                    <li>:not(.special)</li>
+                </ul>
+                
+                <h3>Form Pseudo-Classes</h3>
+                <div class="form-demo">
+                    <input type="email" placeholder="Valid email (try test@example.com)" class="placeholder-demo">
+                    <div class="checkbox-demo">
+                        <input type="checkbox" id="agree">
+                        <label for="agree">:checked pseudo-class</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Interactive Pseudo-Class Demo -->
+        <div class="slide">
+            <h2>Interactive Pseudo-Class Demo</h2>
+            <p>See how different pseudo-classes affect elements in real-time:</p>
+            
+            <div class="interactive-demo">
+                <div class="control-panel">
+                    <strong>Try these interactions:</strong>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">
+                        • Hover over buttons<br>
+                        • Click and hold buttons<br>
+                        • Tab to focus on buttons<br>
+                        • Check the checkbox
+                    </p>
+                </div>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; margin: 20px 0;">
+                    <button class="btn-demo">Hover Me</button>
+                    <button class="btn-demo">Click Me</button>
+                    <button class="btn-demo">Focus Me</button>
+                </div>
+                
+                <div class="checkbox-demo" style="margin-top: 20px;">
+                    <input type="checkbox" id="interactive-checkbox">
+                    <label for="interactive-checkbox">Check me to see :checked in action</label>
+                </div>
+                
+                <div class="code-block" id="pseudoCode">
+.btn-demo:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+.btn-demo:active {
+    background: #1c6ea4;
+    transform: scale(0.95);
+}
+
+.btn-demo:focus {
+    outline: 3px solid #f1c40f;
+}
+
+#interactive-checkbox:checked + label {
+    color: #2ecc71;
+    font-weight: bold;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: What are Pseudo-Elements? -->
+        <div class="slide">
+            <h2>What are Pseudo-Elements?</h2>
+            <p>Pseudo-elements are used to style specific parts of an element. They create "phantom" elements that don't exist in the HTML.</p>
+            
+            <h3>Key Characteristics:</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #27ae60;">
+                    <strong>Content Insertion</strong><br>
+                    Add decorative content before/after elements
+                </div>
+                <div style="background: #e8f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                    <strong>Styling Parts</strong><br>
+                    Style specific parts like first letter or line
+                </div>
+                <div style="background: #fff3e8; padding: 20px; border-radius: 10px; border-left: 5px solid #f39c12;">
+                    <strong>Selection Styling</strong><br>
+                    Customize how selected text appears
+                </div>
+                <div style="background: #ffe8e8; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                    <strong>Counters</strong><br>
+                    Create automatic numbering systems
+                </div>
+            </div>
+            
+            <div class="code-block">
+/* Syntax */
+selector::pseudo-element {
+    property: value;
+}
+
+/* Example */
+p::first-letter {
+    font-size: 2em;
+}</div>
+        </div>
+
+        <!-- Slide 6: Common Pseudo-Elements -->
+        <div class="slide">
+            <h2>Common Pseudo-Elements</h2>
+            <p>Here are the most useful pseudo-elements:</p>
+            
+            <div class="demo-container">
+                <h3>::before and ::after</h3>
+                <div class="pseudo-element-demo before-after-demo">
+                    This paragraph has stars added before and after using ::before and ::after
+                </div>
+                
+                <h3>::first-letter</h3>
+                <div class="pseudo-element-demo first-letter-demo">
+                    This paragraph demonstrates the ::first-letter pseudo-element. Notice how the first letter is styled differently from the rest of the text.
+                </div>
+                
+                <h3>::first-line</h3>
+                <div class="pseudo-element-demo first-line-demo">
+                    This is the first line of the paragraph. It will be styled differently from the rest of the content. The rest of the paragraph continues normally without special styling.
+                </div>
+                
+                <h3>::selection</h3>
+                <div class="pseudo-element-demo selection-demo">
+                    Try selecting this text to see the custom selection styling in action. The background and text color change when you highlight this content.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Practical Examples -->
+        <div class="slide">
+            <h2>Practical Examples</h2>
+            
+            <h3>1. Custom Checkboxes</h3>
+            <div class="demo-container">
+                <div class="checkbox-demo">
+                    <input type="checkbox" id="custom-checkbox">
+                    <label for="custom-checkbox">Custom styled checkbox using :checked</label>
+                </div>
+                <div class="code-block">
+input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+}
+
+input[type="checkbox"] + label::before {
+    content: "☐";
+    display: inline-block;
+    margin-right: 10px;
+}
+
+input[type="checkbox"]:checked + label::before {
+    content: "☑";
+    color: #2ecc71;
+}</div>
+            </div>
+            
+            <h3>2. Blockquotes with Decorative Quotes</h3>
+            <div class="demo-container">
+                <blockquote class="quote-demo">
+                    Pseudo-elements allow us to add decorative elements without cluttering our HTML with presentational markup. This keeps our content semantic and clean.
+                </blockquote>
+                <div class="code-block">
+.quote-demo::before,
+.quote-demo::after {
+    content: """;
+    position: absolute;
+    color: #3498db;
+    opacity: 0.3;
+    font-family: Georgia, serif;
+}
+
+.quote-demo::before {
+    top: -20px;
+    left: -10px;
+    font-size: 4rem;
+}
+
+.quote-demo::after {
+    bottom: -40px;
+    right: -10px;
+    font-size: 4rem;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Advanced Techniques -->
+        <div class="slide">
+            <h2>Advanced Techniques</h2>
+            
+            <h3>1. CSS Counters</h3>
+            <div class="demo-container">
+                <ol class="counter-demo">
+                    <li>First item with automatic numbering</li>
+                    <li>Second item with automatic numbering</li>
+                    <li>Third item with automatic numbering</li>
+                </ol>
+                <div class="code-block">
+ol {
+    counter-reset: section;
+    list-style: none;
+}
+
+ol li {
+    counter-increment: section;
+}
+
+ol li::before {
+    content: counter(section) ". ";
+    color: #3498db;
+    font-weight: bold;
+}</div>
+            </div>
+            
+            <h3>2. Clearfix Hack</h3>
+            <div class="demo-container">
+                <div class="clearfix-demo" style="background: #f8f9fa; padding: 15px; border: 1px solid #e9ecef;">
+                    <div style="float: left; width: 45%; background: #3498db; color: white; padding: 10px; margin-right: 5%;">Floated left</div>
+                    <div style="float: right; width: 45%; background: #e74c3c; color: white; padding: 10px;">Floated right</div>
+                </div>
+                <p style="margin-top: 15px;">Without clearfix, the container wouldn't wrap around the floated elements properly.</p>
+                <div class="code-block">
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide">
+            <h2>Pseudo-Classes & Pseudo-Elements Cheat Sheet</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h3>Pseudo-Classes</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;">
+                        <div class="code-block" style="margin: 0; background: #2c3e50; font-size: 13px;">
+/* User Action */
+:hover, :active, :focus
+
+/* Structural */
+:first-child, :last-child
+:nth-child(n), :nth-of-type(n)
+:first-of-type, :last-of-type
+:only-child, :only-of-type
+:not(selector)
+
+/* Form */
+:valid, :invalid
+:checked, :disabled
+:required, :optional
+
+/* UI */
+:root, :target</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Pseudo-Elements</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                        <div class="code-block" style="margin: 0; background: #2c3e50; font-size: 13px;">
+/* Content Insertion */
+::before, ::after
+
+/* Text Parts */
+::first-letter, ::first-line
+
+/* Selection */
+::selection
+
+/* Counters */
+::marker (for list items)
+
+/* Layout */
+::backdrop (for dialogs)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center; background: linear-gradient(135deg, #4b6cb7, #182848); color: white; padding: 30px; border-radius: 15px;">
+                <h3 style="color: white; margin-bottom: 15px;">🎉 Congratulations!</h3>
+                <p style="font-size: 1.2rem; margin: 0;">You now have the knowledge to create sophisticated, dynamic styles with CSS pseudo-classes and pseudo-elements!</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousSlide()" disabled>Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+        
+        // Add interactive styles for demo buttons
+        const demoButtons = document.querySelectorAll('.btn-demo');
+        demoButtons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.background = '#2980b9';
+                button.style.transform = 'scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.background = '';
+                button.style.transform = '';
+            });
+            
+            button.addEventListener('mousedown', () => {
+                button.style.background = '#1c6ea4';
+                button.style.transform = 'scale(0.95)';
+            });
+            
+            button.addEventListener('mouseup', () => {
+                button.style.background = '#2980b9';
+                button.style.transform = 'scale(1.05)';
+            });
+            
+            button.addEventListener('focus', () => {
+                button.style.outline = '3px solid #f1c40f';
+                button.style.outlineOffset = '3px';
+            });
+            
+            button.addEventListener('blur', () => {
+                button.style.outline = '';
+            });
+        });
+        
+        // Handle checkbox interaction
+        const checkbox = document.getElementById('interactive-checkbox');
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                const label = document.querySelector('label[for="interactive-checkbox"]');
+                if (this.checked) {
+                    label.style.color = '#2ecc71';
+                    label.style.fontWeight = 'bold';
+                } else {
+                    label.style.color = '';
+                    label.style.fontWeight = '';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
